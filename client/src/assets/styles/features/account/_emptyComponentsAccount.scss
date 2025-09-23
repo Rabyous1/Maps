@@ -1,0 +1,33 @@
+@use '@/assets/styles/utils/mixins' as *;
+@use '@/assets/styles/utils/variables' as *;
+
+.emptyIcon{
+    @include icon-size(20px);  
+  }
+  .emptyText{
+    @include textStyle($blue, 0.8rem, $interMedium, left);
+    cursor: pointer;
+  }
+.emptyAvatar{
+    width: 65px;
+    height: auto;
+    display: block;
+    margin:  0 auto 30px auto;  
+  }
+  .emptyTitle{
+    @include textStyle($darkBlue, 1rem);
+    font-weight: 600;
+  }
+  .emptySubTitle{
+    @include textStyle(var(--subtitles), 0.9rem);
+  
+  }
+  .addEmptyButton {
+    @include button-style(
+      transparent,
+      $darkBlue,
+      $darkBlue
+    );
+    display: block !important;
+    margin: 30px auto 0 auto !important;  
+  }

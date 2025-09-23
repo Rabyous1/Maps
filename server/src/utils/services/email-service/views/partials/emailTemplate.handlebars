@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <title>{{title}}</title>
+  </head>
+  <body style="margin: 0; padding: 0; background-color: #f0f0f5; font-family: Arial, sans-serif;">
+    <table width="100%" cellpadding="0" cellspacing="0" style="padding: 40px 0; background-color: #f0f0f5;">
+      <tr>
+        <td align="center">
+          <table width="600" cellpadding="0" cellspacing="0" style="background-color: #ffffff; border-radius: 8px; font-family: Arial, sans-serif; overflow: hidden;">
+            
+            <!-- Image de fond avec card centrée -->
+            <tr>
+              <td background="{{backgroundImageUrl}}"
+                  bgcolor="#cccccc"
+                  width="600"
+                  height="200"
+                  valign="middle"
+                  align="center"
+                  style="background: url('{{backgroundImageUrl}}') center center / cover no-repeat; height: 150px; text-align: center;">
+                
+                <table cellpadding="0" cellspacing="0" style="background-color: #ffffff; border-radius: 10px; padding: 8px 16px; display: inline-block; box-shadow: 0 2px 6px rgba(0,0,0,0.12);">
+                  <tr>
+                    <td style="font-size: 20px; color: #7c83f5; font-weight: bold;">
+                      {{cardText}}
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+
+            <!-- Contenu du message -->
+<tr>
+  <td style="padding: 30px; color: #4a4a4a; font-size: 16px; line-height: 1.6;">
+    <p style="margin: 0 0 10px;">
+      Hello <span style="color: #7c83f5; font-weight: bold;">{{fullName}}</span>,
+    </p>
+
+    
+    {{#each paragraphs}}
+      <p style="margin: 0 0 10px;">{{{this}}}</p>
+
+    {{/each}}
+
+    {{#if buttonText}}
+      <!-- Bouton -->
+      <table cellpadding="0" cellspacing="0" border="0" align="center" style="margin: 20px auto;">
+        <tr>
+          <td align="center" bgcolor="#7c83f5" style="border-radius: 28px;">
+            <a href="{{buttonLink}}"
+              style="display: inline-block; padding: 10px 20px; color: #ffffff; text-decoration: none; font-weight: bold; font-size: 16px; border-radius: 28px; background-color: #7c83f5;"
+              target="_blank">
+              {{buttonText}}
+            </a>
+          </td>
+        </tr>
+      </table>
+    {{/if}}
+
+    <!-- Signature -->
+    <p style="margin: 40px 0 0;">Best regards,</p>
+    <p style="margin: 5px 0 0;">{{signatureName}}</p>
+  </td>
+</tr>
+
+
+            
+
+          </table>
+        </td>
+      </tr>
+
+      <!-- Footer -->
+            <tr>
+              <td align="center" style="padding: 32px;">
+                <p style="line-height: 1.5em; margin-top: 0; color: #b0adc5; font-size: 12px; text-align: center;">
+                  © {{year}} {{companyName}}. Tous droits réservés.
+                </p>
+              </td>
+            </tr>
+    </table>
+  </body>
+</html>

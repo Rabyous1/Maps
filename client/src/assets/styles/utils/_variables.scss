@@ -1,0 +1,140 @@
+@use '@/assets/styles/fonts'; 
+
+// Colors light mode
+$blue: #797EFF;
+$blue2: #d4d6fa;
+$blue3: #8c8cff;
+$tealBlue: #28708E;
+$darkSlateBlue: #343C70;
+$yellow: #FFD166;
+$vividYellow: #EED600;
+$vividYellowLight: #FFF9CC;
+$red: #FF7979;
+$brightRed: #FF2A27;
+$lightRed: #FCC4C3;
+$bgRed:#fdecea;
+$white: #ffffff;
+$black: #172541;
+$darkBlue: #06174A;
+$dustyBlue:#798BA3 ;
+$green: #11D628;
+$orange: #E7A81F;
+$lightBlue: #D0D5F7;
+$iceBlue: #EFF1FF;
+$extraSoftBlue: #f0f0fa;
+$grey1: #ACACAC;
+$grey2: #F5F6FAE5;
+$grey3: #ECEFF4;
+$grey4: #ddd;
+$grey5: #F5F5F5;
+$darkGrey: #6A7D96;
+$lightGray: #B8B7B7;
+$cardsGray: #EDF2F6;
+$lighterGray: #F6F6F6;
+$hoverButtonLight: rgba(0, 0, 0, 0.05);
+
+
+
+// Colors dark mode
+$tristesse: #0D0F21;
+$midnightBlue: #141736;
+$darkBlue-light-1: #44476e;
+$darkerBlue: #2a2a40;
+$hoverButtonDark: rgba(255, 255, 255, 0.1);
+
+$opacity0: #ffffff00;
+$opacity3: #ffffff33;
+$blueopacity1: rgba(#797EFF, 0.1);
+$blueopacity2: #9747FF1A;
+$greenopacity17: #11D6282B;
+$orangeopacity17: #E7A81F2B;
+$yellowopacity17: #EED6002B;
+$brightredopacity17: #FF2A272B;
+$softBlue: #797EFF33;
+
+$graySvgIcon: brightness(0) saturate(100%) invert(52%) sepia(8%) saturate(734%) hue-rotate(192deg) brightness(91%) contrast(92%);
+$blueSvgIcon: brightness(0) saturate(100%) invert(54%) sepia(71%) saturate(3905%) hue-rotate(210deg) brightness(102%) contrast(101%);
+//lightmode
+$inactiveSvgIconThemelight: brightness(0) saturate(100%) invert(83%) sepia(2%) saturate(17%) hue-rotate(183deg) brightness(90%) contrast(94%);
+//darkmode
+$sunsvgIconThemedark: brightness(0) saturate(100%) invert(82%) sepia(85%) saturate(743%) hue-rotate(0deg) brightness(103%) contrast(107%);
+$darkBluesvgIcon: brightness(0) saturate(100%) invert(7%) sepia(23%) saturate(2877%) hue-rotate(215deg) brightness(90%) contrast(97%);
+
+$whiteSvgIcon: brightness(0) invert(1);
+
+
+$boxShadowOpacity25: #00000025;
+
+// FONTS
+$interRegular: "Maps-inter-regular";
+$interMedium: "Maps-inter-medium";
+$interSemiBold: "Maps-inter-SemiBold";
+$interBold: "Maps-inter-Bold";
+$titleSemiBold: "Maps-quicksand-SemiBold";
+$titleBold: "Maps-quicksand-Bold";
+
+
+
+$notification-color: #b71c1c;
+$error-color: #dc3545;
+$active-color: $green;
+$border-span-color: #fff;
+
+
+// BOXSHADOW COLORS
+$lightColorShadow: rgba(180, 180, 180, 0.05);
+$darkColorShadow: rgba(0, 0, 0, 0.05);
+
+// SHADOWS
+
+// GRADIENT
+$blueGradient: radial-gradient(66.87% 66.87% at 92.53% 33.13%, #D0D5F7 0%, #F5F6FA 100%);
+$midnightBlueGradient:radial-gradient(
+    66.87% 66.87% at 92.53% 33.13%, 
+    #141736 0%, 
+    #1A1D3A 100%, 
+  );
+$lightBgGradientGlobe: linear-gradient(
+      to bottom,
+      white 0%,
+      rgba(255, 255, 255, 0.6) 30%,
+      rgba(255, 255, 255, 0.1) 70%,
+      transparent 100%
+    );
+ $darkBgGradientGlobe: linear-gradient(
+      to bottom,
+      rgba(20, 20, 40, 0.9) 0%,
+      rgba(20, 20, 40, 0.6) 30%,
+      rgba(20, 20, 40, 0.1) 70%,
+      rgba(20, 20, 40, 0) 100%
+    );
+
+// DIMENSIONS
+$widthClosedSidebar: 55px;
+// $widthClosedSidebar: 86px;
+$widthOpenedSidebar: 220px;
+$heightFooterDashboard: 30px;
+
+
+// spacing scale
+$spacing-xxs: 2px;
+$spacing-xs: 4px;
+$spacing-s: 6px;
+$spacing-sm: 8px;
+$spacing-m: 10px;
+$spacing-md: 16px;
+$spacing-md-lg: 20px;
+$spacing-lg: 24px;
+$spacing-l: 28px;
+$spacing-xl: 32px;
+$spacing-xxl: 40px;
+$sidebar-width: 250px;
+$sidebar-width-tablet: 170px;
+$sidebar-collapsed-width: 70px;
+
+//border radius scale
+$border-sm: 8px;
+
+
+
+$sidebar-offset: $spacing-xl; // espace autour du sidebar

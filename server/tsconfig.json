@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "target": "ES2021",
+    "module": "commonjs",
+    "esModuleInterop": true,
+    "outDir": "./dist",
+    "sourceMap": true,
+    "strict": true,
+    "moduleResolution": "node",
+    "baseUrl": "./src",
+    "paths": {
+      "@/apis/*": ["apis/*"],
+      "@/utils/*": ["utils/*"],
+      "@/middlewares/*": ["middlewares/*"],
+      "*": ["*", "types/*"]
+    },
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+
+    // 🔑 Ajout pour Jest
+    "types": ["node", "jest"]
+  },
+  // ✅ Inclure aussi les fichiers de tests
+  "include": ["src/**/*.ts", "tests/**/*.ts", "src/**/*.handlebars"],
+  "exclude": ["node_modules", "uploads"]
+}

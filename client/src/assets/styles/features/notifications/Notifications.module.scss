@@ -1,0 +1,265 @@
+@use '@/assets/styles/utils/mixins' as *;
+@use '@/assets/styles/utils/variables' as *;
+
+.card.cardWrapper {
+  @include card-styles($white, 1.6rem, 15px, 1px solid $blueopacity2);
+
+  @include media-query(mobile) {
+    border-radius: 10px;
+  }
+
+  max-height: calc(100vh - 245px);
+  overflow-y: auto;
+  scroll-behavior: smooth;
+  overscroll-behavior: contain;
+
+  @include media-query(tablet) {
+    max-height: calc(100vh - 235px);
+  }
+
+  @include media-query(extraLargeScreens) {
+    max-height: calc(100vh - 270px);
+  }
+
+  @include custom-scrollbar($thumb-color: $blue2);
+}
+
+.notifHeader {
+  display: flex;
+  justify-content: space-between;
+  max-height: 30px;
+  margin-bottom: 10px;
+
+}
+
+.notifTitle {
+  @include textStyle($blue, 1.3rem, $titleSemiBold, left);
+  @include flex-center
+}
+
+.notificationIcon, .notificationIcon {
+  @include icon-size(25px);
+}
+
+.markAllAsReadButton {
+  @include button-style(transparent, $darkBlue, $darkBlue);
+}
+
+.filterWrapper {
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+  padding-bottom: 2px;
+
+  @include media-query(largeScreens, desktop, laptops) {
+      grid-template-columns: repeat(auto-fit, minmax(95px, 1fr));
+  }
+
+  @include media-query(mobile) {
+    grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
+    gap: 5px;
+  }
+
+  @include media-query(tablet) {
+    grid-template-columns: repeat(auto-fit, minmax(30px, 1fr));
+    gap: 5px;
+  }
+
+  gap: 16px;
+  align-items: center;
+  @include mui-form-style($border-color: $grey1,
+    $input-height: 2.5rem,
+    $text-color: $grey1,
+    $placeholder-color: $grey1,
+    $background: transparent);
+
+  .MuiFormControlLabel-root {
+    justify-self: start;
+    width: auto;
+  }
+
+
+}
+
+.datePicker {
+  max-width: 300px;
+  width: 100%;
+  @include mui-form-style($border-color: $grey1,
+    $input-height: 2.5rem,
+    $text-color: $grey1,
+    $placeholder-color: $grey1,
+    $background: transparent);
+}
+
+.actionButtons {
+  display: flex;
+  gap: 20px;
+  grid-column: span 2;
+  justify-content: flex-end;
+
+  .clearSearchButton {
+    @include button-style(transparent, $vividYellow, $vividYellow);
+
+    .refreshIcon {
+      color: $vividYellow !important;
+    }
+  }
+}
+
+.notifRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.3rem 1rem;
+  border: 1px solid $grey4;
+  border-radius: 20px;
+  position: relative;
+  margin-bottom: 10px;
+
+  @include media-query(mobile) {
+    gap: 0.6rem;
+  }
+}
+
+.unread {
+  background-color: $grey2;
+}
+
+.dateGroupLabel {
+  @include textStyle($darkBlue, 1rem, $titleSemiBold, left);
+  margin: 10px 0;
+}
+
+.notifIconWrapper {
+  flex-shrink: 0;
+}
+
+.notifText {
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.notifTimestamp {
+  margin-left: auto;
+  font-size: 0.875rem;
+  color: $grey1;
+  white-space: nowrap;
+}
+
+.favoriteButton {
+  padding: 0 !important;
+}
+
+.favoriteIcon {
+  color: $dustyBlue;
+}
+
+.favoriteIconActive {
+  color: $vividYellow;
+}
+
+.favoriteIcon,
+.favoriteIconActive,
+.notifIcon {
+  @include icon-size(20px);
+
+  @include media-query(mobile) {
+    @include icon-size(17px);
+  }
+}
+
+.notifContent {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: pointer;
+}
+.notClickable{
+  cursor: none;
+}
+.notifText {
+  @include textStyle($darkBlue, 1rem, $titleSemiBold, left);
+}
+
+.notifIconWrapper {
+  background-color: $softBlue;
+  border-radius: 50%;
+  @include icon-size(36px);
+  @include flex-center;
+
+  @include media-query(mobile) {
+    @include icon-size(33px);
+  }
+}
+
+.notifIcon {
+  color: $blue
+}
+
+.previousIcon {
+  @include icon-size(20px);
+  color: $blue
+}
+
+.pagination {
+  @include flex-center;
+}
+
+.paginationBtn {
+  .paginationIcons {
+    @include icon-size(30px);
+    color: $blue
+  }
+
+  &:disabled {
+    .paginationIcons {
+      @include icon-size(30px);
+      color: $grey4
+    }
+  }
+}
+
+.paginationText {
+  @include textStyle($darkBlue, 0.9rem, $titleSemiBold, left);
+}
+
+.emptyNotifContainer {
+  @include flex-center;
+  flex-direction: column;
+}
+
+.noNotifTitle {
+  @include textStyle($darkBlue, 1.4rem, $titleSemiBold, left);
+}
+
+.noNotifSubTitle {
+  @include textStyle($grey1, 1rem, $titleSemiBold, left);
+}
+
+$image-widths: (
+  emptyNotifImage: (mobile: 130px,
+    tablet: 100px,
+    laptops: 150px,
+    desktop: 150px,
+    largeScreens: 150px,
+    extraLargeScreens: 180px),
+);
+
+@each $class, $breakpoints in $image-widths {
+  .#{$class} {
+    height: auto;
+    max-height: 80vh;
+
+    @each $breakpoint, $width in $breakpoints {
+      @include media-query($breakpoint) {
+        width: $width;
+      }
+    }
+  }
+}

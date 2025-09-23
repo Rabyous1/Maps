@@ -1,0 +1,95 @@
+@use '@/assets/styles/utils/mixins' as *;
+@use '@/assets/styles/utils/variables' as *;
+
+$dialog-sizes: (
+  mobile: 240px,
+  tablet: 360px,
+  laptops: 400px,
+  desktop: 450px,
+  largeScreens: 550px,
+  extraLargeScreens: 700px
+);
+
+.dialogPaper {
+  border-radius: 10px !important;
+  width: map-get($dialog-sizes, mobile);
+  height: map-get($dialog-sizes, mobile);
+  max-height: 75vh !important; 
+  background-color: var(--dialog-image-color) !important;
+  @each $bp, $size in $dialog-sizes {
+    @include media-query($bp) {
+      width: $size;
+      height: auto;
+      max-width: $size;
+    }
+  }
+  .label {
+    color: var(--text-color);
+    padding-bottom: 0.5rem;
+    font-size: 1rem;
+    font-family: $interMedium;
+  }
+  @include mui-form-style(
+    //$border-radius: 25px,
+    $input-height: null,
+    $text-color: $dustyBlue,
+    $placeholder-color: $dustyBlue,
+    $font: $interRegular,
+    $icon-color: var(--visibilty-icons),
+    $background: var(--dialog-image-color),
+  );  
+}
+.dialogHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 25px !important;
+  padding-bottom: 20px !important;
+
+  .titleText {
+    @include textStyle(var(--dialog-title-color), 1.3rem, $titleSemiBold, left);
+  }
+
+  .closeIcon {
+    @include icon-size(15px);
+    margin-left: auto;
+    align-self: center;
+    color: var(--dialog-closeicon-color);
+  }
+}
+.formcontainer {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+.dialogcontent {
+  padding: 0 24px 0 24px !important;
+  @include custom-scrollbar;
+}
+.actionButtons {
+  position: sticky;
+  bottom: 0;
+  padding: 10px 0;
+  //margin-top: 10px;
+  z-index: 1;
+  @include flex-row-gap(1rem, nowrap);
+
+  .cancelButton {
+    @include button-style(transparent, var(--seetings-cancelbutton-color), var(--seetings-cancelbutton-color));
+  }
+
+  .submitbutton {
+    @include button-style(var(--seetings-submitbutton-color), $white,var(--seetings-submitbutton-color));
+  }
+
+  .submitbutton,
+  .cancelButton {
+    &:hover {
+      @include button-style($darkBlue, $white, $darkBlue);
+    }
+  }
+}
+.icon_eye {
+  filter: var(--visibility-icon);
+  @include icon-size(25px);
+}

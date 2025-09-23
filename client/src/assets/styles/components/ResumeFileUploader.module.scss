@@ -1,0 +1,12 @@
+@use '@/assets/styles/utils/mixins' as *;
+@use '@/assets/styles/utils/variables' as *;
+
+.noResumeText{
+  @include textStyle($dustyBlue, 0.9rem, $interMedium);
+}
+.fileUploaderButton{
+  @include button-style(transparent, $blue, transparent, $font-size: 1rem);
+}
+.removeResumeBtn{
+  @include button-style(transparent, $error-color, transparent, $font-size: 1rem);
+}

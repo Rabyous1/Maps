@@ -1,0 +1,97 @@
+@use '@/assets/styles/utils/mixins' as *;
+@use '@/assets/styles/utils/variables' as *;
+@use "@/assets/styles/ui/themeToggle" as *;
+@use "@/assets/styles/components/findJobButton" as *;
+@use "@/assets/styles/features/chat/profilePictures" as *;
+@use './notificationsHeaderMenu' as *;
+
+
+.card {
+  background-color: transparent !important;
+  box-shadow: none !important;
+  margin: $spacing-lg 0;
+}
+
+.content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+
+  .headerleft {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 0;
+    flex: 1;
+    position: relative;
+    .headerGlobeTitle{
+      @include textStyle(var(--header3d-title-textColor), 2.2rem, $titleSemiBold, left);
+      margin: 10px 0;
+    }
+    @include media-query(mobile) {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: $spacing-m;
+
+      .mobileToggle {
+        position: static;
+        margin-right: $spacing-sm;
+      }
+      .headerTitle {
+        width: 100vw;
+        padding-left: 0;
+        margin-top: $spacing-sm;
+        order: 1;
+      }
+    }
+  }
+
+  .headerright {
+    display: flex;
+    align-items: center;
+    gap: $spacing-md;
+    flex-shrink: 0;
+    margin-block-end: auto;
+    margin: 0;
+    @include media-query(mobile) {
+      gap: $spacing-m;
+      margin-top: -31px;
+    }
+  }
+
+  .mobileToggle {
+    background: var(--bg-color-menu-btn);
+    border-radius: 50%;
+
+    button {
+      color: var(--color-menu-btn);
+    }
+
+    @include media-query(tablet, laptops, desktop, largeScreens, extraLargeScreens) {
+      display: none !important;
+    }
+    @include media-query(mobile){
+      margin-top: 10px;
+    }
+  }
+
+  .headerTitle {
+    color: var(--header-color-title);
+    font-family: $titleSemiBold;
+    font-size: 1.3rem;
+  }
+}
+
+.headerglobe {
+  padding: 0 35px;
+}
+
+.customButton {
+  @include media-query(mobile) {
+    display: none !important;
+  }
+
+}
+
+////////////////////////////////////////////

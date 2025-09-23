@@ -1,0 +1,2575 @@
+openapi: 3.0.0
+info:
+  title: MAP API
+  version: 1.1.0
+  description: |
+    MAP API provides endpoints for managing users, authentication, and more.
+    It supports user registration, sign-in, password management, role selection, and 2FA...
+  contact:
+    name: MAP
+    email: hunter@pentabell.fr
+servers:
+  - url: http://localhost:4000/api/v1
+  - url: http://192.168.10.137:4000/api/v1
+tags:
+  - name: Authentication
+    description: "Endpoints related to user authentication, signup, login, password reset."
+  - name: Users
+    description: "Endpoints related to user management by admin."
+  - name: Account
+    description: "Endpoints related to user account management (candidate and recruiter)."
+  - name: Profile
+    description: "Endpoints related to user profile management (candidate and recruiter)."
+  - name: Files
+    description: "Endpoints for uploading, retrieving, and managing user files (resumes, documents, etc.)"
+  - name: Opportunities
+    description: "Endpoints for manage opportunities (add, delete.. for recruiter)"
+  - name: Opportunity Favorites
+    description: "Endpoints for manage opportunities favorites.. for candidate"
+  - name: Applications
+    description: "Endpoints for manage applications related to opportunities"
+  - name: Interviews
+    description: "Endpoints related to interviews (schedule, update, cancel, list)"
+components:
+  securitySchemes:
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: accessToken
+
+  schemas:
+    RegisterRequest:
+      type: object
+      required: [fullName, email, password, confirmPassword, phone, country]
+      properties:
+        fullName:
+          type: string
+          example: "John Doe"
+        email:
+          type: string
+          format: email
+          example: "john@example.com"
+        password:
+          type: string
+          example: "Strong*Password123"
+          pattern: ".*\\*.*"
+        confirmPassword:
+          type: string
+          example: "Strong*Password123"
+        phone:
+          type: string
+          example: "+1234567890"
+        country:
+          type: string
+          enum: [Afghanistan, Albania, Algeria] # truncated for brevity
+
+    LoginRequest:
+      type: object
+      required: [email, password]
+      properties:
+        email:
+          type: string
+          format: email
+          example: "john@example.com"
+        password:
+          type: string
+          example: "Strong*Password123"
+
+    ChooseRoleRequest:
+      type: object
+      required: [role]
+      properties:
+        role:
+          type: string
+          enum: [Candidat, Recruteur]
+          example: "Recruteur"
+
+    CompleteProfileRecruiterRequest:
+      type: object
+      required: [companyName, companyWebsite, companySize, recruiterSummary, position, department, legalStatus, fiscalNumber]
+      properties:
+        companyName:
+          type: string
+        companyWebsite:
+          type: string
+          format: uri
+        companySize:
+          type: string
+        recruiterSummary:
+          type: string
+        position:
+          type: string
+        department:
+          type: string
+        legalStatus:
+          type: string
+          enum: [SARL, SAS, SA, Other]
+        fiscalNumber:
+          type: string
+
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+          example: "626f1c9b-1234-5678-9abc-def012345678"
+        fullName:
+          type: string
+          example: "John Doe"
+        email:
+          type: string
+          format: email
+          example: "john@example.com"
+        roles:
+          type: array
+          items:
+            type: string
+          example: ["CANDIDATE"]
+        phone:
+          type: string
+          example: "+1234567890"
+        country:
+          type: string
+          example: "Afghanistan"
+
+    UserResponse:
+      type: object
+      properties:
+        user:
+          $ref: "#/components/schemas/User"
+        accessToken:
+          type: string
+          description: "JWT access token (also may be set as cookie when cookieAuth is used)"
+          example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+    ForgotPasswordRequest:
+      type: object
+      required:
+        - email
+      properties:
+        email:
+          type: string
+          format: email
+          example: "john@example.com"
+
+    ResetPasswordRequest:
+      type: object
+      required:
+        - password
+        - confirmNewPassword
+        - resetToken
+      properties:
+        password:
+          type: string
+          example: "New*Password123"
+        confirmNewPassword:
+          type: string
+          example: "New*Password123"
+        resetToken:
+          type: string
+          description: "Token received by email for password reset"
+          example: "abcdef123456"
+
+    UpdateUserAccountRequest:
+      type: object
+      properties:
+        fullName:
+          type: string
+        email:
+          type: string
+          format: email
+        phone:
+          type: string
+        country:
+          type: string
+
+    UpdatePasswordRequest:
+      type: object
+      required:
+        - currentPassword
+        - newPassword
+      properties:
+        currentPassword:
+          type: string
+          example: "Old*Password123"
+        newPassword:
+          type: string
+          example: "New*Password123"
+    Favorite:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: "f2b8c123-4567-89ab-cdef-1234567890ab"
+        userId:
+          type: string
+          format: uuid
+          example: "626f1c9b-1234-5678-9abc-def012345678"
+        opportunityId:
+          type: string
+          format: uuid
+          example: "f2b8c123-4567-89ab-cdef-1234567890ab"
+        createdAt:
+          type: string
+          format: date-time
+          example: "2025-09-10T11:00:00Z"
+
+
+paths:
+  /auth/signup:
+    post:
+      tags:
+        - Authentication
+      summary: Register a new user and sign them in
+      description: |
+        Creates a new user account and immediately authenticates that user using
+        the provided `email` and `password`.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RegisterRequest"
+      responses:
+        200:
+          description: User created and authenticated successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserResponse"
+              examples:
+                success:
+                  summary: Example successful signup + signin response
+                  value:
+                    user:
+                      id: "626f1c9b-1234-5678-9abc-def012345678"
+                      fullName: "John Doe"
+                      email: "john@example.com"
+                      roles: []
+                      phone: "+1234567890"
+                      country: "Afghanistan"
+                    accessToken: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+        400:
+          description: Validation error (required fields missing or invalid)
+        500:
+          description: Internal server error
+
+  /auth/signin:
+    post:
+      tags:
+        - Authentication
+      summary: User login
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LoginRequest"
+      responses:
+        200:
+          description: Successful login with access token
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserResponse"
+        401:
+          description: Invalid credentials
+        500:
+          description: Internal server error
+  /auth/logout:
+    post:
+      tags:
+        - Authentication
+      summary: Se déconnecter
+      description: |
+        Se déconnecter afin de terminer la session de l'utilisateur et sécuriser l'accès aux ressources.
+        Cette opération supprime les cookies `accessToken` et `refreshToken` et marque la session comme déconnectée.
+      security:
+        - cookieAuth: []
+      responses:
+        200:
+          description: Déconnexion réussie
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Vous êtes déconnecté avec succès."
+        401:
+          description: Utilisateur non authentifié
+
+  /auth/choose-role:
+    patch:
+      tags:
+        - Authentication
+      summary: Choose user role and return updated user + access token
+      security:
+        - cookieAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ChooseRoleRequest"
+      responses:
+        200:
+          description: Role selected successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserResponse"
+        400:
+          description: Validation error (e.g. missing/invalid role or role already chosen)
+        401:
+          description: Unauthorized
+
+  /auth/forgot-password:
+    post:
+      tags:
+        - Authentication
+      summary: Request a password reset
+      description: Sends a password reset token to the user's email.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ForgotPasswordRequest"
+      responses:
+        200:
+          description: Password reset email sent successfully
+        400:
+          description: Validation error (e.g., missing or invalid email)
+        404:
+          description: User with given email not found
+        500:
+          description: Internal server error
+
+  /auth/reset-password:
+    post:
+      tags:
+        - Authentication
+      summary: Reset user password
+      description: Resets the password using the token sent via email.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ResetPasswordRequest"
+      responses:
+        200:
+          description: Password reset successfully
+        400:
+          description: Validation error (e.g., passwords do not match, missing fields)
+        401:
+          description: Invalid or expired reset token
+        500:
+          description: Internal server error
+
+  /users:
+    get:
+      tags:
+        - Users
+      summary: Get all users
+      security:
+        - cookieAuth: []
+      parameters:
+        - in: query
+          name: limit
+          schema:
+            type: integer
+          description: "Limit number of users returned"
+        - in: query
+          name: skip
+          schema:
+            type: integer
+          description: "Number of users to skip"
+      responses:
+        200:
+          description: List of users
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/User"
+        401:
+          description: Unauthorized
+        500:
+          description: Internal server error
+
+  /users/{id}:
+    get:
+      tags:
+        - Users
+      summary: Get a user by ID
+      security:
+        - cookieAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        200:
+          description: User found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        400:
+          description: Invalid ID
+        401:
+          description: Unauthorized
+        404:
+          description: User not found
+        500:
+          description: Internal server error
+
+    put:
+      tags:
+        - Users
+      summary: Update a user by ID
+      security:
+        - cookieAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                fullName:
+                  type: string
+                email:
+                  type: string
+                  format: email
+                phone:
+                  type: string
+                country:
+                  type: string
+                roles:
+                  type: array
+                  items:
+                    type: string
+      responses:
+        200:
+          description: User updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserResponse"
+        400:
+          description: Validation error or invalid ID
+        401:
+          description: Unauthorized
+        404:
+          description: User not found
+        500:
+          description: Internal server error
+
+    delete:
+      tags:
+        - Users
+      summary: Delete a user by ID
+      security:
+        - cookieAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        200:
+          description: User deleted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "User is deleted successfully"
+        400:
+          description: Invalid ID
+        401:
+          description: Unauthorized
+        404:
+          description: User not found
+        500:
+          description: Internal server error
+
+    patch:
+      tags:
+        - Users
+      summary: Recover a deleted user by ID (Admin only)
+      security:
+        - cookieAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        200:
+          description: User recovered successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "User is recovered successfully"
+        400:
+          description: Invalid ID
+        401:
+          description: Unauthorized
+        404:
+          description: User not found
+        500:
+          description: Internal server error
+
+  /account:
+    get:
+      tags:
+        - Profile
+      summary: Get my account
+      security:
+        - cookieAuth: []
+      responses:
+        200:
+          description: Current user account retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        401:
+          description: Unauthorized
+
+    put:
+      tags:
+        - Profile
+        - Authentication
+      summary: Update account / complete profile
+      security:
+        - cookieAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateUserAccountRequest"
+      responses:
+        200:
+          description: Account updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  updated:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Your account is updated successfully."
+        400:
+          description: Validation error
+        401:
+          description: Unauthorized
+    delete:
+      tags:
+        - Account
+      summary: Delete my account
+      security:
+        - cookieAuth: []
+      responses:
+        200:
+          description: Account deleted successfully and logged out
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Account deleted successfully."
+        401:
+          description: Unauthorized
+
+  /account/password:
+    put:
+      tags:
+        - Account
+      summary: Change my password
+      security:
+        - cookieAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdatePasswordRequest"
+      responses:
+        200:
+          description: Password updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  updated:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Your password is updated successfully."
+        400:
+          description: Validation error
+        401:
+          description: Unauthorized
+
+  /account/reveal-fiscal:
+    post:
+      tags:
+        - Account
+      summary: Reveal fiscal number (Recruiter only)
+      security:
+        - cookieAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [password]
+              properties:
+                password:
+                  type: string
+                  example: "Strong*Password123"
+      responses:
+        200:
+          description: Fiscal number revealed successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  fiscalNumber:
+                    type: string
+                    example: "123456789"
+        400:
+          description: Password missing
+        401:
+          description: Incorrect password or unauthorized
+
+  /files/{userId}/{resource}/{folder}:
+    post:
+      tags:
+        - Files
+      summary: Upload a file for a specific user
+      security:
+        - cookieAuth: []
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: resource
+          in: path
+          required: true
+          schema:
+            type: string
+            description: "Type of resource, e.g., 'resumes', 'documents'"
+        - name: folder
+          in: path
+          required: true
+          schema:
+            type: string
+            description: "Folder inside resource"
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+      responses:
+        201:
+          description: File uploaded successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  fileId:
+                    type: string
+                  fileName:
+                    type: string
+                  url:
+                    type: string
+        400:
+          description: Validation error / unsupported file type
+        401:
+          description: Unauthorized
+        500:
+          description: Internal server error
+
+  /files/{filename}:
+    get:
+      tags:
+        - Files
+      summary: Get a file by UUID
+      parameters:
+        - name: filename
+          in: path
+          required: true
+          schema:
+            type: string
+            description: "Filename including extension (UUID.ext)"
+        - name: download
+          in: query
+          required: false
+          schema:
+            type: boolean
+            default: false
+          description: "Force download if true"
+      responses:
+        200:
+          description: File returned successfully
+          content:
+            application/octet-stream: {}
+        404:
+          description: File not found
+        500:
+          description: Internal server error
+
+  /files/myfiles:
+    get:
+      tags:
+        - Files
+      summary: Get files for the authenticated user
+      security:
+        - cookieAuth: []
+      parameters:
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 10
+        - name: offset
+          in: query
+          schema:
+            type: integer
+            default: 0
+        - name: resource
+          in: query
+          schema:
+            type: string
+        - name: fileType
+          in: query
+          schema:
+            type: string
+        - name: fileDisplayName
+          in: query
+          schema:
+            type: string
+      responses:
+        200:
+          description: List of files returned
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    fileId:
+                      type: string
+                    fileName:
+                      type: string
+                    url:
+                      type: string
+        401:
+          description: Unauthorized
+        500:
+          description: Internal server error
+
+  /files/{filename}:
+    delete:
+      tags:
+        - Files
+      summary: Delete a file by UUID
+      security:
+        - cookieAuth: []
+      parameters:
+        - name: filename
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: File deleted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "File deleted successfully"
+        401:
+          description: Unauthorized
+        404:
+          description: File not found
+        500:
+          description: Internal server error
+  /opportunities/{opportunityId}/favorite:
+    post:
+      tags:
+        - Opportunity Favorites
+      summary: Add an opportunity to favorites (current user)
+      description: Adds the opportunity specified by `opportunityId` to the favorites of the user authenticated via JWT.
+      security:
+        - cookieAuth: []
+      parameters:
+        - name: opportunityId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: "ID of the opportunity to add to favorites"
+      responses:
+        201:
+          description: Opportunity added to favorites successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Favorite"
+        400:
+          description: Opportunity already in favorites
+        401:
+          description: Unauthorized
+        404:
+          description: Opportunity not found
+
+    delete:
+      tags:
+        - Opportunity Favorites
+      summary: Remove an opportunity from favorites (current user)
+      security:
+        - cookieAuth: []
+      parameters:
+        - name: opportunityId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        200:
+          description: Favorite removed successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Favorite removed successfully"
+        401:
+          description: Unauthorized
+        404:
+          description: Opportunity or favorite not found
+  /opportunities/favorites:
+    get:
+      tags:
+        - Opportunity Favorites
+      summary: Get user's favorite opportunities
+      description: Retrieve all opportunities that the currently authenticated user has added to favorites.
+      security:
+        - cookieAuth: []
+      responses:
+        200:
+          description: List of favorite opportunities
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                      format: uuid
+                      example: "310791dc-722d-4f41-9518-c988df6f8054"
+                    title:
+                      type: string
+                      example: "Software Engineer"
+                    company:
+                      type: string
+                      example: "Pentabell"
+                    location:
+                      type: string
+                      example: "Tunisia"
+                    createdAt:
+                      type: string
+                      format: date-time
+                      example: "2025-09-10T10:00:00Z"
+        401:
+          description: Unauthorized
+        500:
+          description: Internal server error
+  /applications/{id}/apply:
+    post:
+      tags:
+        - Applications
+      summary: Apply to an opportunity (candidate only)
+      description: Allows a candidate to apply to an opportunity. The candidate must be authenticated via JWT.
+      security:
+        - cookieAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: "ID of the opportunity to apply to"
+      requestBody:
+        required: false
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+                  description: "Resume or CV file to upload with the application"
+      responses:
+        200:
+          description: Application submitted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Application submitted successfully."
+                  resumeAlreadyExisted:
+                    type: boolean
+                    example: false
+                  application:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        format: uuid
+                        example: "310791dc-722d-4f41-9518-c988df6f8054"
+                      status:
+                        type: string
+                        example: "Pending"
+                      note:
+                        type: string
+                        nullable: true
+                        example: null
+                      applicationDate:
+                        type: string
+                        format: date-time
+                        example: "2025-09-10T11:00:00Z"
+                      resume:
+                        type: string
+                        nullable: true
+                        example: "resume.pdf"
+                      cvvideo:
+                        type: string
+                        nullable: true
+                      interest:
+                        type: string
+                        example: "NOT_MENTIONED"
+                  applicationId:
+                    type: string
+                    format: uuid
+                    example: "310791dc-722d-4f41-9518-c988df6f8054"
+        400:
+          description: Validation error (e.g., already applied)
+        401:
+          description: Unauthorized (user not authenticated or not a candidate)
+        404:
+          description: Opportunity not found
+        500:
+          description: Internal server error
+  /applications/myapplications:
+    get:
+      tags:
+        - Applications
+      summary: Get my applications (candidate only)
+      description: Retrieve all applications submitted by the currently authenticated candidate, optionally paginated and filtered.
+      security:
+        - cookieAuth: []
+      parameters:
+        - name: pageNumber
+          in: query
+          schema:
+            type: integer
+            default: 1
+          description: "Page number for pagination"
+        - name: pageSize
+          in: query
+          schema:
+            type: integer
+            default: 10
+          description: "Number of applications per page"
+        - name: status
+          in: query
+          schema:
+            type: string
+          description: "Filter applications by status"
+        - name: searchTitle
+          in: query
+          schema:
+            type: string
+          description: "Search by opportunity title"
+        - name: searchNote
+          in: query
+          schema:
+            type: string
+          description: "Search by application note"
+        - name: applicationDateStart
+          in: query
+          schema:
+            type: string
+            format: date
+          description: "Filter applications starting from this date"
+        - name: applicationDateEnd
+          in: query
+          schema:
+            type: string
+            format: date
+          description: "Filter applications until this date"
+      responses:
+        200:
+          description: List of my applications with stats
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  applications:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          format: uuid
+                          example: "310791dc-722d-4f41-9518-c988df6f8054"
+                        status:
+                          type: string
+                          example: "Pending"
+                        note:
+                          type: string
+                          nullable: true
+                          example: null
+                        applicationDate:
+                          type: string
+                          format: date-time
+                          example: "2025-09-10T11:00:00Z"
+                        resume:
+                          type: string
+                          nullable: true
+                          example: "resume.pdf"
+                        cvvideo:
+                          type: string
+                          nullable: true
+                        interest:
+                          type: string
+                          example: "NOT_MENTIONED"
+                        opportunity:
+                          type: object
+                          properties:
+                            id:
+                              type: string
+                              format: uuid
+                              example: "310791dc-722d-4f41-9518-c988df6f8054"
+                            title:
+                              type: string
+                              example: "Software Engineer"
+                            company:
+                              type: string
+                              example: "Pentabell"
+                            location:
+                              type: string
+                              example: "Tunisia"
+                  stats:
+                    type: object
+                    description: "Candidate's application statistics"
+                    properties:
+                      totalApplications:
+                        type: integer
+                        example: 5
+                      pending:
+                        type: integer
+                        example: 2
+                      accepted:
+                        type: integer
+                        example: 1
+                      rejected:
+                        type: integer
+                        example: 2
+        401:
+          description: Unauthorized (user not authenticated)
+        500:
+          description: Internal server error
+  /applications/{applicationId}:
+    delete:
+      tags:
+        - Applications
+      summary: Withdraw an application (candidate only)
+      description: Allows the authenticated candidate to withdraw (delete) their application.
+      security:
+        - cookieAuth: []
+      parameters:
+        - name: applicationId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: "ID of the application to withdraw"
+      responses:
+        200:
+          description: Application withdrawn successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Application withdrawn successfully."
+        401:
+          description: Unauthorized - user not authenticated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Unauthorized"
+        403:
+          description: Forbidden - trying to delete another user's application
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Forbidden"
+        404:
+          description: Application not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Application not found"
+        500:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Internal server error"
+  /applications:
+    get:
+      tags:
+        - Applications
+      summary: Get all applications (recruiter only)
+      description: Retrieve all applications for the authenticated recruiter with optional pagination and filters.
+      security:
+        - cookieAuth: []
+      parameters:
+        - name: pageNumber
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 1
+          description: "Page number for pagination"
+        - name: pageSize
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 5
+          description: "Number of jobs per page"
+        - name: applicationPageSize
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 5
+          description: "Number of applications per job"
+        - name: jobTitleFilter
+          in: query
+          required: false
+          schema:
+            type: string
+          description: "Filter applications by job title"
+        - name: locationFilter
+          in: query
+          required: false
+          schema:
+            type: string
+          description: "Filter applications by location"
+        - name: applicationStatus
+          in: query
+          required: false
+          schema:
+            type: string
+          description: "Filter applications by status (Pending, Accepted, Rejected)"
+        - name: applicationDateStart
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date
+          description: "Filter applications submitted after this date"
+        - name: applicationDateEnd
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date
+          description: "Filter applications submitted before this date"
+        - name: hasCvVideo
+          in: query
+          required: false
+          schema:
+            type: boolean
+          description: "Filter applications that include CV video"
+        - name: industryFilter
+          in: query
+          required: false
+          schema:
+            type: string
+          description: "Filter applications by industry"
+        - name: onlyOpenJobs
+          in: query
+          required: false
+          schema:
+            type: boolean
+          description: "Show only open job applications"
+      responses:
+        200:
+          description: List of applications grouped by job offer
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  jobs:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        jobId:
+                          type: string
+                          format: uuid
+                        title:
+                          type: string
+                        location:
+                          type: string
+                        applications:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              applicationId:
+                                type: string
+                                format: uuid
+                              candidateId:
+                                type: string
+                                format: uuid
+                              candidateName:
+                                type: string
+                              status:
+                                type: string
+                              interest:
+                                type: string
+                              applicationDate:
+                                type: string
+                                format: date-time
+        401:
+          description: Unauthorized - user not authenticated
+        403:
+          description: Forbidden - not a recruiter
+        500:
+          description: Internal server error
+  /applications/{jobId}/candidates:
+    get:
+      tags:
+        - Applications
+      summary: Get candidates for a job (recruiter only)
+      description: Retrieve all candidates who applied for a specific job. Only accessible by the recruiter who owns the job.
+      security:
+        - cookieAuth: []
+      parameters:
+        - name: jobId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: "ID of the job offer"
+        - name: pageNumber
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 1
+          description: "Page number for pagination"
+        - name: pageSize
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 10
+          description: "Number of candidates per page"
+        - name: status
+          in: query
+          required: false
+          schema:
+            type: string
+            description: "Filter candidates by application status (Pending, Accepted, Rejected)"
+        - name: hasCvVideo
+          in: query
+          required: false
+          schema:
+            type: boolean
+          description: "Filter candidates who have CV video"
+        - name: search
+          in: query
+          required: false
+          schema:
+            type: string
+          description: "Search candidates by name, email, or other info"
+      responses:
+        200:
+          description: List of candidates for the job
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  candidates:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        candidateId:
+                          type: string
+                          format: uuid
+                        name:
+                          type: string
+                        email:
+                          type: string
+                        phoneNumber:
+                          type: string
+                        status:
+                          type: string
+                        cvVideo:
+                          type: boolean
+                        appliedAt:
+                          type: string
+                          format: date-time
+        401:
+          description: Unauthorized - user not authenticated
+        403:
+          description: Forbidden - not the owner recruiter
+        404:
+          description: Job not found
+        500:
+          description: Internal server error
+  /applications/{applicationId}/interest:
+    put:
+      tags:
+        - Applications
+      summary: Update interest status of an application (recruiter only)
+      description: Allows a recruiter to update the interest status of a candidate's application.
+      security:
+        - cookieAuth: []
+      parameters:
+        - name: applicationId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: "ID of the candidate's application"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - interest
+              properties:
+                interest:
+                  type: string
+                  enum: [NOT_MENTIONED, INTERESTED, NOT_INTERESTED]
+                  example: "INTERESTED"
+      responses:
+        200:
+          description: Application interest updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    format: uuid
+                  status:
+                    type: string
+                  interest:
+                    type: string
+                    enum: [NOT_MENTIONED, INTERESTED, NOT_INTERESTED]
+        400:
+          description: Validation error (e.g., missing or invalid interest value)
+        401:
+          description: Unauthorized (user not authenticated)
+        403:
+          description: Forbidden (user not a recruiter)
+        404:
+          description: Application not found
+        500:
+          description: Internal server error
+  /opportunities/newopp:
+      post:
+        tags:
+          - Opportunities
+        summary: Create a new opportunity
+        description: Allows a recruiter to create a new job opportunity.
+        security:
+          - cookieAuth: []
+        requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - status
+                  - opportunityType
+                  - industry
+                  - contractType
+                  - minExperience
+                  - maxExperience
+                  - country
+                  - city
+                  - OpportunityVersions
+                properties:
+                  status:
+                    type: string
+                    enum: [OPEN, CLOSED, FILLED]
+                    example: OPEN
+                  opportunityType:
+                    type: string
+                    example: Consulting
+                  industry:
+                    type: string
+                    example: Other
+                  contractType:
+                    type: string
+                    example: Permanent (CDI)
+                  minExperience:
+                    type: integer
+                    example: 1
+                  maxExperience:
+                    type: integer
+                    example: 2
+                  country:
+                    type: string
+                    example: France
+                  city:
+                    type: object
+                    required:
+                      - name
+                      - lat
+                      - lng
+                    properties:
+                      name:
+                        type: string
+                        example: Valenciennes
+                      lat:
+                        type: number
+                        format: float
+                        example: 50.3581
+                      lng:
+                        type: number
+                        format: float
+                        example: 3.5233
+                  salaryMinimum:
+                    type: string
+                    example: "42000"
+                  workMode:
+                    type: string
+                    enum: [remote, hybrid, onsite]
+                    example: hybrid
+                  employmentType:
+                    type: string
+                    enum: [full_time, part_time, contract]
+                    example: part_time
+                  source:
+                    type: string
+                    example: hunter
+                  dateOfExpiration:
+                    type: string
+                    format: date-time
+                    example: "2025-10-15T23:59:59Z"
+                  dateOfRequisition:
+                    type: string
+                    format: date-time
+                    example: "2025-07-05T00:00:00Z"
+                  OpportunityVersions:
+                    type: array
+                    items:
+                      type: object
+                      required:
+                        - title
+                        - language
+                        - jobDescription
+                        - metaDescription
+                        - visibility
+                        - isArchived
+                      properties:
+                        title:
+                          type: string
+                          example: ATM HW Logistic Expert
+                        language:
+                          type: string
+                          enum: [en, fr, ar]
+                          example: en
+                        jobDescription:
+                          type: string
+                          example: Build user-facing features and collaborate with commercials.
+                        metaDescription:
+                          type: string
+                          example: "<h1>Company Overview</h1><p>Our client, a fast-growing tech startup...</p>"
+                        visibility:
+                          type: string
+                          enum: [Public, Private]
+                          example: Public
+                        isArchived:
+                          type: boolean
+                          example: false
+        responses:
+          201:
+            description: Opportunity created successfully
+          400:
+            description: Validation error
+          401:
+            description: Unauthorized
+          403:
+            description: Forbidden (user not a recruiter)
+          500:
+            description: Internal server error
+  /opportunities/newopp:
+    post:
+      tags:
+        - Opportunities
+      summary: Create a new opportunity
+      security:
+        - cookieAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Opportunity'
+      responses:
+        201:
+          description: Opportunity created successfully
+        400:
+          description: Validation error
+        401:
+          description: Unauthorized
+        403:
+          description: Forbidden (user not a recruiter)
+        500:
+          description: Internal server error
+
+  /opportunities/myopp:
+    get:
+      tags:
+        - Opportunities
+      summary: Get all opportunities created by the logged-in recruiter
+      security:
+        - cookieAuth: []
+      responses:
+        200:
+          description: List of opportunities
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Opportunity'
+        401:
+          description: Unauthorized
+
+  /opportunities/{id}:
+    get:
+      tags:
+        - Opportunities
+      summary: Get an opportunity by its ID
+      security:
+        - cookieAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        200:
+          description: Opportunity details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Opportunity'
+        404:
+          description: Opportunity not found
+        401:
+          description: Unauthorized
+
+    put:
+      tags:
+        - Opportunities
+      summary: Update an opportunity by ID
+      security:
+        - cookieAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Opportunity'
+      responses:
+        200:
+          description: Opportunity updated successfully
+        400:
+          description: Validation error
+        401:
+          description: Unauthorized
+        403:
+          description: Forbidden (user not a recruiter)
+        404:
+          description: Opportunity not found
+
+    delete:
+      tags:
+        - Opportunities
+      summary: Delete an opportunity by ID
+      security:
+        - cookieAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        200:
+          description: Opportunity deleted successfully
+        401:
+          description: Unauthorized
+        403:
+          description: Forbidden (user not a recruiter)
+        404:
+          description: Opportunity not found
+
+  /opportunities/allopp:
+    get:
+      tags:
+        - Opportunities
+      summary: Get all opportunities
+      security:
+        - cookieAuth: []
+      responses:
+        200:
+          description: List of all opportunities
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Opportunity'
+        401:
+          description: Unauthorized
+  
+  /interviews:
+    post:
+      tags:
+        - Interviews
+      summary: Schedule a new interview (Recruiter only)
+      security:
+        - cookieAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [applicationId, date, durationMinutes]
+              properties:
+                applicationId:
+                  type: string
+                  format: uuid
+                  example: "b3f8c123-4567-89ab-cdef-1234567890ab"
+                date:
+                  type: string
+                  format: date-time
+                  example: "2025-09-12T14:00:00Z"
+                durationMinutes:
+                  type: integer
+                  example: 60
+                notes:
+                  type: string
+                  example: "Technical interview with recruiter"
+                type:
+                  type: string
+                  enum: [VOICE, VIDEO]
+                  example: "VIDEO"
+                status:
+                  type: string
+                  enum: [SCHEDULED, COMPLETED, CANCELLED]
+                  example: "SCHEDULED"
+      responses:
+        201:
+          description: Interview scheduled successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Interview"
+        400:
+          description: Missing or invalid fields
+        401:
+          description: Unauthorized
+
+    get:
+      tags:
+        - Interviews
+      summary: Get all interviews of recruiter (Recruiter only)
+      security:
+        - cookieAuth: []
+      responses:
+        200:
+          description: List of recruiter interviews
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Interview"
+        401:
+          description: Unauthorized
+
+  /interviews/{id}:
+    get:
+      tags:
+        - Interviews
+      summary: Get interview by ID (Recruiter only)
+      security:
+        - cookieAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        200:
+          description: Interview found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Interview"
+        404:
+          description: Interview not found
+
+    patch:
+      tags:
+        - Interviews
+      summary: Update interview (Recruiter only)
+      security:
+        - cookieAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                date:
+                  type: string
+                  format: date-time
+                durationMinutes:
+                  type: integer
+                notes:
+                  type: string
+                type:
+                  type: string
+                  enum: [VOICE, VIDEO]
+                status:
+                  type: string
+                  enum: [SCHEDULED, COMPLETED, CANCELLED]
+      responses:
+        200:
+          description: Interview updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Interview"
+        404:
+          description: Interview not found
+
+    delete:
+      tags:
+        - Interviews
+      summary: Cancel interview (Recruiter only)
+      security:
+        - cookieAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        200:
+          description: Interview cancelled successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Interview cancelled successfully"
+        404:
+          description: Interview not found
+
+  /interviews/candidate/list:
+    get:
+      tags:
+        - Interviews
+      summary: Get candidate’s interviews (Candidate only)
+      security:
+        - cookieAuth: []
+      responses:
+        200:
+          description: List of interviews for candidate
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Interview"
+        401:
+          description: Unauthorized
+  
+  /applications/{id}/updatestatus:
+    put:
+      tags:
+        - Interviews
+      summary: "Evaluate candidate : Update application status (Recruiter only)"
+      description: |
+        Allows a recruiter to update the status of a candidate's application.
+        If status is ACCEPTED, it will also mark the related opportunity as FILLED
+        and any related interview as COMPLETED. A notification will be sent to the candidate.
+      security:
+        - cookieAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: "ID of the application to update"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - status
+              properties:
+                status:
+                  type: string
+                  enum: [Pending, Accepted, Rejected]
+                  example: Rejected
+      responses:
+        200:
+          description: Application status updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Application status updated successfully"
+                  application:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        format: uuid
+                      status:
+                        type: string
+                        example: "ACCEPTED"
+                      candidate:
+                        type: object
+                        properties:
+                          id:
+                            type: string
+                            format: uuid
+                          name:
+                            type: string
+                      opportunity:
+                        type: object
+                        properties:
+                          id:
+                            type: string
+                            format: uuid
+                          title:
+                            type: string
+        400:
+          description: Validation error (missing status)
+        401:
+          description: Unauthorized
+        403:
+          description: Forbidden
+        404:
+          description: Application not found
+        500:
+          description: Internal server error
+  
+  /dashboard:
+    get:
+      tags:
+        - Dashboard
+      summary: Get dashboard data by user role
+      security:
+        - cookieAuth: []
+      parameters:
+        - name: from
+          in: query
+          schema:
+            type: string
+            format: date
+        - name: to
+          in: query
+          schema:
+            type: string
+            format: date
+      responses:
+        200:
+          description: Dashboard data retrieved successfully
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/CandidateDashboardData'
+                  - $ref: '#/components/schemas/RecruiterDashboardData'
+        401:
+          description: Unauthorized
+        403:
+          description: Unauthorized role
+
+  /users/frequent-users:
+    get:
+      tags:
+        - Messaging
+      summary: Get top 5 frequent messaged users
+      description: |
+        Retrieves the top 5 users the current authenticated user has exchanged the most messages with.
+        Only accessible by authenticated users with roles CANDIDAT or RECRUTEUR.
+      security:
+        - cookieAuth: []
+        - apiKeyAuth: []
+      responses:
+        200:
+          description: List of top frequent messaged users
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                      format: uuid
+                    fullName:
+                      type: string
+                    email:
+                      type: string
+                    profilePicture:
+                      type: string
+                      nullable: true
+                    messageCount:
+                      type: integer
+        401:
+          description: Unauthorized
+        403:
+          description: Forbidden - invalid role
+
+  /users/conversations:
+    get:
+      tags:
+        - Messaging
+      summary: Get users and groups messaged by opposite role
+      description: |
+        Retrieves all users and groups the current authenticated user has messaged with, filtered by opposite role.
+        Supports pagination and search by user/group name. Only accessible by authenticated users with roles CANDIDAT or RECRUTEUR.
+      security:
+        - cookieAuth: []
+        - apiKeyAuth: []
+      parameters:
+        - name: pageNumber
+          in: query
+          schema:
+            type: integer
+            default: 1
+          description: Page number for pagination
+        - name: pageSize
+          in: query
+          schema:
+            type: integer
+            default: 10
+          description: Number of items per page
+        - name: search
+          in: query
+          schema:
+            type: string
+          description: Search term for filtering users or groups by name
+      responses:
+        200:
+          description: Paginated list of users and groups
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  pageNumber:
+                    type: integer
+                  pageSize:
+                    type: integer
+                  totalPages:
+                    type: integer
+                  totalResults:
+                    type: integer
+                  items:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          format: uuid
+                        type:
+                          type: string
+                          enum: [user, group]
+                        fullName:
+                          type: string
+                          nullable: true
+                        name:
+                          type: string
+                          nullable: true
+                        email:
+                          type: string
+                          nullable: true
+                        profilePicture:
+                          type: string
+                          nullable: true
+                        lastSeen:
+                          type: string
+                          format: date-time
+                          nullable: true
+                        lastMessageDate:
+                          type: string
+                          format: date-time
+                          nullable: true
+                        members:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              id:
+                                type: string
+                                format: uuid
+                              fullName:
+                                type: string
+                              email:
+                                type: string
+                              profilePicture:
+                                type: string
+                              lastSeen:
+                                type: string
+                                format: date-time
+        401:
+          description: Unauthorized
+        403:
+          description: Forbidden - invalid role
+
+components:
+  schemas:
+    City:
+      type: object
+      required:
+        - name
+        - lat
+        - lng
+      properties:
+        name:
+          type: string
+          example: Valenciennes
+        lat:
+          type: number
+          format: float
+          example: 50.3581
+        lng:
+          type: number
+          format: float
+          example: 3.5233
+
+    OpportunityVersion:
+      type: object
+      required:
+        - title
+        - language
+        - jobDescription
+        - metaDescription
+        - visibility
+        - isArchived
+      properties:
+        title:
+          type: string
+          example: ATM HW Logistic Expert
+        language:
+          type: string
+          enum: [en, fr, ar]
+          example: en
+        jobDescription:
+          type: string
+          example: Build user-facing features and collaborate with commercials.
+        metaDescription:
+          type: string
+          example: "<h1>Company Overview</h1><p>Our client, a fast-growing tech startup...</p>"
+        visibility:
+          type: string
+          enum: [Public, Private]
+          example: Public
+        isArchived:
+          type: boolean
+          example: false
+
+    Opportunity:
+      type: object
+      required:
+        - status
+        - opportunityType
+        - industry
+        - contractType
+        - minExperience
+        - maxExperience
+        - country
+        - city
+        - OpportunityVersions
+      properties:
+        status:
+          type: string
+          enum: [OPEN, CLOSED, FILLED]
+          example: OPEN
+        opportunityType:
+          type: string
+          example: Consulting
+        industry:
+          type: string
+          example: Other
+        contractType:
+          type: string
+          example: Permanent (CDI)
+        minExperience:
+          type: integer
+          example: 1
+        maxExperience:
+          type: integer
+          example: 2
+        country:
+          type: string
+          example: France
+        city:
+          $ref: '#/components/schemas/City'
+        salaryMinimum:
+          type: string
+          nullable: true
+          example: "42000"
+        workMode:
+          type: string
+          enum: [remote, hybrid, onsite]
+          nullable: true
+          example: hybrid
+        employmentType:
+          type: string
+          enum: [full_time, part_time, contract]
+          nullable: true
+          example: part_time
+        source:
+          type: string
+          nullable: true
+          example: hunter
+        dateOfExpiration:
+          type: string
+          format: date-time
+          nullable: true
+          example: "2025-10-15T23:59:59Z"
+        dateOfRequisition:
+          type: string
+          format: date-time
+          nullable: true
+          example: "2025-07-05T00:00:00Z"
+        OpportunityVersions:
+          type: array
+          items:
+            $ref: '#/components/schemas/OpportunityVersion'
+    
+    CandidateDashboardData:
+      type: object
+      properties:
+        totalApplications:
+          type: integer
+        pendingApplications:
+          type: integer
+        interviewsScheduled:
+          type: integer
+        lastAppliedJobs:
+          type: array
+          items:
+            type: object
+            properties:
+              jobId:
+                type: string
+                format: uuid
+              title:
+                type: string
+              company:
+                type: string
+              appliedAt:
+                type: string
+                format: date-time
+
+    RecruiterDashboardData:
+      type: object
+      properties:
+        totalJobPosts:
+          type: integer
+        applicationsReceived:
+          type: integer
+        interviewsPlanned:
+          type: integer
+        recentApplicants:
+          type: array
+          items:
+            type: object
+            properties:
+              candidateId:
+                type: string
+                format: uuid
+              name:
+                type: string
+              appliedAt:
+                type: string
+                format: date-time
+paths:
+  /interviews:
+    post:
+      tags:
+        - Interviews
+      summary: Schedule a new interview (Recruiter only)
+      security:
+        - cookieAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [applicationId, date, durationMinutes]
+              properties:
+                applicationId:
+                  type: string
+                  format: uuid
+                  example: "b3f8c123-4567-89ab-cdef-1234567890ab"
+                date:
+                  type: string
+                  format: date-time
+                  example: "2025-09-12T14:00:00Z"
+                durationMinutes:
+                  type: integer
+                  example: 60
+                notes:
+                  type: string
+                  example: "Technical interview with recruiter"
+                type:
+                  type: string
+                  enum: [VOICE, VIDEO]
+                  example: "VIDEO"
+                status:
+                  type: string
+                  enum: [SCHEDULED, COMPLETED, CANCELLED]
+                  example: "SCHEDULED"
+      responses:
+        201:
+          description: Interview scheduled successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Interview"
+        400:
+          description: Missing or invalid fields
+        401:
+          description: Unauthorized
+
+    get:
+      tags:
+        - Interviews
+      summary: Get all interviews of recruiter (Recruiter only)
+      security:
+        - cookieAuth: []
+      responses:
+        200:
+          description: List of recruiter interviews
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Interview"
+        401:
+          description: Unauthorized
+
+  /interviews/{id}:
+    get:
+      tags:
+        - Interviews
+      summary: Get interview by ID (Recruiter only)
+      security:
+        - cookieAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        200:
+          description: Interview found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Interview"
+        404:
+          description: Interview not found
+
+    patch:
+      tags:
+        - Interviews
+      summary: Update interview (Recruiter only)
+      security:
+        - cookieAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                date:
+                  type: string
+                  format: date-time
+                durationMinutes:
+                  type: integer
+                notes:
+                  type: string
+                type:
+                  type: string
+                  enum: [VOICE, VIDEO]
+                status:
+                  type: string
+                  enum: [SCHEDULED, COMPLETED, CANCELLED]
+      responses:
+        200:
+          description: Interview updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Interview"
+        404:
+          description: Interview not found
+
+    delete:
+      tags:
+        - Interviews
+      summary: Cancel interview (Recruiter only)
+      security:
+        - cookieAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        200:
+          description: Interview cancelled successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Interview cancelled successfully"
+        404:
+          description: Interview not found
+
+  /interviews/candidate/list:
+    get:
+      tags:
+        - Interviews
+      summary: Get candidate’s interviews (Candidate only)
+      security:
+        - cookieAuth: []
+      responses:
+        200:
+          description: List of interviews for candidate
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Interview"
+        401:
+          description: Unauthorized
+
+components:
+  schemas:
+    Interview:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: "c7d8e123-4567-89ab-cdef-1234567890ab"
+        applicationId:
+          type: string
+          format: uuid
+          example: "b3f8c123-4567-89ab-cdef-1234567890ab"
+        recruiterId:
+          type: string
+          format: uuid
+          example: "a1b2c3d4-5678-90ef-1234-567890abcdef"
+        candidateId:
+          type: string
+          format: uuid
+          example: "f9e8d7c6-1234-5678-90ab-cdef12345678"
+        date:
+          type: string
+          format: date-time
+          example: "2025-09-17T14:00:00"
+        durationMinutes:
+          type: integer
+          example: 60
+        notes:
+          type: string
+          example: "Technical interview with recruiter"
+        type:
+          type: string
+          enum: [voice, video]
+          example: "video"
+        status:
+          type: string
+          enum: [scheduled, completed, cancelled, missed]
+          example: "scheduled"
+

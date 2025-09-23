@@ -1,0 +1,165 @@
+@use '@/assets/styles/utils/mixins' as *;
+@use '@/assets/styles/utils/variables' as *;
+
+.icon {
+  @include icon-size(1.3rem);
+  padding-right: 0.5rem;
+}
+
+.itemSeparator {
+  border-top: 1px solid $grey1;
+  margin-bottom: 1.3rem;
+}
+
+.item-startDate {
+  @include textStyle($dustyBlue, 0.8rem, $interMedium, left);
+  margin-left: auto;
+}
+
+.item-endDate {
+  @include textStyle($dustyBlue, 0.8rem, $interMedium, left);
+
+  &::before {
+    content: "-";
+    margin: 0 0.25rem;
+    color: $dustyBlue;
+  }
+}
+
+.seconddiv {
+  @include flex-row-gap(0);
+}
+
+$image-widths: (
+  profileImage: (mobile: 150px,
+    tablet: 125px,
+    laptops: 170px,
+    desktop: 170px,
+    largeScreens: 190px,
+    extraLargeScreens: 220px)
+);
+
+$image-profile: map-get($image-widths, profileImage);
+
+.profileImage {
+  height: map-get($image-profile, mobile) !important;
+  width: map-get($image-profile, mobile) !important;
+  background-color: var(--avatar-bg-color) !important;
+
+  @each $breakpoint, $size in $image-profile {
+    @include media-query($breakpoint) {
+      width: $size !important;
+      height: $size !important;
+    }
+  }
+
+  border: 2px solid $blue;
+  border-radius: 50%;
+  cursor: pointer;
+}
+$badge-sizes: (
+  mobile: 15px,
+  tablet: 20px,
+  laptops: 20px,
+  desktop: 20px,
+  largeScreens: 25px,
+  extraLargeScreens: 30px
+);
+
+.profileImageBadge {
+  border: 2px solid $white;
+  background-color: $darkBlue;
+  color: $white;
+  border-radius: 50%;
+  //padding: 0.1rem;
+  width: map-get($badge-sizes, mobile) !important;
+  height: map-get($badge-sizes, mobile) !important;
+  cursor: pointer;
+
+  @each $breakpoint, $size in $badge-sizes {
+    @include media-query($breakpoint) {
+      width: $size !important;
+      height: $size !important;
+    }
+  }
+}
+
+.dialogHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 0 20px !important;
+}
+
+.closeIcon {
+  @include icon-size(15px);
+  margin-left: auto;
+  align-self: center;
+}
+
+.moreIcon {
+  color: $lightGray !important;
+}
+
+
+.fileUploader {
+  display: none;
+}
+
+$dialog-sizes: (
+  mobile: 240px,
+  tablet: 360px,
+  laptops: 400px,
+  desktop: 450px,
+  largeScreens: 550px,
+  extraLargeScreens: 700px
+);
+
+// .dialogPaper {
+//   background-color: var(--dialog-image-color) !important;
+//   width: map-get($dialog-sizes, mobile);
+//   height: map-get($dialog-sizes, mobile);
+//   max-width: map-get($dialog-sizes, mobile);
+//   max-height: map-get($dialog-sizes, mobile);
+//   border-radius: 10px;
+//   overflow: hidden !important;
+
+//   @each $bp, $size in $dialog-sizes {
+//     @include media-query($bp) {
+//       width: $size;
+//       height: $size;
+//       max-width: $size;
+//       max-height: $size;
+//     }
+//   }
+// }
+
+
+.dialogContent {
+  height: 100% !important;
+  padding: 0 !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.enlargedProfileImage {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+.deleteIcon {
+  color: $brightRed !important;
+}
+
+.deleteText {
+  color: $brightRed !important;
+}
+.menuPaper{
+  background-color: var(--menu-image-color) !important;
+}
+
+
+//////////////////

@@ -1,0 +1,58 @@
+@use '@/assets/styles/utils/mixins' as *;
+@use '@/assets/styles/utils/variables' as *;
+
+
+.bubbleSpeech {
+ // position: relative;
+  background-color: $white;
+  border-radius: 12px;
+  padding: 12px 16px;
+  filter: drop-shadow(0 10px 10px rgba(0, 0, 0, 0.2));
+
+  @include media-query(mobile) {
+    width: 170px;
+  }
+
+  @include media-query(tablet) {
+    width: 190px;
+  }
+
+  @include media-query(laptops, desktop) {
+    width: 250px;
+  }
+
+  @include media-query(largeScreens, extraLargeScreens) {
+    width: 300px;
+  }
+
+
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: -8px;
+    left: $spacing-md-lg;
+    width: 0;
+    height: 0;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-top: 8px solid $white;
+  }
+
+  &::before {
+    content: "";
+    position: absolute;
+    bottom: -9px;
+    left: 19px;
+    width: 0;
+    height: 0;
+    border-left: 9px solid transparent;
+    border-right: 9px solid transparent;
+    z-index: -1;
+
+  }
+
+  .bubbleText {
+    @include textStyle(var(--quote), 1rem);
+    line-height: 20px;
+  }
+}

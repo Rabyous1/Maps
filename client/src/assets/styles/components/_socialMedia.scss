@@ -1,0 +1,96 @@
+@use '@/assets/styles/utils/mixins' as *;
+@use '@/assets/styles/utils/variables' as *;
+
+.socialmediapart {
+  width: 85%;    
+  align-self: center;      
+}
+
+.divider {
+    border: none;
+    border-top: 1px double var(--informativetext);
+    color: var(--informativetext);
+    overflow: visible;
+    text-align: center;
+    height: 0.3125rem;
+    position: relative;
+  
+    &::after {
+      background: var(--color-surface);
+      content: "Or connect with";
+      padding: 0 0.625rem;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      top: -0.8125rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+  
+  .socialbuttonscontainer {
+    margin-top: 1.5rem;
+    //display: grid;
+    //grid-template-columns: repeat(3, minmax(0, 1fr));
+    //gap: clamp(0.5rem, 2vw, 1rem);
+    //justify-content: center;
+    display: grid;
+    grid-auto-flow: column;           
+    justify-content: center;           
+    gap: $spacing-md-lg;  
+    white-space: nowrap; 
+    @include media-query(tablet, mobile) {
+      gap: 30px;  
+
+    }    
+  }
+  
+  .socialbutton {
+    @include button-style(
+      var(--color-surface),
+      var(--social-media-buttons),
+      var(--social-media-buttons)
+    );
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    padding: 0.5rem 1rem !important;
+  
+    .socialbuttontext {
+      font-size: 0.75rem;
+  
+      @include media-query(tablet, mobile) {
+        display: none;
+      }
+    }
+  
+    .socialbuttonicon {
+      @include icon-size(1.25rem);
+      filter: var(--social-media-buttons-icons);
+    }
+  
+    @include media-query(tablet, mobile) {
+      padding: 0.625rem !important;
+      width: 3rem;
+      aspect-ratio: 1 / 1;
+      min-width: auto !important;
+      border-radius: 0.75rem !important;
+  
+      display: flex;
+      justify-content: center;
+      align-items: center;
+  
+      .socialbuttonicon {
+        margin: 0;
+      }
+  
+      :global(.MuiButton-startIcon) {
+        margin: 0 !important;
+      }
+    }
+  }
+  

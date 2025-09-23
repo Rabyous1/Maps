@@ -1,0 +1,51 @@
+export const interviewFields = (jobOptions = [], candidateOptions = []) => [
+  {
+    name: "opportunityId",
+    label: "Job Offer",
+    type: "select",
+    placeholder: "Choose a job offer",
+    options: jobOptions,
+  },
+  {
+    name: "applicationId",
+    label: "Candidate",
+    type: "select",
+    placeholder: candidateOptions && candidateOptions.length ? "Choose a candidate" : "Unavailable candidates",
+    options: candidateOptions,
+    disabled: !(candidateOptions && candidateOptions.length),
+  },
+  {
+    name: "notes",
+    label: "Notes",
+    type: "text",
+    multiline: true,
+    rows: 3,
+    placeholder: "Add any notes…",
+  },
+  {
+    name: "time",
+    label: "Time",
+    type: "time",
+    placeholder: "Choose time",
+    required: true,
+    fullWidth: true,
+  },
+  {
+    name: "durationMinutes",
+    label: "Duration (minutes)",
+    type: "number",
+    min: 15,
+    placeholder: "Enter duration in minutes",
+    required: true,
+  },
+  {
+    name: "type",
+    label: "Interview Type",
+    type: "select",
+    options: [
+      { label: "Video", value: "video" },
+      { label: "In-Person", value: "in-person" },
+    ],
+    required: true,
+  },
+];

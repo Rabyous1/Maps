@@ -1,0 +1,158 @@
+@use '@/assets/styles/utils/mixins' as *;
+@use '@/assets/styles/utils/variables' as *;
+@use "@/assets/styles/ui/bubbleSpeech" as *;
+
+
+.wrapper {
+  @include two-column-grid-full-height;
+  min-height: 100vh;
+  @include media-query(mobile) {
+    display: grid;
+    grid-template-columns: none;
+    grid-template-rows: repeat(2, 1fr);
+  }
+}
+
+.left {
+  background-image: url('../../../images//svg/chooseRole/bg_candidate.svg');
+  background-repeat: no-repeat;
+  align-items: flex-start;
+
+}
+
+.left,
+.right {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.right {
+  align-items: flex-end;
+  background-image: url('../../../images/png/chooseRole/rightside.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
+.CandidateImage,
+.RecruiterImage {
+  padding-bottom: 4rem;
+
+  @include media-query(mobile) {
+    padding-bottom: 0;
+  }
+}
+
+.content {
+  margin-top: auto;
+  display: grid;
+  gap: 2rem;
+  padding: 0 5rem;
+}
+
+
+$image-widths: (
+  CandidateImage: (mobile: 200px,
+    tablet: 220px,
+    laptops: 250px,
+    desktop: 200px,
+    largeScreens: 300px,
+    extraLargeScreens: 350px),
+  RecruiterImage: (mobile: 150px,
+    tablet: 180px,
+    laptops: 200px,
+    desktop: 200px,
+    largeScreens: 250px,
+    extraLargeScreens: 300px,
+  )
+);
+
+@each $class, $breakpoints in $image-widths {
+  .#{$class} {
+    height: auto;
+    max-height: 80vh;
+
+    @each $breakpoint, $width in $breakpoints {
+      @include media-query($breakpoint) {
+        width: $width;
+      }
+    }
+  }
+}
+
+.header {
+  background-color: $white;
+  display: flex;
+  align-items: center;
+  position: absolute;
+  border-radius: $spacing-xs;
+  left: 0;
+  right: 0;
+  width: fit-content;
+  margin: 4rem auto;
+
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+  .title {
+    @include titleStyle(var(--titles), 2rem);
+    margin: 0;
+    padding: 0.9rem;
+  }
+
+  @include media-query(mobile) {
+    display: none;
+  }
+}
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding-bottom: 1rem;
+  @include checkboxStyle(var(--color-footer-text), #D1D1D1, 1.1rem, $interSemiBold);
+}
+
+.checkboxWrapper {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+
+}
+
+.continueLink {
+  margin-left: auto;
+  padding-right: 2rem;
+  @include clean-link(var(--color-continue-link));
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  background-color: transparent;
+  border: transparent;
+
+  .arrowLeft {
+    @include icon-size(24px);
+    padding-left: 0.6rem;
+  }
+
+  span.text {
+    display: inline;
+    cursor: pointer;
+  }
+
+  @include media-query(mobile) {
+    span.text {
+      display: none;
+      cursor: pointer;
+    }
+
+    .arrowLeft {
+      padding-left: 0;
+      cursor: pointer;
+    }
+  }
+}
+.validationError {
+  @include textStyle($error-color, 0.8rem, $interSemiBold);
+}

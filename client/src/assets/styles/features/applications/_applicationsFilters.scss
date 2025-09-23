@@ -1,0 +1,97 @@
+@use '@/assets/styles/utils/mixins' as *;
+@use '@/assets/styles/utils/variables' as *;
+
+.filtersWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+
+  @include media-query(extraLargeScreens) {
+    gap: $spacing-xxl;
+  }
+}
+
+.searchRow {
+  display: grid;
+  align-items: center;
+  gap: 0.5rem;
+  grid-template-columns: 1fr 1fr auto;
+  background: var(--opp-search-bgcolor);
+  border: 1px solid var(--cards-border-color);
+  padding: 0.25rem 1rem;
+  border-radius: 9999px;
+  box-shadow:
+    0 4px 12px rgba(0, 0, 0, 0.2),
+    0 2px 4px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  @include media-query(largeScreens){
+    padding: 0.1rem 1rem;
+  }
+}
+.selectWrapper,
+.searchInputWrapper {
+  @include mui-form-style($border-color: transparent, $background: transparent, $placeholder-color: $grey1);
+  flex: 1;
+
+  .placeholderselect {
+    color: $grey1;
+  }
+}
+.actionButtons {
+  display: flex;
+  gap: 20px;
+
+  .searchButton {
+    @include button-style(transparent, $blue, $blue);
+  }
+
+  .clearSearchButton {
+    @include button-style(transparent, $vividYellow, $vividYellow);
+  }
+  @include media-query(mobile) {
+    gap: 9px;
+    .searchButton,
+    .clearSearchButton {
+      > .MuiButton-startIcon {
+        margin: 0;
+      }
+      > *:not(.MuiButton-startIcon) {
+        display: none;
+      }
+      padding-left: 8px;
+      padding-right: 8px;
+    }
+  }
+}
+.selectfiltersRow {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));
+  padding-bottom: 2px;
+    @include media-query(extraLargeScreens) {
+    padding-bottom: 20px;
+  }
+  @include media-query(mobile) {
+      grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+      gap: 8px;
+  }
+  gap: 16px;
+  align-items: center;
+   @include mui-form-style(
+    $border-color: $grey1,
+    $input-height: 2.5rem,
+    $text-color: $grey1,
+    $placeholder-color: $grey1,
+    $background: transparent
+  );
+
+  .MuiFormControlLabel-root {
+    justify-self: start;
+    width: auto;
+  }
+}
+
+.checkboxWrapper {
+  @include checkboxStyle($grey1, $grey1, 0.9rem, $interMedium);
+}
+
+

@@ -1,0 +1,67 @@
+@use '@/assets/styles/utils/mixins' as *;
+@use '@/assets/styles/utils/variables' as *;
+
+.qrCodeContainer{
+@include bordered-container;
+@include flex-center;
+padding: $spacing-md;
+@include media-query(extraLargeScreens){
+   padding: $spacing-xl;
+}
+} 
+.dialogcontent{
+    padding-bottom: $spacing-md !important;
+}
+.qrSteps, .errorText{
+    @include textStyle(var(--settings-text-color), 1rem, $interMedium, left);
+}
+.qrImage{
+  @include media-query(mobile){
+    @include icon-size(120px);
+  }
+  @include media-query(laptops){
+    @include icon-size(160px);
+  }
+  @include media-query(desktop){
+    @include icon-size(170px);
+  }
+  @include media-query(largeScreens){
+    @include icon-size(190px);
+  }
+  @include media-query(extraLargeScreens){
+    @include icon-size(250px);
+  }
+}
+
+.qrForm {
+  @include flex-center(8px);
+  flex-direction: row;
+
+  .submitbutton {
+    @include icon-size(50px);
+    border-radius: 50%;
+    padding: 0;
+    min-width: 0;
+    @include flex-center;
+
+    @include media-query(mobile) {
+      @include icon-size(43px);
+    }
+    .sendIcon {
+      @include icon-size(23px);
+
+      @include media-query(mobile) {
+        @include icon-size(17px);
+      }
+    }
+  }
+}
+
+.helpText {
+  @include textStyle(var(--settings-text-color), 1rem, $interMedium, left);
+  a {
+    color: $blue;
+    text-decoration: none;
+    @include textStyle($blue, 1rem, $interMedium, left);
+  }
+}

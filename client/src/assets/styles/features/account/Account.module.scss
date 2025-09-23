@@ -1,0 +1,67 @@
+@use '@/assets/styles/utils/mixins' as *;
+@use '@/assets/styles/utils/variables' as *;
+@use "./_infoItem.scss" as *;
+@use "../../ui/cards/accountCards" as *;
+@use "./emptyComponentsAccount" as *;
+@use "./accountSections" as *;
+@use "./accountSectionsRecruiter" as *;
+@use "../../components/formDialog" as *;
+
+.profileWrapper {
+  @include two-column-grid-full-height(1fr 2fr);
+  gap: $spacing-md-lg;
+  overflow: hidden;
+  align-items: start;
+  @include media-query(mobile){
+     display: flex;  
+    flex-direction: column;
+    gap: $spacing-md-lg;
+  }
+}
+
+.left {
+  display: grid;
+  flex-direction: column;
+  gap: $spacing-md-lg;
+  min-width: 0; 
+  overflow: hidden;
+  height: 100%;
+  height: calc(100vh - 140px); 
+@include media-query(mobile) {
+    height: auto; 
+    overflow: visible; 
+  }
+}
+
+.right {
+  display: grid;
+  gap: $spacing-md-lg;
+  align-content: start;
+  max-height: calc(100vh - 120px);
+  overflow-y: auto !important;
+  scroll-behavior: smooth;
+  overscroll-behavior: contain;
+  @include custom-scrollbar($thumb-color: $blue2);
+@include media-query(mobile) {
+    max-height: none; 
+    overflow: visible; 
+  }
+}
+
+.languageLeft {
+  display: block;
+}
+
+.languageRight {
+  display: none;   
+}
+
+@include media-query(tablet, mobile, laptops, desktop,largeScreens) {
+  .languageLeft {
+    display: none;
+  }
+  .languageRight {
+    display: block;
+  }
+}
+

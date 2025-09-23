@@ -1,0 +1,63 @@
+@use '@/assets/styles/utils/mixins' as *;
+@use '@/assets/styles/utils/variables' as *;
+@import '@/assets/styles/ui/_table.scss';
+
+
+.card {
+  @include card-styles(var(--application-cards-color), 1rem,20px);
+  @include media-query(mobile) {
+    border-radius:  10px;
+  }
+  border-color: var(--cards-border-color) !important;
+  @include media-query(largeScreens){
+    @include card-styles(var(--application-cards-color), 0.5rem,20px);
+  }
+}
+.titleContainer {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.industriesIcons {
+    @include icon-size(25px);
+
+    @include media-query(mobile, tablet) {
+        @include icon-size(22px);
+    }
+
+    filter: var(--industries-icons-color);
+}
+.tableWrapper{
+  max-height: 380px !important;
+  overflow-y: auto !important;
+}
+.notExpiredIcon{
+  color: green;
+  @include icon-size(25px);
+}
+.expiredIcon{
+  color: red;
+  @include icon-size(14px);
+
+}
+.actionsWrapper{
+  .editIcon{
+    @include icon-size(22px);
+    color: $darkBlue;
+  }
+    .deleteIcon{
+        @include icon-size(20px);
+        color: $error-color;
+    } 
+    .viewIcon{
+        filter: $blueSvgIcon;
+    }
+    .archiveIcon{
+        @include icon-size(20px);
+        color: $vividYellow; 
+    }
+    .archivedArchiveIcon{
+        @include icon-size(20px);
+        color: green; 
+    }
+}

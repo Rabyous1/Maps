@@ -1,0 +1,65 @@
+@use '@/assets/styles/utils/mixins' as *;
+@use '@/assets/styles/utils/variables' as *;
+@use "@/assets/styles/ui/form" as *;
+@use "@/assets/styles/components/socialMedia" as *;
+@use "@/assets/styles/components/rightSideLoginRegister" as *;
+
+.wrappers {
+  @include two-column-grid-full-height;
+  @include media-query(mobile) {
+    grid-template-columns: 1fr;
+
+    .right {
+      display: none;
+    }
+  }
+}
+
+.left {
+  box-sizing: border-box;
+  padding: 0 4rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: $spacing-md;
+  background-color: var(--color-surface);
+  min-height: 100vh; 
+
+  @include media-query(mobile) {
+    padding: 0 2rem;
+  }
+}
+
+.logintitle {
+  @include titleStyle(var(--titles), 2.25rem);
+  margin: $spacing-lg;
+}
+
+.submitbutton {
+  @include button-style(
+    var(--submit-button-bg),    
+    var(--submit-button-text),      
+    var(--submit-button-border),       
+    );
+}
+
+.checkbox {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: var(--text-color);
+  font-family: $interMedium;
+  
+
+  .forgetlink {
+    @include clean-link(var(--link));
+    font-family: $interMedium;
+  }
+  
+}
+
+.footer {
+  @include footer-style;
+}
+
+

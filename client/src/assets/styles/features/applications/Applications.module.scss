@@ -1,0 +1,18 @@
+@use '@/assets/styles/utils/mixins' as *;
+@use '@/assets/styles/utils/variables' as *;
+@use './applicationsTableCard';
+@use './applicationsFilters';
+
+
+.applicationsTitle{
+  @include textStyle($blue, 1.4rem, $titleSemiBold, left);
+
+  @include media-query(mobile, tablet, desktop, laptops, largeScreens) {
+    margin-top: 0px;
+  }
+}
+.applicationsContent{
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}

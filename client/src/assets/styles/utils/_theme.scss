@@ -1,0 +1,466 @@
+:root {
+  //404 401
+  --unauth-button-color: #{$black};
+  //admin
+  --users-card-color : #{$white};
+  //table
+  --tab-header-textColor: #{$dustyBlue};
+  --tab-content-textColor: #{$darkBlue};
+  // dialog delete
+  --delete-dialog-bg-color: #{$white};
+  --delete-dialog-warningBox-bg-color: #{$bgRed};
+  --confirm-dialog-warningBox-bg-color: #{$vividYellowLight};
+  --delete-dialog-red-text-color: #{$notification-color};
+  --confirm-text-color: #{$darkBlue};
+  --delete-dialog-title-color: #{$darkBlue};
+  --delete-cancel-text-color: #{$darkBlue};
+  --confirm-cancel-text-color: #{$darkBlue};
+  --delete-delete-text-color: #{$white};
+  --delete-delete-bg-color: #{$error-color};
+
+  // login
+  --color-surface: #{$white};
+  --color-surface2: #{$grey2};
+  --color-surface3: #{$grey2};
+  --text-color: #{$darkBlue};
+  --text-color2: #{$dustyBlue};
+  --placeholder-form: #{$grey1};
+  --submit-button-bg:#{$blue};
+  --submit-button-text:#{$white};
+  --submit-button-border:#{$blue};
+  --border-form: #{$grey1};
+  --textfield-form: #{$white};
+  --border-form-onfocus: #{$darkBlue};
+  --input-form: #{$darkBlue};
+  --link: #{$blue};
+  --visibility-icon: #{$graySvgIcon};
+  --footertext: #{$darkGrey};
+  //--title-form: #{$blue};
+  --titles: #{$blue};
+  --informativetext: #{$grey1};
+  --social-media-buttons: #{$darkBlue};
+  --visibilty-icons: #{$graySvgIcon};
+  --checkbox-color: #{$darkBlue};
+  --textfield-form-bg: #{$white};
+
+
+  // sidebar
+  --sidebar-color: #{$white};
+  --sidebar-scroll-color: #{$grey4};
+  --titlesidebar: #{$darkBlue};
+  --icon-color: #{$grey1};
+  --progressbar-empty: #{$softBlue};
+  --progressbar-filled: #{$blue};
+  --light-text: #{$lightGray};
+  --active-item-color: #{$blue};
+  --hover-item-color: #{$blueopacity1};
+  --lightSvgIconsSidebar: #{$graySvgIcon};
+  --iconsSidebar: #{$grey1};
+  --activeSvgIconsSidebar: #{$blueSvgIcon};
+  --logouticon: #{$darkBluesvgIcon};
+  --logouttext: #{$darkBlue};
+  //header
+  --bg-color-menu-btn: #{$white};
+  --color-menu-btn: #{$blue};
+  --header-color-title: #{$darkBlue};
+  --avatar-bg-color: #{$darkBlue};
+  --avatar-color: #{$white};
+  --inactiveSvgIconThemelight:#{$inactiveSvgIconThemelight};
+  --activeSvgIconTheme:#{$whiteSvgIcon};
+  --bg-color-inactive-theme: #{$white};
+  --bg-color-active-theme: #{$vividYellow};
+  --header3d-title-textColor: #{$darkBlue};
+  //header notifications
+  --notifMenu-paper-bgColor: #{$white};
+  --notifMenu-title: #{$blue};
+  --notifMenu-textPrimary-color :#{$darkBlue};
+  --notifMenu-textSecondary-color :#{$dustyBlue};
+  --notifMenu-button-color :#{$blue};
+  --notifMenu-iconNotifSound-color: #{$dustyBlue};
+  --notifMenu-itemUnread-bgcolor: #{$grey2};
+  --notifMenu-unreadDot-color: #{$vividYellow};
+  --notifMenu-iconItem-color: #{$blue};
+  --notifMenu-iconItemWrapper-color: #{$softBlue};
+  --notifMenu-itemText-color: #{$darkBlue};
+  //dashboard
+  --stats-cards-color: #{$iceBlue};
+  --application-cards-color: #{$opacity3};
+  //table 
+  --row-hover-color: #{$extraSoftBlue};
+  --row-border-color : #{$softBlue};
+  --tabletitle: #{$darkBlue};
+  //stat cards
+  --color-bg-icon: #{$softBlue};
+  --color-stat-indicator: #{$green};
+  --cards-border-color:#{$white};
+  //reset+forogot psd
+  --subtitles: #{$dustyBlue};
+  --password-bg: #{$blueGradient};
+  // choose role  
+  --color-footer-text: #{$blue};
+  --color-continue-link: #{$darkBlue};
+  --quote: #{$grey1};
+  // profile
+  --profile-cards-color: #{$lighterGray};
+  --profile-cards-title: #{$darkBlue};
+  --namepic-card-color: #{$iceBlue};
+  --dialog-image-color: #{$white};
+  --menu-image-color: #{$white};
+  --avatar-bg-color: #{$grey1};
+  // settings
+  --settings-cards-color:  #{$lighterGray};
+  --settings-buttons-bgcolor:  #{$lighterGray};
+  --settings-buttons-hoverbgcolor:  #{$darkBlue};
+  --settings-buttons-hovercolor:  #{$white};
+  --settings-buttons-color:  #{$darkBlue};
+  --settings-text-color:  #{$darkBlue};
+  --settings-account-color:  #{$brightRed};
+  --settings-account-hovercolor:  #{$white};
+  --settings-title-color:  #{$darkBlue};
+  --settings-subtitle-color:  #{$dustyBlue};
+  --seetings-cancelbutton-color: #{$darkBlue};
+  --seetings-submitbutton-color: #{$blue};
+  //dialog
+  --dialog-title-color:  #{$darkBlue};
+  --dialog-closeicon-color:  #{$darkBlue};
+
+  //chat
+  --conv-input-bgcolor: #{$white};
+  --conv-input2-bgcolor: #{$white};
+  --rightSide-bgcolor: #{$white};
+  --convlist-convName-color: #{$darkBlue};
+  --convlist-timestamp-color: #{$dustyBlue};
+  --convlistH-addicon-color: #{$darkBluesvgIcon};
+  --convlistH-addicon-colorHover: #{$whiteSvgIcon};
+  --convlistH-convTitle-colorHover: #{$dustyBlue};
+  --convlistH-addButton-bgcolorHover: #{$darkBlue};
+  --convlistH-addButton-colorTextHover: #{$white};
+  --convlist-searchText-color: #{$darkBlue};
+  --convlist-searchIcon-color: #{$grey1};
+  --convlistH-convTextEmpty-color: #{$dustyBlue};
+  --convlist-dateLabel-color: #{$dustyBlue};
+  --convlist-conversationItem-colorHover: #{$grey3};
+  --convlist-lastMessageText-color: #{$dustyBlue};
+  --notification-bgcolor: #{$brightRed};
+  --notification-textcolor: #{$white};
+  --convThreadheader-boxshadow-color: #{$darkColorShadow};
+  --convThreadheader-messageNoticeText-color: #{$dustyBlue};
+  --convThreadheader-messageBubble-bgcolor: #{$grey3};
+  --convThreadheader-messageBubbleText-color: #{$darkBlue};
+  --convThreadheader-messageBubbleCurrent-bgcolor: #{$blue};
+  --convThreadheader-messageBubbleCurrentText-color: #{$white};
+  --convThreadheader-searchText-color: #{$darkBlue};
+  --convThreadheader-tickIconRead-color: #{$blue};
+  --convThreadheader-tickIcon-color: #{$dustyBlue};
+  --convThreadheader-seperators-color: #{$dustyBlue};
+  --convThreadheader-newMessagesIndicator-bgcolor: #{$white};
+  --convThreadheader-GroupMoreIcon-color: #{$dustyBlue};
+  --convThreadheader-scroll-color: #{$grey1};
+  --convprofilePicture-boxshadow-color: #{$darkColorShadow};
+  --convprofilePicture-boxshadowOnlineBadge-color: #{$border-span-color};
+  --convprofilePicture-onlineBadge-bgcolor: #{$active-color};
+  --convprofilePicture-avatar-bgcolor: #{$grey1};
+  --newconv-frequentUsersTitle-color: #{$dustyBlue};
+  --newconv-groupsubmitbutton-bgcolor: #{$blue};
+  --newconv-groupsubmitbutton-textcolor: #{$white};
+  --newconv-frequserItem-hoverbgcolor: #{$blueopacity1};
+  --newconv-frequserItemcheckbox-color: #{$blue};
+  --newconv-frequserItemName-color: #{$darkBlue};
+  --newconv-result-textColor: #{$dustyBlue};
+  --newconv-groupSelectedName-textColor: #{$darkBlue};
+  --newconv-removeUserBtn-bgcolor: #{$white};
+  --newconv-removeUserBadge-color: #{$darkBlue};
+  --newconv-removeUserBadge-hovercolor: #{$blue};
+  --newconv-newgroup-errorTextcolor: #{$error-color};
+  --newconv-newgroupform-color: #{$dustyBlue};
+  --convHeader-chatUsername-color: #{$darkBlue};
+  --convHeader-chatStatus-color: #{$dustyBlue};
+  --convMobile-returnIcon-color: #{$graySvgIcon};
+  --convMobile-returnButton-color: #{$grey1};
+  --msgContextMenu-popoverPaper-bgcolor: #{$white};
+  --msgContextMenu-popoverPaper-textcolor: #{$darkBlue};
+  --msgContextMenu-seenMenuItem-color: #{$blueopacity1};
+  --msgContextMenu-userSeenFullname-textcolor: #{$darkBlue};
+  --msgContextMenu-userSeenTimestamp-textcolor: #{$dustyBlue};
+  --msgContextMenu-seenCloseText-textcolor: #{$dustyBlue};
+  --msgContextMenu-noSeenText-textcolor: #{$darkBlue};
+  --msgContextMenu-divider-bgcolor: #{$dustyBlue};
+  // opportunities
+  --opp-returnButton-color: #{$blue};
+  --opp-search-bgcolor: #{$white};
+  // globe
+  --gl-card-iconClock: #{$grey1};
+  --gl-panel-bgColor: #{$lightBgGradientGlobe};
+  --gl-text-color: #{$darkBlue};
+  --gl-text-color2: #{$grey1};
+  --gl-cards-color: #{$white};
+  --gl-card-borderColor: #{$grey4};
+  --gl-card-buttonColor: #{$darkBlue};
+  --gl-icon2-color: #{$darkBlue};
+  --gl-card-hoverbgcolor: #{$grey5};
+  --gl-card-buttonColorHover : #{$hoverButtonLight};
+  --gl-card-seemoreLink: #{$dustyBlue};
+    // globe sidebar
+  --gl-sidebar-color: #{$white};
+
+  // favorites opportunities
+  --fo-card-color: #{$white};
+  --fo-card-bordercolor: #{$blueopacity2};
+  // resumes
+  --resumes-divider-color: #{$grey4};
+  --resumes-title-color: #{$blue};
+  --resumes-text-color: #{$darkBlue};
+  --resumes-subtext-color: #{$dustyBlue};
+  --resumes-uploadbutton-color: #{$blue};
+
+  --icons-save-color: #{$darkBlue};
+  --icons-delete-color: #{$notification-color};
+  --icons-view-color: #{$blueSvgIcon};
+  //industries icons
+  --industries-icons-color: #fff;
+  // dashboard
+  --dashboard-header-color:  #{$darkBlue};
+  --dashboard-header2-color:  #{$dustyBlue};
+  --dashboard-header3-color:  #{$darkBlue};
+  --dashboard-text-color:  #{$dustyBlue};
+  --dashboard-contentchart-textcolor:  #{$grey1};
+  // video chat
+  --calling-bgcolor: #{$grey4};
+
+}
+
+[data-theme="dark"] {
+    //admin
+  --users-card-color : #{$tristesse};
+    //404 401
+  --unauth-button-color: #{$white};
+  //table
+  --tab-header-textColor: #{$dustyBlue};
+  --tab-content-textColor: #{$white};
+  // dialog delete
+  --delete-dialog-bg-color: #{$midnightBlue};
+  --delete-dialog-warningBox-bg-color: #{$midnightBlue};
+  --confirm-dialog-warningBox-bg-color: #{$midnightBlue};
+  --delete-dialog-red-text-color: #{$notification-color};
+  --confirm-text-color: #{$white};
+  --delete-dialog-title-color: #{$white};
+  --delete-cancel-text-color: #{$white};
+  --confirm-cancel-text-color: #{$vividYellow};
+  --delete-delete-text-color: #{$white};
+  --delete-delete-bg-color: #{$error-color};
+
+  // login
+  --color-surface: #{$darkBlue};
+  --color-surface2: #{$midnightBlue};
+  --color-surface3: #{$tristesse};
+  --text-color: #{$white};
+  --text-color2: #{$dustyBlue};
+  --placeholder-form: #{$grey1};
+  --submit-button-bg:#{$blue};
+  --submit-button-text:#{$white};
+  --submit-button-border:#{$blue};
+  --border-form: #{$grey1};
+  --textfield-form: #{$tristesse};
+  --border-form-onfocus: #{$grey1};
+  --input-form: #{$white};
+  --link: #{$blue};
+  --visibility-icon: #{$graySvgIcon};
+  --footertext: #{$darkGrey};
+
+  //--title-form: #{$blue};
+  --titles: #{$blue};
+
+  --informativetext: #{$darkGrey};
+  --social-media-buttons: #{$white};
+  --social-media-buttons-icons: #{$whiteSvgIcon};
+  --visibilty-icons: #{$whiteSvgIcon};
+  --checkbox-color: #{$darkGrey};
+  --textfield-form-bg: #{$darkBlue};
+
+  // sidebar
+  --sidebar-color: #{$tristesse};
+  --sidebar-scroll-color: #{$grey1};
+  --titlesidebar: #{$white};
+  --icon-color: #{$white};
+  --progressbar-empty: #{$softBlue};
+  --progressbar-filled: #{$blue};
+  --light-text: #{$lightGray};
+  --active-item-color: #{$blue};
+  --hover-item-color: #{$blueopacity1};
+  --lightSvgIconsSidebar: #{$graySvgIcon};
+  --iconsSidebar: #{$grey1};
+  --logouticon: #{$whiteSvgIcon};
+  --logouttext: #{$white};
+
+  //header
+  --bg-color-menu-btn: #{$softBlue};
+  --color-menu-btn: #{$blue};
+  --header-color-title: #{$white};
+  --avatar-bg-color: #{$white};
+  --avatar-color: #{$blue};
+  --inactiveSvgIconThemelight:#{$sunsvgIconThemedark};
+  --activeSvgIconTheme:#{$darkBluesvgIcon};
+  --bg-color-inactive-theme: #{$darkSlateBlue};
+  --bg-color-active-theme: #{$blue};
+  --header3d-title-textColor: #{$white};
+  //header notifications
+  --notifMenu-paper-bgColor: #{$tristesse};
+  --notifMenu-title: #{$white};
+  --notifMenu-textPrimary-color :#{$white};
+  --notifMenu-textSecondary-color :#{$dustyBlue};
+  --notifMenu-button-color :#{$blue};
+  --notifMenu-iconNotifSound-color: #{$blue};
+  --notifMenu-itemUnread-bgcolor: #{$midnightBlue};
+  --notifMenu-unreadDot-color: #{$vividYellow};
+  --notifMenu-iconItem-color: #{$blue};
+  --notifMenu-iconItemWrapper-color: #{$softBlue};
+  --notifMenu-itemText-color: #{$dustyBlue};
+
+  //dashboard
+  --stats-cards-color: #{$tristesse};
+  --application-cards-color: #{$tristesse};
+  //table 
+  --row-hover-color: #{$darkBlue-light-1};
+  --row-border-color : #{$softBlue};
+  --tabletitle: #{$white};
+  //stat cards
+  --color-bg-icon: #{$softBlue};
+  --color-stat-indicator: #{$green};
+  --cards-border-color:#{$darkSlateBlue};
+  //reset+forogot psd
+  --subtitles: #{$dustyBlue};
+  --password-bg: #{$midnightBlueGradient};
+  // choose role
+  --color-footer-text: #{$blue};
+  --color-continue-link: #{$darkBlue};
+  --quote: #{$grey1};
+  // profile
+  --profile-cards-color: #{$tristesse};
+  --profile-cards-title: #{$dustyBlue};
+  --namepic-card-color: #{$iceBlue};
+  --dialog-image-color: #{$tristesse};
+  --menu-image-color: #{$darkBlue};
+  --avatar-bg-color: #{$darkBlue};
+  // settings
+  --settings-cards-color:  #{$tristesse};
+  --settings-buttons-bgcolor:  #{$tristesse};
+  --settings-buttons-hoverbgcolor:  #{$blue};
+  --settings-buttons-hovercolor:  #{$darkBlue};
+  --settings-buttons-color:  #{$blue};
+  --settings-text-color:  #{$white};
+  --settings-account-color:  #{$brightRed};
+  --settings-account-hovercolor:  #{$white};
+  --settings-title-color:  #{$white};
+  --settings-subtitle-color:  #{$dustyBlue};
+  --seetings-cancelbutton-color: #{$white};
+  --seetings-submitbutton-color: #{$blue};
+  //dialog
+  --dialog-title-color:  #{$white};
+  --dialog-closeicon-color:  #{$blue};
+  //chat
+  --conv-input-bgcolor: #{$tristesse};
+  --conv-input2-bgcolor: #{$tristesse};
+  --rightSide-bgcolor: #{$tristesse};
+  --convlist-convName-color: #{$white};
+  --convlist-timestamp-color: #{$dustyBlue};
+  --convlistH-addicon-color: #{$graySvgIcon};
+  --convlistH-addicon-colorHover: #{$whiteSvgIcon};
+  --convlistH-convTitle-colorHover: #{$dustyBlue};
+  --convlistH-addButton-bgcolorHover: #{$tristesse};
+  --convlistH-addButton-colorTextHover: #{$white};
+  --convlist-searchText-color: #{$grey1};
+  --convlist-searchIcon-color: #{$grey1};
+  --convlist-convTextEmpty-color: #{$dustyBlue};
+  --convlist-dateLabel-color: #{$dustyBlue};
+  --convlist-conversationItem-colorHover: #{$tristesse};
+  --convlist-lastMessageText-color: #{$dustyBlue};
+  --notification-bgcolor: #{$brightRed};
+  --notification-textcolor: #{$white};
+  --convThreadheader-boxshadow-color: #{$lightColorShadow};
+  --convThreadheader-messageNoticeText-color: #{$dustyBlue};
+  --convThreadheader-messageBubble-color: #{$midnightBlue};
+  --convThreadheader-messageBubble-bgcolor: #{$midnightBlue};
+  --convThreadheader-messageBubbleText-color: #{$white};
+  --convThreadheader-messageBubbleCurrent-bgcolor: #{$blue};
+  --convThreadheader-messageBubbleCurrentText-color: #{$white};
+  --convThreadheader-searchText-color: #{$grey2};
+  --convThreadheader-tickIconRead-color: #{$blue};
+  --convThreadheader-tickIcon-color: #{$dustyBlue};
+  --convThreadheader-seperators-color: #{$dustyBlue};
+  --convThreadheader-newMessagesIndicator-bgcolor: #{$white};
+  --convThreadheader-GroupMoreIcon-color: #{$dustyBlue};
+  --convThreadheader-scroll-color: #{$grey1};
+  --convprofilePicture-boxshadow-color: #{$lightColorShadow};
+  --convprofilePicture-boxshadowOnlineBadge-color: #{$border-span-color};
+  --convprofilePicture-onlineBadge-bgcolor: #{$active-color};
+  --convprofilePicture-avatar-bgcolor: #{$grey1};
+  --newconv-frequentUsersTitle-color: #{$dustyBlue};
+  --newconv-groupsubmitbutton-bgcolor: #{$blue};
+  --newconv-groupsubmitbutton-textcolor: #{$white};
+  --newconv-frequserItem-hoverbgcolor: #{$blueopacity1};
+  --newconv-frequserItemcheckbox-color: #{$blue};
+  --newconv-frequserItemName-color: #{$white};
+  --newconv-result-textColor: #{$dustyBlue};
+  --newconv-groupSelectedName-textColor: #{$dustyBlue};
+  --newconv-removeUserBtn-bgcolor: #{$white};
+  --newconv-removeUserBadge-color: #{$darkBlue};
+  --newconv-removeUserBadge-hovercolor: #{$blue};
+  --newconv-newgroup-errorTextcolor: #{$error-color};
+  --newconv-newgroupform-color: #{$grey2};
+  --convHeader-chatUsername-color: #{$grey2};
+  --convHeader-chatStatus-color: #{$dustyBlue};
+  --convMobile-returnIcon-color: #{$whiteSvgIcon};
+  --convMobile-returnButton-color: #{$grey1};
+  --msgContextMenu-popoverPaper-bgcolor: #{$midnightBlue};
+  --msgContextMenu-popoverPaper-textcolor: #{$white};
+  --msgContextMenu-seenMenuItem-color: #{$dustyBlue};
+  --msgContextMenu-userSeenFullname-textcolor: #{$white};
+  --msgContextMenu-userSeenTimestamp-textcolor: #{$dustyBlue};
+  --msgContextMenu-seenCloseText-textcolor: #{$dustyBlue};
+  --msgContextMenu-noSeenText-textcolor: #{$dustyBlue};
+  --msgContextMenu-divider-bgcolor: #{$dustyBlue};
+    // opportunities
+  --opp-returnButton-color: #{$blue};
+  --opp-search-bgcolor: #{$tristesse};
+    // globe
+  --gl-card-iconClock: #{$white};
+  --gl-panel-bgColor: #{$darkBgGradientGlobe};
+  --gl-text-color: #{$white};
+  --gl-text-color2: #{$white};
+  --gl-cards-color: #{$darkSlateBlue};
+  --gl-card-borderColor: #{$white};
+  --gl-card-buttonColor: #{$white};
+  --gl-icon2-color: #{$white};
+  --gl-card-hoverbgcolor: #{$darkerBlue};
+  --gl-card-buttonColorHover : #{$hoverButtonDark};
+  --gl-card-seemoreLink: #{$white};
+
+  // globe sidebar
+  --gl-sidebar-color: #{$midnightBlue};
+  // favorites opportunities
+  --fo-card-color: #{$tristesse};
+  --fo-card-bordercolor: #{$darkSlateBlue};
+  //resumes
+  --resumes-divider-color: #{$dustyBlue};
+  --resumes-title-color: #{$blue};
+  --resumes-text-color: #{$white};
+  --resumes-subtext-color: #{$dustyBlue};
+  --resumes-uploadbutton-color: #{$blue};
+
+  --icons-save-color: #{$white};
+  --icons-delete-color: #{$notification-color};
+  --icons-view-color: #{$blueSvgIcon};
+
+    //industries icons
+  --industries-icons-color: #{$whiteSvgIcon};
+
+  // dashboard
+  --dashboard-header-color:  #{$white};
+  --dashboard-header2-color:  #{$dustyBlue};
+  --dashboard-header3-color:  #{$white};
+  --dashboard-text-color:  #{$dustyBlue};
+  --dashboard-contentchart-textcolor:  #{$white};
+  // video chat
+  --calling-bgcolor: #{$tristesse};
+
+}

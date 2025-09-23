@@ -1,0 +1,325 @@
+@use "@/assets/styles/utils/mixins" as *;
+@use "@/assets/styles/utils/variables" as *;
+// @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+@keyframes slideIn {
+  0% {
+    opacity: 0;
+    transform: translateX(40px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.panel {
+  position: absolute;
+  top: 80px;
+  right: 20px;
+  width: 380px;
+  height: calc(100% - 100px);
+  padding: 20px;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  color: #fff;
+  overflow: hidden;
+  animation: slideIn 0.5s ease-out both;
+  background: none;
+  backdrop-filter: blur(12px);
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: var(--gl-panel-bgColor);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  > * {
+    position: relative;
+    z-index: 1;
+  }
+
+  @include media-query(mobile, tablet) {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 0;
+    padding: 16px;
+    z-index: 999;
+  }
+}
+
+.header {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 16px;
+  color: var(--gl-text-color);
+}
+
+.cards {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  @include media-query(mobile, tablet) {
+    gap: 12px;
+  }
+}
+
+.card {
+  @include card-styles(var(--gl-cards-color), 20px,12px, 1px solid var(--gl-card-borderColor));
+
+  font-family: 'Inter', sans-serif !important;
+  display: flex;
+  flex-direction: column;
+  // gap: 18px;
+  cursor: pointer;
+  font-family: 'Proxima Nova', sans-serif;
+  transition: background 0.2s, border 0.2s, box-shadow 0.2s;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.15);
+
+  &:hover {
+    background: var(--gl-card-hoverbgcolor) !important;
+  }
+}
+.saveIcon {
+  color: $lightGray;
+  transition: color 0.3s ease;
+  cursor: pointer;
+  @include icon-size(20px);
+
+  &:hover {
+    color: $grey1; 
+  }
+  &.favoritedsaveIcon{
+  color: $vividYellow;
+}
+}
+
+
+.cardTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  padding-left: 2px;
+
+  @include media-query(mobile) {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+    margin-bottom: 10px;
+  }
+}
+
+.title {
+  font-size: 15px;
+  font-weight: 600;
+  max-width: 350px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: default;
+  color: var(--gl-text-color);
+}
+
+.type {
+  font-size: 13px;
+  color: var(--gl-text-color);
+  font-weight: normal;
+  text-transform: capitalize;
+}
+.clockIcon{
+  @include icon-size(15px);
+  color: var(--gl-card-iconClock);
+}
+.infoRow {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  align-items: center;
+  margin-bottom: 6px;
+  font-size: 13px;
+  color: var(--gl-text-color);
+  padding-left: 5px;
+  gap: 10px;
+
+span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  line-height: 1; 
+  font-size: 13px;
+  }
+  @include media-query(mobile) {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+}
+
+.leftInfo {
+  display: flex;
+  align-items: center;
+  gap: 60px;
+
+  @include media-query(mobile, tablet) {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+}
+
+.industry {
+  width: 140px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.industriesIcons{
+   @include icon-size(22px);
+   @include media-query(mobile, tablet) {
+      @include icon-size(26px);
+   }
+   filter: var(--industries-icons-color);
+}
+.flag {
+  display: inline-flex;
+  align-items: center;
+  line-height: 1;
+  gap: 6px;
+
+  img {
+    margin-top: 1px;
+  }
+}
+
+
+.flagImg {
+  width: 1.7em;          
+  height: auto;
+  object-fit: contain;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+
+.reference {
+  font-size: 12px;
+  color: $blue3;
+  margin-left: -25px;
+
+  @include media-query(mobile) {
+    margin-left: 0;
+  }
+}
+
+.rowDetails {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 10px;
+  min-height: 24px;
+  padding: 0 5px;
+
+  .leftItem {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    min-width: 0;
+    font-size: 13px;
+    color: var(--gl-text-color);
+
+    .contractIcon{
+      @include icon-size(17px);
+      color: var(--gl-icon2-color);
+    }
+  }
+
+  .middleItem {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    white-space: nowrap;
+    color: var(--gl-text-color2);
+    margin-left: 24px;
+  }
+
+  .rightItem {
+    flex-shrink: 0;
+    font-size: 12px;
+    color: #8c8cff;
+    white-space: nowrap;
+  }
+
+  @include media-query(mobile) {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+
+    .middleItem {
+      position: static;
+      transform: none;
+    }
+  }
+}
+
+.footer {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 8px;
+
+  @include media-query(mobile) {
+    justify-content: center;
+  }
+}
+
+.applyBtn {
+  padding: 8px 35px;
+  border-radius: 999px;
+  @include button-style(
+      transparent,    
+      var(--gl-card-buttonColor),      
+      var(--gl-card-buttonColor),  
+      0.9rem,      
+      $line-height: 100%
+    );
+  cursor: pointer;
+
+  &:hover {
+    background-color: var(--gl-card-buttonColorHover) !important;
+  }
+}
+.moreInfoLink {
+  color: var(--gl-card-seemoreLink);
+  cursor: pointer;
+  text-decoration: underline;
+  font-weight: 400;
+  font-size: 0.85rem; 
+
+  &:hover {
+    text-decoration: none;
+  }
+}

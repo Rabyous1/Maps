@@ -1,0 +1,112 @@
+@use '@/assets/styles/utils/mixins' as *;
+@use '@/assets/styles/utils/variables' as *;
+
+.card.calendar{
+max-height: calc(100vh - 150px);
+  overflow-y: auto;
+  scroll-behavior: smooth;
+  overscroll-behavior: contain;
+  @include custom-scrollbar($thumb-color: $dustyBlue);
+  @include card-styles($white, 0rem, 20px);
+}
+.interviewEvent {
+  background-color: $blue !important; 
+  color: $white !important;
+  border-radius: 6px;
+  border: none;
+  padding: 5px 6px !important;
+  font-size: 0.85rem;
+  
+}
+
+.cellWithInterview {
+  background-color: #e1e5fd; 
+}
+
+.emptyCell {
+  background-color: transparent; 
+}
+.dialogForm{
+    
+  @include mui-form-style(
+    $input-height: null,
+    $text-color: $dustyBlue,
+    $placeholder-color: $dustyBlue,
+    $font: $interRegular,
+    $icon-color: var(--visibilty-icons),
+  );  
+  .label {
+    color: var(--text-color);
+    padding: 0.5rem 0;
+    font-size: 1rem;
+    font-family: $interMedium;
+  }
+  max-height: 450px;
+}
+.actionButtons {
+  position: sticky;
+  bottom: 0 !important;
+  padding: 10px 0;
+  background-color: $white;
+  flex-wrap: nowrap;
+  z-index: 1;
+  @include flex-row-gap(1rem, nowrap);
+
+  .cancelButton {
+    @include button-style(transparent, $darkBlue, $darkBlue);
+  }
+
+  .submitbutton {
+    @include button-style($blue, $white, $blue);
+  }
+}
+.dialogContentWrapperForm{
+    padding-bottom: 0 !important;
+  @include custom-scrollbar($thumb-color: $blue);
+
+}
+.dialogHeader{
+display: flex;
+justify-content: space-between
+}
+.subTitleDialog{
+  @include textStyle($grey1, 1rem, $titleSemiBold, left);
+}
+.titleText{
+  @include textStyle($blue, 1.5rem, $titleSemiBold, left);
+}
+.closeIcon{
+    color: var(--delete-cancel-text-color);
+    @include icon-size(10px)
+}
+
+.dialogPaperDetails {
+@include media-query(largeScreens, laptops, desktop){
+  min-width: 500px !important;
+    border-radius: $border-sm ;
+}
+}
+.contentDialog{
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+.actionButtonsDialog{
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  padding-bottom: 15px;
+    .cancelButton {
+    @include button-style(transparent, $darkBlue, $darkBlue);
+  }
+
+  .submitbutton {
+    @include button-style($blue, $white, $blue);
+  }
+}
+.label{
+  @include textStyle($darkBlue, 1rem, $titleSemiBold, left);
+}
+.value{
+  @include textStyle($dustyBlue, 1rem, $titleSemiBold, left);
+}

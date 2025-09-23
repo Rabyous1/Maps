@@ -1,0 +1,11 @@
+@use '@/assets/styles/utils/mixins' as *;
+
+.cvItem{
+    display: flex;
+    align-items: center;
+}
+.resumeIcon,
+.uploadIcon {
+  padding-right: 5px;
+  @include icon-size(20px);
+}

@@ -1,0 +1,79 @@
+@use '@/assets/styles/utils/mixins' as *;
+@use '@/assets/styles/utils/variables' as *;
+@use '@/assets/styles/components/returnButton' as *;
+
+.card.editCard{
+  @include card-styles(var(--application-cards-color), 1.3rem, 20px);
+  max-height: calc(100vh - 195px);
+  overflow-y: auto !important;
+  scroll-behavior: smooth;
+  overscroll-behavior: contain;
+}
+.headerRow{
+  display: flex;
+  gap: 24px;
+  align-items: center;
+  .editTitle{
+    @include textStyle($darkBlue, 1.5rem, $titleSemiBold, left);
+  }
+  .editSubTitle{
+    @include textStyle($blue, 0.9rem, $titleSemiBold, left);
+  }
+}
+
+
+.formEdit {
+    @include mui-form-style($input-height: 3rem);
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    column-gap: 4rem;
+    row-gap: 1rem;
+    @include media-query(mobile){
+        grid-template-columns: repeat(2, 1fr);
+        column-gap: 1.1rem;
+    }
+        @include media-query(tablet){
+        grid-template-columns: repeat(3, 1fr);
+        column-gap: 1.1rem;
+    }
+     @include media-query(desktop, laptops){
+        column-gap: 1.5rem;
+    }
+    .label {
+        color: var(--text-color);
+        padding-bottom: 0.5rem;
+        font-size: 1rem;
+        font-family: $interMedium;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+     > * {
+    grid-column: auto;
+  }
+
+  .fullWidth {
+    grid-column: 1 / -1 !important;
+  }
+.checkbox {
+    display: flex;
+    align-items: center
+}
+@include checkboxStyle(var(--input-form), var(--checkbox-color), 0.9rem, $interMedium);
+
+}
+
+.formEdit .actionButtons {
+    grid-column: 1 / -1;
+    width: 100%;
+    @include flex-center;
+    .submitbutton {
+        margin: $spacing-md-lg  0 !important;
+        @include button-style(
+          var(--submit-button-bg),
+          var(--submit-button-text),
+          var(--submit-button-border)
+        );
+    }
+}
+

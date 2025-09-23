@@ -1,0 +1,143 @@
+@use '@/assets/styles/utils/mixins' as *;
+@use '@/assets/styles/utils/variables' as *;
+
+.conversationsHeader,
+.subHeader {
+    flex: 0 0 auto;
+}
+
+.conversationsHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 0.5rem;
+
+    .conversationsTitle {
+        @include textStyle(var(--convlistH-convTitle-colorHover), 0.9rem, $interRegular);
+    }
+
+    .conversationsButton {
+        @include button-style(transparent,
+            var(--profile-cards-title),
+            transparent,
+            0.9rem,
+        );
+        .addConversationIcon {
+            filter: var(--convlistH-addicon-color);
+            @include icon-size(15px);
+        }
+
+        &:hover {
+            .addConversationIcon {
+                filter: var(--convlistH-addicon-colorHover);
+            }
+            @include button-style(var(--convlistH-addButton-bgcolorHover), $white, var(--convlistH-addButton-bgcolorHover), 0.9rem);
+        }
+    }
+    @include media-query(tablet, laptops) {
+        .buttonText {
+            display: none;
+        }
+    }
+}
+
+.search {
+    padding: $spacing-md $spacing-md;
+    @include mui-form-style($input-height: 2.6rem,
+        $text-color: var(--convlist-searchText-color),
+        $icon-color: var(--convlist-searchIcon-color),
+        $font: $interRegular,
+        $background: var(--conv-input-bgcolor),
+
+    );
+}
+
+.emptyConversationsList {
+    @include flex-center;
+    @include textStyle(var(--convlistH-convTextEmpty-color), 1rem, $interSemiBold);
+    padding: $spacing-md;
+}
+
+.conversationsList {
+    overflow-y: auto;
+    display: grid;
+    gap: $spacing-xs;
+    @include scroll-snap(y);
+    @include media-query(mobile, tablet) {
+        gap: 0;
+    }
+
+    .dateLabel {
+        @include textStyle(var(--convlist-dateLabel-color), 0.9rem, $titleSemiBold, left);
+    }
+
+    .conversationItem {
+        border-radius: 12px 0 0 12px;
+        display: flex;
+        gap: $spacing-md;
+        padding: $spacing-md;
+        align-items: center;
+        cursor: pointer;
+        min-width: 0;
+
+        &:hover {
+            background-color: var(--convlist-conversationItem-colorHover);
+        }
+    }
+    .selectedConversationItem {
+        background-color: var(--convlist-conversationItem-colorHover);
+    }
+}
+
+.conversationInfo {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    overflow: hidden;
+    gap: $spacing-sm;
+    min-width: 0;
+    width: 100%;
+}
+
+.topRow {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .conversationName {
+        @include textStyle(var(--convlist-convName-color), 0.9rem, $titleBold, left);
+    }
+
+    .timestamp {
+        @include textStyle(var(--convlist-timestamp-color), 0.8rem, $titleSemiBold, left);
+    }
+}
+
+.bottomRow {
+    display: flex;
+    width: 100%;
+    min-width: 0;
+
+    .lastMessage {
+        @include textStyle(var(--convlist-lastMessageText-color), 0.8rem, $titleSemiBold, left);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        flex: 1;
+        min-width: 0;
+    }
+}
+
+.unreadBadge {
+    background-color: var(--notification-bgcolor);
+    color: var(--notification-textcolor);
+    font-size: 0.75rem;
+    padding: 3px 7px;
+    border-radius: 50%;
+    margin-left: auto;
+    align-self: center;
+}
+
+.subHeader {
+    padding: 0 0.5rem;
+}

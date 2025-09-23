@@ -1,0 +1,10 @@
+@use '@/assets/styles/utils/mixins' as *;
+
+.customButton {
+    @include button-style(
+      var(--submit-button-bg),    
+      var(--submit-button-text),      
+      var(--submit-button-border),        
+      1rem
+    );
+  }

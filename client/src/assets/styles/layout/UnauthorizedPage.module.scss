@@ -1,0 +1,75 @@
+@use '@/assets/styles/utils/mixins' as *;
+@use '@/assets/styles/utils/variables' as *;
+
+.container {
+  align-items: center;
+  align-content: center;
+  position: relative;
+  justify-content: center;
+  display: flex; 
+  flex-direction: column;
+  min-height: 100vh;
+  // background-image: url('../../../assets/images/png/401.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  overflow: hidden;
+  gap: 50px;
+  }
+
+  @include media-query(mobile){
+  .pleaseLoginImage, .unauthorizedImage{
+    width: 200px;
+    height: auto;
+  }
+  }
+    @include media-query(tablet){
+  .pleaseLoginImage, .unauthorizedImage{
+    width: 300px;
+    height: auto;
+  }
+  }
+      @include media-query(laptops){
+  .pleaseLoginImage, .unauthorizedImage{
+    width: 400px;
+    height: auto;
+  }
+  }
+        @include media-query(desktop){
+  .pleaseLoginImage, .unauthorizedImage{
+    width: 500px;
+    height: auto;
+  }
+  }
+    @include media-query(largeScreens){
+  .pleaseLoginImage, .unauthorizedImage{
+    width: 500px;
+    height: auto;
+  }
+  }
+    @include media-query(extraLargeScreens){
+  .pleaseLoginImage, .unauthorizedImage{
+    width: 600px;
+    height: auto;
+  }
+  }
+
+  .textContainer{
+    @include flex-center(20px);
+    flex-direction: column
+  }
+  .title{
+    @include titleStyle(var(--titles), 1rem); 
+    margin-bottom: 10px !important;
+  }
+  .subtitle{
+    @include textStyle($dustyBlue, 0.8rem, $interRegular);
+  }
+  .returnButton{
+    @include button-style(
+        transparent,    
+        var(--unauth-button-color),      
+        var(--unauth-button-color),        
+        clamp(0.875rem, 2vw, 1.25rem)
+      );
+  }

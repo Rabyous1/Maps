@@ -1,0 +1,167 @@
+@use '@/assets/styles/utils/mixins' as *;
+@use '@/assets/styles/utils/variables' as *;
+@use '@/assets/styles/components/returnButton' as *;
+
+
+.detailsPageWrapper{
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+
+
+.headerActions{
+  width: fit-content;
+  margin-bottom: 1.5rem;
+}
+.card.firstCard{
+  @include card-styles($extraSoftBlue, 1.3rem, 20px);
+  @include media-query(largeScreens) {
+       max-height: none; 
+      @include card-styles($extraSoftBlue, 1rem, 20px);
+  }
+    @include media-query(mobile, tablet) {
+       max-height: none; 
+      @include card-styles($extraSoftBlue, 10px, 20px);
+  }
+  overflow-y: auto !important;
+  scroll-behavior: auto;
+  overscroll-behavior: auto;
+  @include custom-scrollbar($thumb-color: $blue2);
+}
+
+.card.secondCard{
+  @include card-styles(var(--application-cards-color), 1.3rem, 20px);
+
+  @include media-query(mobile, tablet) {
+    border-radius: 10px;
+    max-height: calc(100vh - 520px);
+  }
+  @include media-query(largeScreens) {
+    max-height: calc(100vh - 550px);
+    @include card-styles(var(--application-cards-color), 1rem, 20px);
+  }
+  border-color: var(--cards-border-color) !important;
+  max-height: calc(100vh - 590px);
+  overflow-y: auto !important;
+  scroll-behavior: smooth;
+  overscroll-behavior: contain;
+  @include custom-scrollbar($thumb-color: $blue2);
+
+}
+
+.titleWithRef {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  align-items: baseline;
+  flex-wrap: wrap;
+  @include media-query(mobile, tablet) {
+      gap: 0;
+  }
+}
+.titleAndRef {
+  display: flex;
+  align-items: center;
+  align-items: baseline;
+  gap: 15px;
+}
+.titleOpp {
+  @include textStyle($darkBlue, 1.7rem, $interSemiBold, left);
+}
+
+.ref {
+  @include textStyle($dustyBlue, 0.9rem, $interRegular, left);
+}
+.industriesIcons{
+   @include icon-size(30px);
+   @include media-query(mobile, tablet) {
+      @include icon-size(26px);
+   }
+   filter: var(--industries-icons-color);
+}
+.countryFlag{
+  width: 30px;
+  height: 22px;
+  border-radius: 4px;
+  border: solid 2px $grey1;
+    @include media-query(mobile, tablet) {
+       width: 27px;
+      height: 19px;
+    }
+}
+.oppIcons {
+  @include icon-size(22px);
+  color: $blue;
+  @include media-query(mobile, tablet) {
+    @include icon-size(18px);
+  }
+}
+.infoGroup1,  .infoGroup2{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  margin: 1rem 0;
+  align-items: center;
+    @include media-query(mobile, tablet,){
+      gap: 0.8rem;
+  }
+      @include media-query(desktop){
+      gap: 1rem;
+  }
+}
+.infoGroup1{
+  margin-bottom: 40px;
+  @include media-query(mobile, tablet,){
+    margin-bottom: 20px;
+  }
+    @include media-query(desktop,laptops){
+    margin-bottom: 30px;
+  }
+}
+.detailItem {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  white-space: nowrap; 
+}
+.fieldTitle {
+  @include textStyle($darkBlue, 0.9rem, $interSemiBold, left);
+}
+.firstfieldValue{
+  @include textStyle($dustyBlue, 0.9rem, $interSemiBold, left);
+}
+.fieldValue {
+  @include textStyle($darkBlue, 0.9rem, $interRegular, left);
+}
+.titleDescription {
+  @include textStyle($darkBlue, 1.7rem, $interSemiBold, left);
+
+}
+
+.descriptionText {
+  @include textStyle($darkBlue, 1rem, $interRegular, left);
+  h4,h5,h6 {
+    color: $darkBlue;
+  }
+
+}
+.applyBtn {
+  padding: 8px 35px;
+  border-radius: 999px;
+  margin-left: auto;
+
+  @include button-style(
+      transparent,    
+      var(--gl-card-buttonColor),      
+      var(--gl-card-buttonColor),  
+      0.9rem,      
+      $line-height: 100%
+    );
+  cursor: pointer;
+
+  &:hover {
+    background-color: var(--gl-card-buttonColorHover) !important;
+  }
+}

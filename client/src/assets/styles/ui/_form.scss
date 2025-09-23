@@ -1,0 +1,26 @@
+@use "@/assets/styles/utils/variables" as *;
+@use "@/assets/styles/utils/mixins" as *;
+
+.formcontainer {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+    
+  @include mui-form-style($background: var(--textfield-form-bg));
+}
+
+.label {
+  color: var(--text-color);
+  padding-bottom: 0.5rem;
+  font-size: 1rem;
+  font-family: $interMedium;
+}
+
+.icon_eye {
+  filter: var(--visibility-icon);
+  @include icon-size(25px);
+}
+.placeholderselect{
+  color: var(--placeholder-form);
+}
+@include checkboxStyle(var(--input-form), var(--checkbox-color), 0.9rem, $interMedium);

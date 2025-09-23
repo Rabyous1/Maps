@@ -1,0 +1,202 @@
+@use '@/assets/styles/utils/mixins' as *;
+@use '@/assets/styles/utils/variables' as *;
+
+.companyOverview {
+  .fieldsWrapper {
+    display: grid;
+  }
+
+  .fieldRow {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    .icon {
+      flex-shrink: 0;
+    }
+
+    .label {
+      width: 140px;
+      flex-shrink: 0;
+      @include textStyle($dustyBlue, 0.9rem, $interMedium, left);
+    }
+
+    .value {
+      flex-grow: 1;
+      @include textStyle($darkBlue, 0.9rem, $interMedium, left);
+    }
+  }
+}
+
+.fieldsWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  .namePicSection{
+    justify-items: center !important;
+  }
+  @include media-query(mobile) {
+    @include scroll-snap(x);
+  }
+}
+.MuiInputBase-multiline {
+  align-items: flex-start;
+}
+.fieldRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  .icon {
+    flex-shrink: 0;
+    @include icon-size(20px);
+    color: $blue;
+  }
+
+  .label {
+    width: 140px;
+    flex-shrink: 0;
+    @include textStyle($dustyBlue, 0.9rem, $interMedium, left);
+    @include media-query(mobile) {
+          width: 115px;
+    }
+  }
+
+  .value {
+     flex-grow: 1;
+    display: block;
+    @include textStyle($darkBlue, 0.9rem, $interMedium, left);
+    display: flex;
+    align-items: center;
+    .showcodeButton
+      {margin-top: -5px !important;}
+
+    .showcodeIcon{
+      @include icon-size(22px);
+      color: $blue;
+    }
+  }
+
+   @include media-query(mobile) {
+    @include scroll-snap(x);
+    grid-auto-columns: 190px;
+  }
+
+  
+    @include media-query(mobile) {
+      grid-template-columns: auto minmax(50px, 20%) 1fr;
+    }
+}
+
+.recruiterValue {
+  @include textStyle($dustyBlue, 0.9rem, $interMedium, left);
+
+  &.truncated {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+.expandableTextContainer {
+  position: relative;
+}
+
+.summaryText,
+.summaryTextRecruiter {
+  line-height: 1.5em;
+  transition: max-height 0.3s ease;
+  margin-bottom: 0;
+  margin-top: 0;
+}
+
+.truncated {
+  overflow: hidden;
+}
+
+.seeMoreButton {
+  background: none;
+  border: none;
+  color: $blue;
+  font-size: 0.8rem;
+  cursor: pointer;
+  padding: 0;
+  font-family: $interMedium;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+.dialogEditRecruiter{
+    @include mui-form-style(
+    $border-color: $grey1,
+    $input-height:null,
+    $text-color: $grey1,
+    $placeholder-color: $grey1,
+    $background: transparent
+  );
+}
+
+.passwordDialogContent{
+   @include mui-form-style(
+    $border-color: $grey1,
+    $input-height: 3rem,
+    $text-color: $grey1,
+    $placeholder-color: $grey1,
+    $background: transparent
+  );
+
+
+}
+
+.icon_eye {
+  filter: var(--visibility-icon);
+  @include icon-size(25px);
+}
+.actionButtons{
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  .cancelButton{
+      @include button-style(transparent, $darkBlue, $darkBlue);
+  }
+  .submitButton{
+      @include button-style($blue, $white, $blue);
+      &:hover {
+        @include button-style($darkBlue, $white, $darkBlue);
+      }
+  }
+}
+.externalLink {
+  color: $darkBlue;
+  text-decoration: none;
+}
+.externalLink:hover { text-decoration: underline; }
+.dialogTitle{
+    @include textStyle($blue, 1.3rem, $interMedium, left);
+}
+.labelCustom {
+    @include textStyle($darkBlue, 1rem, $interMedium, left);
+    padding-bottom: 10px;
+
+}
+.dialogHeaderRecruiter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 25px !important;
+  padding-bottom: 20px !important;
+
+  .titleText {
+    @include textStyle(var(--dialog-title-color), 1.3rem, $titleSemiBold, left);
+  }
+
+  .closeIcon {
+    @include icon-size(15px);
+    margin-left: auto;
+    align-self: center;
+    color: var(--dialog-closeicon-color);
+  }
+}

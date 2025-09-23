@@ -1,0 +1,99 @@
+@use '@/assets/styles/utils/mixins' as *;
+@use '@/assets/styles/utils/variables' as *;
+@import '@/assets/styles/ui/_table.scss';
+@import '@/assets/styles/components/_resumeRenderer.scss';
+
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+
+  @include media-query(extraLargeScreens) {
+    padding-top: $spacing-lg;
+  }
+}
+
+.card {
+  @include card-styles(var(--application-cards-color), 1.3rem, 20px);
+
+  @include media-query(mobile) {
+    border-radius: 10px;
+  }
+}
+
+.title {
+  display: flex;
+  @include titleStyle(var(--tabletitle), 1.3rem);
+
+}
+
+.statusPill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: $spacing-sm;
+  font-size: 0.875rem;
+  font-weight: 500;
+  padding: 2px 10px;
+  border-radius: 20px;
+  text-transform: capitalize;
+  line-height: 2;
+  width: 6rem;
+
+  @include media-query(tablet) {
+    width: 5rem;
+  }
+
+  &.accepted {
+    background-color: $greenopacity17;
+    color: $green;
+  }
+
+  &.pending {
+    background-color: $orangeopacity17;
+    color: $orange;
+  }
+
+  &.rejected {
+    background-color: $brightredopacity17;
+    color: $brightRed;
+  }
+
+  .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: currentColor;
+  }
+}
+
+.actionsWrapper {
+  .editIcon {
+    @include icon-size(22px);
+    color: $darkBlue;
+  }
+
+  .deleteIcon {
+    @include icon-size(20px);
+    color: $brightRed;
+  }
+
+  .viewIcon {
+    @include icon-size(25px);
+    color: $blue;
+
+  }
+}
+.card.myappcard{
+    max-height: calc(100vh - 440px);
+  overflow-y: auto !important;
+  scroll-behavior: smooth;
+  overscroll-behavior: contain;
+
+  @include media-query(extraLargeScreens) {
+    max-height: calc(100vh - 475px);
+  }
+
+  @include custom-scrollbar($thumb-color: $blue2);
+}

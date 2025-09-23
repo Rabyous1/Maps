@@ -1,0 +1,286 @@
+@use '@/assets/styles/utils/mixins' as *;
+@use '@/assets/styles/utils/variables' as *;
+@use "@/assets/styles/components/findJobButton" as *;
+@import '@/assets/styles/fonts';
+
+
+/* main drawer */
+
+.drawer {
+  width: $sidebar-width;
+  flex-shrink: 0;
+  transition: width 0.3s ease;
+  position: relative;
+  height: calc(100vh - ($sidebar-offset * 2));
+  margin: $sidebar-offset 0 $sidebar-offset $sidebar-offset;
+  box-sizing: border-box;
+
+  //stick
+
+  @include media-query(mobile) {
+    display: none;
+  }
+  @include media-query(tablet) {
+    width: $sidebar-width-tablet;
+  }
+
+  .paper {
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+    position: absolute;
+    box-shadow: 0px 4px 30px rgba(0, 0, 0, 0.15);
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    overflow-x: hidden;
+    background-color: var(--sidebar-color);
+    @include custom-scrollbar($thumb-color: var(--sidebar-scroll-color));
+
+
+    /* collapsed 4 desktop */
+    &.collapsed {
+      width: $sidebar-collapsed-width;
+
+      @include media-query(desktop, laptops, largeScreens, extraLargeScreens, tablet) {
+
+        .titlesidebar,
+        .menuItem .text,
+        .footer .label {
+          display: none;
+          opacity: 0;
+        }
+      }
+    }
+  }
+}
+
+/* buttons */
+.desktopToggle {
+.icon{
+  width: 20px;
+  height: 20px;
+}
+  @include media-query(mobile) {
+    display: none;
+  }
+}
+
+.mobileToggle {
+
+  background: var(--bg-color-menu-btn);
+  border-radius: 50%;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+
+
+  button {
+    color: var(--color-menu-btn);
+  }
+
+  @include media-query(mobile) {
+    display: inline-flex;
+  }
+}
+
+/* eader */
+.header {
+  padding: 0 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 64px;
+
+  /* collapsed desktop */
+  &.collapsed {
+    justify-content: center;
+    padding: 8px;
+  }
+
+  /* mobile expanded 4 ever*/
+  @include media-query(mobile) {
+    justify-content: space-between;
+    padding: 8px 16px;
+  }
+
+  .titlesidebar {
+    margin: 0;
+    font-weight: 700;
+    font-size: 1.5rem;
+    color: var(--titlesidebar);
+    transition: opacity 0.3s ease;
+    font-family: $titleSemiBold;
+    font-weight: 700;
+    font-size: 2rem;
+    letter-spacing: 0.4rem;
+  }
+}
+
+/* mobile drawer */
+.mobilePaper {
+  width: 240px;
+  max-width: 240px;
+  background-color: var(--sidebar-color);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100vh;
+
+  /* Force expanded layout in mobile */
+  .header {
+    justify-content: space-between;
+    padding: 8px 16px;
+
+    .titlesidebar {
+      display: block;
+      opacity: 1;
+    }
+  }
+
+  .menuItem .text {
+    display: inline;
+    opacity: 1;
+  }
+
+
+}
+
+.contentWrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: space-between;
+}
+
+/* menu Items */
+.menuContainer {
+  display: flex;
+  flex-direction: column;
+
+  .menuItem {
+    margin: 0.25rem 0.5rem;
+    border-radius: 2.5rem;
+    min-height: 2.7rem;
+    width: calc(100% - 1rem);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    
+    .icon  {
+      @include icon-size(20px);
+      filter: var(--lightSvgIconsSidebar);
+      transition: filter 0.3s ease;
+      color: var(--iconsSidebar);
+    }
+    @include media-query(desktop, laptops, largeScreens){
+      margin: 0.1rem 0.5rem;
+    }
+   
+
+    /* hover */
+    &:hover {
+      background-color: var(--hover-item-color);
+      transform: translateX(2px);
+
+      .icon {
+        transform: scale(1.05);
+
+      }
+    }
+
+    /* active */
+    &.active {
+      border-left: 3px solid var(--active-item-color);
+      background-color: transparent;
+
+      .text {
+        font-weight: 600;
+        color: var(--active-item-color);
+      }
+
+      .icon {
+        filter: var(--activeSvgIconsSidebar);
+
+      }
+    }
+
+    .icon {
+      min-width: 2.5rem;
+      transition: transform 0.2s ease;
+    }
+
+    .text {
+      font-family: $interRegular;
+      font-size: 0.875rem;
+      color: $dustyBlue;
+      white-space: nowrap;
+      transition: all 0.3s ease;
+    }
+  }
+
+  .logoutIcon {
+    @include icon-size(20px);
+    filter: var(--logouticon);
+    min-width: 2.5rem;
+    transition: transform 0.2s ease;
+  }
+
+  .logoutItemText {
+    .text {
+      color: var(--logouttext);
+    }
+
+  }
+}
+.submenuList {
+  padding-left: 2.5rem !important;
+}
+
+.submenuSection {
+  margin-bottom: 0.5rem;
+}
+
+/* footer */
+.footer {
+  padding: 0 0 0.625rem 0;
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+  margin-bottom: 0.625rem;
+
+  .profileCompletion {
+    padding: 0 1rem;
+    transition: opacity 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+
+    .percentage {
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: $blue;
+    }
+
+    .progressBar {
+      background: var(--progressbar-empty);
+      height: 0.375rem;
+      border-radius: 0.1875rem;
+      overflow: hidden;
+
+      .progress {
+        width: 75%;
+        background: var(--progressbar-filled);
+        height: 100%;
+        transition: width 0.3s ease;
+      }
+    }
+
+    .label {
+      font-size: 0.75rem;
+      color: var(--light-text);
+    }
+  }
+
+}
+.customButton {
+  margin: $spacing-md-lg $spacing-md-lg;
+}

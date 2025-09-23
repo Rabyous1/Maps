@@ -1,0 +1,179 @@
+@use '@/assets/styles/utils/mixins' as *;
+@use '@/assets/styles/utils/variables' as *;
+// @use "../../components/formDialog" as *;
+
+
+$light-purple: #ede7f6;
+$primary-purple: #7e57c2;
+$deep-purple: #5e35b1;
+$text-gray: #4a4a4a;
+$border-radius: 8px;
+
+.completeProfileContent{
+  align-items: center;
+  align-content: center;
+  position: relative;
+  justify-content: center;
+  // display: grid;
+  display: flex; 
+  flex-direction: column;
+  min-height: 100vh;
+  background-image: url('../../../images/png/passwordBg.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  overflow: hidden;
+ 
+}
+.title{
+  @include titleStyle(var(--titles), 2.25rem);
+  margin-bottom: 25px !important;
+}
+.card.completeProfileCard {
+  // padding: 40px 0 !important;
+  @include card-styles(var(--fo-card-color), 1.3rem,15px);
+
+  @include media-query(mobile) {
+    border-radius: 10px;
+  }
+
+  border-color: var(--fo-card-bordercolor) !important;
+
+  max-height: calc(100vh - 220px);
+  overflow-y: auto !important;
+  scroll-behavior: smooth;
+  overscroll-behavior: contain;
+  @include custom-scrollbar($thumb-color: $blue2);
+
+  @include media-query(extraLargeScreens) {
+    max-height: calc(100vh - 200px);
+  }
+
+    @include mui-form-style(
+    $border-radius: 25px,
+    $input-height: null,
+    $text-color: $dustyBlue,
+    $placeholder-color: $dustyBlue,
+    $font: $interRegular,
+    $icon-color: var(--visibilty-icons),
+  ); 
+  .label {
+    color: var(--text-color);
+    padding: 0.5rem 0;
+    font-size: 1rem;
+    font-family: $interMedium;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+  width: 65%; 
+  display: flex;
+  flex-direction: column;
+}
+.stepper{
+  margin-bottom: 30px;
+}
+.stepLabelRoot {
+  color: $grey4 !important;
+}
+.stepLabelActive{
+  color: $blue !important
+}
+.stepLabelCompleted{
+  color: green !important
+}
+.stepLabelText{
+  color: $darkBlue !important;
+  font-family: $interMedium !important;
+}
+.formContainer{
+  padding: 0 3rem;
+}
+.emptySkillsText {
+  @include titleStyle($grey1, 1rem);
+}
+.addSkillButton{
+  @include button-style(transparent, $darkBlue, $darkBlue);
+}
+.submitbutton{
+  @include button-style(transparent, $blue, $blue);
+}
+.skillsContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 1rem;
+}
+
+.skills {
+  background-color: $blue;
+  color: $white;
+  padding: 6px 10px;
+  border-radius: 50px;
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.9rem;
+  max-height: 20px !important;
+
+  button {
+    margin-left: 6px;
+    color: $white;
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.15);
+    }
+  }
+}
+
+
+.stepperButtons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 2rem;
+}
+
+.backButton {
+  @include button-style(transparent, $darkBlue, $darkBlue);
+  width: 80px;
+
+  &:hover {
+        background-color: var(--gl-card-buttonColorHover) !important;
+  }
+}
+
+.nextButton {
+   @include button-style($blue, $white, $blue);
+  width: 80px;
+
+  &:hover {
+    background-color: $darkBlue !important;
+    border: $darkBlue !important;
+  }
+}
+
+.finishButton {
+  @include button-style(green, $white, green);
+  width: 80px;
+
+  &:hover {
+    background-color: $darkBlue !important;
+    border: $darkBlue !important;
+  }
+
+  &:hover {
+    background-color: #059669 !important;
+  }
+}
+.addButton{
+  @include button-style(transparent, $blue, transparent, $font-size: 0.9rem);
+  .addIcon{
+  @include icon-size(20px);
+  }
+}
+
+.removeItemButton{
+  @include button-style(transparent, $error-color, transparent, $font-size: 0.9rem);
+  margin: 15px 0 !important;
+    .removeIcon{
+      @include icon-size(20px);
+    }
+}

@@ -1,0 +1,99 @@
+@use '@/assets/styles/utils/mixins' as *;
+@use '@/assets/styles/utils/variables' as *;
+@use "./profilePictures" as *;
+@use "./conversationsList" as *;
+@use "./conversations" as *;
+@use "./newConversation" as *;
+@use "./conversationHeader" as *;
+@use "./messageContextMenu" as *;
+
+.wrapper {
+  flex: 1 1 auto;
+  @include two-column-grid-full-height(1fr 2fr);
+  padding-bottom: $spacing-xl;
+  height: calc(100vh - 157px);
+}
+
+.left,
+.right {
+  align-content: start;
+}
+
+.left {
+  background-color: var(--color-surface2);
+  height: calc(100vh - 120px);
+  display: flex;
+  flex-direction: column;
+}
+
+.right {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--rightSide-bgcolor);
+  overflow: hidden;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+  padding-bottom: $spacing-md;
+ // @include scroll-snap(y);
+  @include scroll-normal(y);
+}
+
+/////////////////////////////////// mobile version style ///////////////////////////////////////////////////////////
+.returnMobileButton, .returnMobileButtonNewConversation {
+  display: none !important;
+}
+@include media-query(mobile) {
+  .returnMobileButton,.returnMobileButtonNewConversation {
+    display: block !important;
+    display: flex !important;
+  }
+  .wrapper {
+    display: flex;
+    flex-direction: column;
+
+    &[data-has-selection="false"],
+    &:not([data-has-selection]),
+    &[data-is-creating="false"] {
+      .left  { display: flex; }
+      .right { display: none; }
+    }
+
+    &[data-has-selection="true"],
+    &[data-is-creating="true"] {
+      .left  { display: none; }
+      .right { display: flex; }
+    }
+
+    .left,
+    .right {
+      width: 100%;
+      height: 100vh;
+    }
+  }
+
+  .conversationHeader {
+    position: relative;
+    padding-left: 2.5rem; 
+
+  }
+  .returnMobileButton {
+    all: unset;           
+    position: absolute;
+    left: 1rem;
+    font-size: 1.5rem;
+    color: var(--convHeader-chatUsername-color);
+    border-radius: 50%
+  }
+  .returnMobileButtonNewConversation{
+    @include button-style(transparent, var(--convMobile-returnButton-color), var(--convMobile-returnButton-color));
+    margin: $spacing-l $spacing-l 0 $spacing-l !important;
+    width: 30px !important;
+    height: 30px !important;
+    border-radius: 50% !important;
+  }
+  .returnMobileButtonIcon{
+    filter: var(--convMobile-returnIcon-color);
+    @include icon-size(10px);
+  }
+
+}

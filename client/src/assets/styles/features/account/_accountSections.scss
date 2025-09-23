@@ -1,0 +1,277 @@
+@use '@/assets/styles/utils/mixins' as *;
+@use '@/assets/styles/utils/variables' as *;
+
+
+////////////////////////// namePicSection //////////////////////////////////////////////
+.namePicSection {
+  display: grid;
+  gap: 0.5rem;
+  text-align: center;
+
+  @include media-query(extraLargeScreens) {
+    gap: 0.3rem;
+  }
+
+  .fullName {
+    @include textStyle($darkBlue, 1.4rem, $interSemiBold);
+  }
+
+  .targetRole,
+  .position {
+    @include textStyle($dustyBlue, 1.2rem, $interSemiBold);
+  }
+
+  .department {
+    @include textStyle($dustyBlue, 1.2rem, $interSemiBold);
+  }
+
+  .linkedinButton {
+    @include button-style(transparent,
+      $darkBlue,
+      $darkBlue );
+
+    &:hover {
+      @include button-style($blue,
+        $white,
+        $blue );
+    }
+
+    .IconLinkedin {
+      @include icon-size(1.25rem);
+      filter: var(--social-media-buttons-icons);
+    }
+  }
+}
+
+////////////////////////// skills //////////////////////////////////////////////
+.skills {
+
+  .textGroup {
+    @include scroll-snap(y);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    max-height: calc((2 * 2.5rem));
+    align-items: center;
+
+    @include media-query(extraLargeScreens) {
+      max-height: calc((2 * 1.5rem));
+    }
+
+    @include media-query(tablet) {
+      max-height: calc((2 * 1.8rem) + 0.5rem);
+    }
+
+    @include media-query(mobile) {
+      max-height: calc((2 * 2.5rem) + 0.5rem);
+    }
+  }
+
+  .arrayItem {
+    @include textStyle($darkBlue, 0.9rem, $interMedium);
+    padding: 0.3rem 0.75rem;
+    border-radius: 999px;
+    border: 1px solid $grey1;
+    white-space: nowrap;
+  }
+}
+
+////////////////////////// language ///////////////////////////////////////////////
+
+.language {
+  .textGroup {
+    @include flex-row-gap(0.5rem, flex-start, wrap);
+    align-items: center;
+  }
+
+  .seconddiv {
+    @include flex-column-gap(0.25rem);
+    align-items: left;
+  }
+
+  .item-name {
+    @include textStyle($darkBlue, 0.9rem, $interMedium, left);
+  }
+
+  .item-level {
+    @include textStyle($dustyBlue, 0.8rem, $interMedium, left);
+  }
+}
+
+////////////////////////// personal info ///////////////////////////////////////////////
+.personalInfo {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: $spacing-md-lg;
+  align-items: center;
+
+  @include media-query(mobile) {
+    @include scroll-snap(x);
+    grid-auto-columns: 190px;
+  }
+
+  .textGroup {
+    display: grid;
+    grid-template-columns: auto minmax(120px, 30%) 1fr;
+    align-items: center;
+    gap: 8px;
+
+    @include media-query(mobile) {
+      grid-template-columns: auto minmax(50px, 20%) 1fr;
+    }
+  }
+  .label {
+    @include textStyle($dustyBlue, 0.9rem, $interMedium, left);
+  }
+
+  .value {
+    @include textStyle($darkBlue, 0.9rem, $interMedium, left);
+  }
+}
+
+////////////////////////// workExperience ///////////////////////////////////////////////
+.workExperience {
+
+  .arrayItem {
+    @include grid-gap(0.5rem);
+
+    .firstdiv {
+      @include flex-row-gap(1.3rem);
+      align-items: center;
+
+      .item-company {
+        @include textStyle($dustyBlue, 1rem, $interSemiBold, left);
+      }
+
+      .item-location {
+        @include textStyle($dustyBlue, 0.8rem, $interMedium, left);
+        margin-left: auto;
+      }
+
+      .item-contractType {
+        @include textStyle($dustyBlue, 0.8rem, $interMedium, left);
+        padding: 0.25rem 0.75rem;
+        border-radius: 999px;
+        border: 1px solid $grey1;
+      }
+    }
+
+    .item-title {
+      @include textStyle($darkBlue, 0.9rem, $interMedium, left);
+    }
+  }
+
+  .item-jobDescription {
+    @include textStyle($black, 0.8rem, $interMedium, left);
+  }
+
+}
+
+////////////////////////// resume ///////////////////////////////////////////////
+.resume {
+  .textGroup {
+    @include flex-row-gap(0.5rem, flex-start, wrap);
+    align-items: center;
+  }
+}
+
+.cvItem {
+  @include flex-center(10px);
+
+  &.disabled {
+    cursor: default;
+    pointer-events: none;
+  }
+
+  &:not(.disabled) {
+    cursor: pointer;
+  }
+}
+
+.resumeIcon,
+.uploadIcon {
+  @include icon-size(20px);
+}
+
+.cvPath {
+  @include textStyle($black, 0.8rem, $interMedium, left);
+}
+
+////////////////////////// education ///////////////////////////////////////////////
+.education {
+  .arrayItem {
+    @include grid-gap(0.5rem);
+
+    .item-institution {
+      @include textStyle($dustyBlue, 1rem, $interSemiBold, left);
+    }
+
+    .item-degree {
+      @include textStyle($darkBlue, 0.9rem, $interMedium, left);
+    }
+
+    .item-fieldOfStudy {
+      @include textStyle($darkBlue, 0.9rem, $interMedium, left);
+
+      &::before {
+        content: ",";
+        margin-right: 0.25rem;
+        color: $dustyBlue;
+      }
+    }
+  }
+}
+
+
+////////////////////////// summary ///////////////////////////////////////////////
+.professionalSummary {
+  .textGroup {
+    @include flex-row-gap(0.5rem, flex-start, wrap);
+    align-items: center;
+  }
+
+  .summaryText {
+    line-height: 1.5em;
+    color: $dustyBlue;
+    font-family: $interMedium;
+    font-size: 1rem;
+    transition: max-height 0.3s ease;
+    margin-bottom: 0;
+    margin-top: 0;
+  }
+
+  .truncated {
+    max-height: 3em;
+    overflow: hidden;
+  }
+
+
+  .seeMoreButton {
+    background: none;
+    border: none;
+    color: $blue;
+    font-size: 0.8rem;
+    cursor: pointer;
+    padding: 0;
+    font-family: $interMedium;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+////////////////////////// certification ///////////////////////////////////////////////
+.certification {
+  .arrayItem {
+    @include grid-gap(0.5rem);
+
+    .item-academy {
+      @include textStyle($dustyBlue, 1rem, $interSemiBold, left);
+    }
+
+    .item-title {
+      @include textStyle($darkBlue, 0.9rem, $interMedium, left);
+    }
+  }
+}

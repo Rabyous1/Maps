@@ -1,0 +1,16 @@
+export const routePermissions = {
+  "/users": ["Admin"],
+  "/account": [ "Admin","Candidat", "Recruteur"],
+  "/updatepassword": [ "Admin","Candidat", "Recruteur"],
+  "/dashboard": [ "Candidat", "Recruteur"],
+  "/messages": ["Candidat", "Recruteur"],
+  "/settings": ["Candidat", "Recruteur"],
+  "/notifications": ["Candidat", "Recruteur"],
+  "/dashboard/my-applications": ["Candidat"],
+  "/opportunities": ["Recruteur"],
+  "/opportunities/": ["Recruteur", "Candidat"],
+  "/applicants": ["Recruteur"],
+  "/video-chat": ["Recruteur"],
+  "/globe3D": [ "Candidat"],
+  "/interviews-list-candidate": [ "Candidat"],
+};

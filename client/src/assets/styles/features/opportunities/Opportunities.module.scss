@@ -1,0 +1,113 @@
+@use '@/assets/styles/utils/mixins' as *;
+@use '@/assets/styles/utils/variables' as *;
+@use './opportunitiesTableCard' as *;
+
+.opportunitieswrapper {
+  display: flex;
+  flex-direction: column;
+
+  @include media-query(extraLargeScreens) {
+    gap: $spacing-lg;
+    padding-top: $spacing-lg;
+  }
+
+  @include media-query(laptops) {
+    padding-top: 0;
+    gap: $spacing-md;
+  }
+}
+
+.opportunitiesContent {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-lg;
+
+  @include media-query(extraLargeScreens) {
+    gap: $spacing-xxl;
+  }
+}
+
+.opportunitiesTitle {
+  @include textStyle($darkBlue, 1.4rem, $titleSemiBold, left);
+
+  @include media-query(mobile, tablet, desktop, laptops, largeScreens) {
+    margin-top: 0px;
+  }
+}
+
+.filtersWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+
+  @include media-query(extraLargeScreens) {
+    gap: $spacing-xxl;
+  }
+}
+
+.searchRow {
+  display: grid;
+  align-items: center;
+  gap: 0.5rem;
+  grid-template-columns: 1fr 1fr auto;
+  background: var(--opp-search-bgcolor);
+  border: 1px solid var(--cards-border-color);
+  padding: 0.25rem 1rem;
+  border-radius: 9999px;
+  box-shadow:
+    0 4px 12px rgba(0, 0, 0, 0.2),
+    0 2px 4px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  @include media-query(largeScreens){
+    padding: 0.1rem 1rem;
+  }
+}
+
+.selectWrapper,
+.searchInputWrapper {
+  @include mui-form-style($border-color: transparent, $background: transparent, $placeholder-color: $grey1);
+  flex: 1;
+
+  .placeholderselect {
+    color: $grey1;
+  }
+}
+
+.selectWrapper {
+  max-width: 180px;
+}
+
+.actionButtons {
+  display: flex;
+  gap: 20px;
+
+  .searchButton {
+    @include button-style(transparent, $blue, $blue);
+  }
+
+  .clearSearchButton {
+    @include button-style(transparent, $vividYellow, $vividYellow);
+  }
+}
+
+.filterGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.filterSelectWrapper {
+  @include mui-form-style($border-color: $grey1, $input-height: 2.5rem, $text-color: $grey1, $placeholder-color: $grey1, $background: transparent);
+    // padding-right: 25px !important;
+:global(.MuiOutlinedInput-input) {
+    padding-right: 27px !important;
+  }
+}
+
+.activeSelect {
+  @include mui-form-style($border-color: $blue, $input-height: 2.5rem, $text-color: $blue, $placeholder-color: $grey1, $background: transparent);
+
+  .closeItemIcon {
+    color: $blue !important;
+  }
+}

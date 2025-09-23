@@ -1,0 +1,114 @@
+@use '@/assets/styles/utils/mixins' as *;
+@use '@/assets/styles/utils/variables' as *;
+
+
+.card {
+    @include card-styles(var(--fo-card-color), 1.8rem, 20px, 1px solid var(--fo-card-bordercolor));
+}
+
+.titleContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center
+}
+
+.myResumesTitle {
+    @include textStyle(var(--resumes-title-color), 1.4rem, $titleSemiBold, left);
+
+    @include media-query(mobile, tablet, desktop, laptops, largeScreens) {
+        margin-top: 0px;
+    }
+}
+
+.uploadResumeButton {
+    @include button-style(transparent, var(--resumes-uploadbutton-color), var(--resumes-uploadbutton-color));
+}
+.noFilesContainer{
+    display: flex;
+    flex-direction: column;
+    align-items: center
+}
+$image-widths: (
+  notFoundImage: (mobile: 130px,
+    tablet: 100px,
+    laptops: 150px,
+    desktop: 150px,
+    largeScreens: 190px,
+    extraLargeScreens: 220px),
+);
+
+@each $class, $breakpoints in $image-widths {
+  .#{$class} {
+    height: auto;
+    max-height: 80vh;
+
+    @each $breakpoint, $width in $breakpoints {
+      @include media-query($breakpoint) {
+        width: $width;
+      }
+    }
+  }
+}
+.noFilesText{
+    @include textStyle(var(--resumes-text-color), 1rem, $interSemiBold, left);
+}
+.uploadIcon {
+    @include icon-size(18px);
+    color: var(--resumes-uploadbutton-color);
+}
+
+.fileRowsContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.fileRow {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    align-items: center;
+    padding: 1rem;
+    border-bottom: 1px solid var(--resumes-divider-color);
+}
+
+.fileInfo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.fileName {
+    @include textStyle(var(--resumes-text-color), 1rem, $interSemiBold, left);
+}
+
+.fileIcon {
+    @include icon-size(24px);
+}
+
+.fileDate {
+    @include textStyle($dustyBlue, 0.9rem, $interRegular, left);
+}
+
+.actions {
+    display: flex;
+    gap: 0.7rem;
+    justify-content: flex-end
+}
+
+.saveIcon,
+.deleteIcon {
+    @include icon-size(20px);
+}
+
+.saveIcon {
+    color: var(--icons-save-color);
+}
+
+.deleteIcon {
+    color: var(--icons-delete-color);
+}
+
+.viewIcon {
+    @include icon-size(22px);
+    filter: var(--icons-view-color);
+}

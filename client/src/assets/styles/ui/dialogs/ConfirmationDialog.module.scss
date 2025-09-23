@@ -1,0 +1,35 @@
+@use "@/assets/styles/utils/variables" as *;
+@use '@/assets/styles/utils/mixins' as *;
+@use "../../components/formDialog" as *;
+
+  
+  .warningBox {
+    background-color: var(--confirm-dialog-warningBox-bg-color);
+    padding: 1.5rem;
+    border-radius: $border-sm;
+    @include textStyle(var(--confirm-text-color), 1rem, $interRegular, left);
+  }
+.closeIcon{
+    color: var(--confirm-cancel-text-color) !important;
+}
+  .cancelButton {
+    background: none;
+    border: none;
+    color: var(--delete-cancel-text-color);
+    cursor: pointer;
+    padding: 0.5rem 1rem;
+  }
+  
+  .recoverButton {
+    color: $white;
+    background-color: $vividYellow ;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: $border-sm;
+    cursor: pointer;
+  }
+  
+  .recoverButton:hover {
+    background-color: $blue;
+  }
+  

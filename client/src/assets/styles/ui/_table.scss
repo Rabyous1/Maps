@@ -1,0 +1,88 @@
+@use '@/assets/styles/utils/mixins' as *;
+@use '@/assets/styles/utils/variables' as *;
+
+.tableWrapper {
+  width: 100%;
+  overflow-x: auto;
+
+  &::-webkit-scrollbar {
+    height: 4px;           
+  }
+
+  &::-webkit-scrollbar-track {
+    border-radius: 4px;
+  }
+
+  scrollbar-width: thin;
+  scrollbar-color: $grey1 $softBlue; 
+
+  :global(.MuiDataGrid-root) {
+    min-width: 600px;
+  }
+  :global(.MuiDataGrid-columnHeaderTitle),
+  :global(.MuiDataGrid-cell) {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+
+.customDataGrid {
+  --DataGrid-containerBackground: transparent !important;
+  --DataGrid-withBorderColor: transparent !important;
+    border: none !important;
+
+  --DataGrid-headerBackground: transparent !important;
+
+  --DataGrid-columnHeaderBorderWidth: 0 !important;
+
+  //body bg color 
+  --unstable_DataGrid-overlayBackground: transparent;
+
+  
+  --DataGrid-rowBorderColor: var(--row-border-color) !important;
+
+  :global {
+
+    .MuiDataGrid-columnHeaderTitle {
+      color: var(--tab-header-textColor) !important;
+      font-family: $interRegular !important;
+      font-size: 0.9rem !important;
+    }
+
+    .MuiDataGrid-footerContainer {
+      border-top: 1px solid var(--row-border-color) !important;
+    }
+
+    .MuiTablePagination-toolbar,
+    .MuiTablePagination-selectLabel,
+    .MuiTablePagination-displayedRows,
+    .MuiInputBase-root,
+    .MuiSelect-select,
+    .MuiSvgIcon-root,
+    .MuiIconButton-root,.MuiDataGrid-row {
+      color: var(--tab-header-textColor) !important;
+      font-size: 0.9rem;
+      font-family: $interRegular !important;
+    }
+    .MuiDataGrid-row {
+      color: var(--tab-content-textColor) !important;
+      font-family: $interRegular !important;
+      font-size: 0.9rem !important;
+    }
+    .MuiDataGrid-cell, .MuiDataGrid-cell--textLeft{
+      display: flex;
+      align-items: center;
+    }
+    .MuiDataGrid-selectedRowCount{
+      @include textStyle(var(--tab-header-textColor), 0.8rem, $interSemiBold, left);
+    }
+  }
+
+  :global(.MuiDataGrid-row.Mui-selected),
+  :global(.MuiDataGrid-row.Mui-selected:hover) {
+    background-color: var(--row-hover-color) !important;
+  }
+
+}

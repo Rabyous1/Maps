@@ -1,0 +1,15 @@
+@use '@/assets/styles/utils/mixins' as *;
+
+.actionButtons {
+    display: flex;
+    gap: 10px;
+}
+
+.returnButton {
+    @include button-style(transparent, var(--opp-returnButton-color), var(--opp-returnButton-color));
+
+    .returnIcon {
+        @include icon-size(16px);
+        color: var(--opp-returnButton-color);
+    }
+}

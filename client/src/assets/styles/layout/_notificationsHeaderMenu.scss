@@ -1,0 +1,138 @@
+@use '@/assets/styles/utils/mixins' as *;
+@use '@/assets/styles/utils/variables' as *;
+
+.notificationBadge {
+  position: relative;
+
+  >span {
+    background-color: $notification-color !important;
+    border: 1px solid $border-span-color;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    box-shadow: 0 0 0 2px $border-span-color;
+    position: absolute;
+    top: 19px;
+    right: 13px;
+  }
+}
+
+
+
+.notificationIcon {
+  @include icon-size(24px);
+  color: $grey1;
+}
+
+.menuPaperWithArrow {
+  overflow: visible !important;
+  filter: drop-shadow(0px 2px 8px rgba(0, 0, 0, 0.32));
+  margin-top: 12px;
+  position: relative;
+  width: 380px;
+  background-color: var(--notifMenu-paper-bgColor) !important;
+
+
+  &::before {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 18px;
+    width: 10px;
+    height: 10px;
+    background-color: var(--notifMenu-paper-bgColor) !important;
+    transform: translateY(-50%) rotate(45deg);
+    z-index: 0;
+  }
+}
+
+.menuHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 10px;
+}
+
+.menuTitle {
+  @include textStyle(var(--notifMenu-title), 1.1rem, $titleBold, left);
+}
+
+.menuHeaderRight {
+  display: flex;
+  align-items: center
+}
+
+.markAllAsReadText {
+  @include textStyle(var(--notifMenu-textPrimary-color), 0.9rem, $titleSemiBold, left);
+  cursor: pointer;
+}
+.noNotificationsText{
+  @include textStyle(var(--notifMenu-textSecondary-color), 0.9rem, $titleSemiBold);
+  margin: 20px 0;
+}
+.divider {
+  margin: 0 !important;
+}
+
+.menuFooter {
+  display: flex;
+  justify-content: center;
+  margin-top: 8px
+}
+
+.seeAllButton {
+  @include button-style(transparent, var(--notifMenu-button-color), var(--notifMenu-button-color));
+  width: 110px;
+}
+
+.deactivatedNotificationIcon,
+.activatedNotificationIcon {
+  @include icon-size(19px);
+  color: var(--notifMenu-iconNotifSound-color);
+}
+
+.menuItemunread {
+  background-color: var(--notifMenu-itemUnread-bgcolor);
+}
+
+.menuItemContentWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.unreadDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: $vividYellow;
+  margin-left: 8px;
+}
+
+.menuItemIcon {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  color: var(--notifMenu-iconItem-color);
+}
+
+.menuItemIconWrapper {
+  background-color: var(--notifMenu-iconItemWrapper-color);
+  border-radius: 50%;
+  @include icon-size(35px);
+  @include flex-center;
+  margin-right: 10px;
+}
+.menuItemContentText{
+  @include textStyle(var(--notifMenu-itemText-color), 0.9rem, $titleSemiBold, left);
+}
+.menuItemText {
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin: 8px;
+  @include textStyle(var(--notifMenu-itemText-color), 0.9rem, $titleSemiBold, left);
+}

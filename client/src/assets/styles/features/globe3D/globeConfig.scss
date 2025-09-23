@@ -1,0 +1,26 @@
+/* styles/globeConfig.scss */
+
+/* 1) Variables SCSS pour synchroniser avec globeConfig.js si besoin */
+$bg-light:        #E8E8E8;
+$bg-dark:         #0d0f21;
+$earth-light:     #DEDEDE;
+$earth-dark:      #13162c;
+$area-light:      #B2B5FF;
+$area-dark:       #2e3564;
+$line-light:      #909199;
+$line-dark:       #797eff;
+$sprite-color:    #797eff;
+$path-color:      #cd79ff;
+$flyline-color:   #cd79ff;
+$scatter-color:   #cd79ff;
+$hover-area-color: #797EFF;
+$highlight-light:  #EAC05C;
+$highlight-dark:   #FFD166;
+
+/* 2) Container du globe */
+.globeContainer {
+  position: fixed;
+  inset: 0;           /* top/right/bottom/left à 0 */
+  overflow: hidden;   /* plus de scroll */
+  background-color: $bg-light; /* fallback, mais JS prendra le dessus */
+}

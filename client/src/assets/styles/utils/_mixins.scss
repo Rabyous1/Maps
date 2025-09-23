@@ -1,0 +1,352 @@
+@use "sass:math";
+@use "@/assets/styles/utils/variables" as *;
+
+
+$media-queries: (
+  mobile:            (breakpoint: "(min-width: 320px) and (max-width: 479px)"),
+  tablet:            (breakpoint: "(min-width: 480px) and (max-width: 768px)"),
+  laptops:           (breakpoint: "(min-width: 769px) and (max-width: 1024px)"),
+  desktop:           (breakpoint: "(min-width: 1025px) and (max-width: 1200px)"),
+  largeScreens:      (breakpoint: "(min-width: 1201px) and (max-width: 1600px)"),
+  extraLargeScreens: (breakpoint: "(min-width: 1601px)"),
+);
+
+
+@mixin media-query($sizes...) {
+  @each $size in $sizes {
+    $value: map-get($media-queries, $size);
+
+    @if $value != null {
+      $breakpoint: map-get($value, breakpoint);
+
+      @if $breakpoint != null {
+        @media only screen and #{$breakpoint} {
+          @content;
+        }
+      }
+    }
+  }
+}
+@mixin two-column-grid-full-height($columns: repeat(2, minmax(0, 1fr))) {
+  display: grid;
+  grid-template-columns: $columns;
+ // min-height: 100vh;
+}
+@mixin two-row-grid-full-width($rows: repeat(2, minmax(0, 1fr))) {
+  display: grid;
+  grid-template-rows: $rows;
+}
+
+
+@mixin titleStyle($color, $size) {
+  font-family: $titleSemiBold !important;
+  //font-weight: 300;
+  font-size: $size; 
+  line-height: 2.75rem; 
+  text-align: center;
+  color: $color;
+}
+@mixin textStyle($color, $size, $font: $interRegular, $align: center) {
+  font-family: $font !important;
+  font-size: $size;
+ // line-height: 1rem;
+  text-align: $align;
+  color: $color;
+}
+
+@mixin icon-size($size: 20px) {
+  width: $size;
+  height: $size;
+}
+
+@mixin button-style(
+  $bg,
+  $color,
+  $border-color,
+  $font-size: 1rem,
+  $padding: 0.625rem 1.5rem,
+  $min-width :auto,
+  $line-height: 150%
+) {
+  background-color: $bg !important;
+  color: $color !important;
+  border-radius: 2rem !important;
+  border: 1px solid $border-color !important;
+  //font-weight: 600 !important;
+  text-transform: none !important;
+  font-family: $interSemiBold !important;
+  font-size: $font-size !important;
+  min-width: $min-width !important;
+  line-height: $line-height !important;
+  box-shadow: none !important;
+}
+
+@mixin status-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: $spacing-sm;
+  font-size: 0.875rem;
+  font-weight: 500;
+  padding: 2px 10px;
+  border-radius: 20px;
+  text-transform: capitalize;
+  line-height: 2;
+  width: 6rem;
+
+  @include media-query(tablet) {
+    width: 5rem;
+  }
+
+  &.active {
+    background-color: $greenopacity17;
+    color: $green;
+  }
+
+  &.expired {
+    background-color: $brightredopacity17;
+    color: $brightRed;
+  }
+    &.filled {
+    background-color: $yellowopacity17;
+    color: $brightRed;
+  }
+  .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: currentColor;
+  }
+}
+
+@mixin clean-link($color) {
+  color: $color; 
+  text-decoration: none;
+}
+@mixin card-styles(
+  $bgcolor,                  
+  $padding,            
+  $borderradius,       
+  $border: 1px solid white, 
+  $shadow: rgba(0, 0, 0, 0.08) 0px 4px 12px 
+) {
+  padding: $padding;
+  background-color: $bgcolor !important;
+  border-radius: $borderradius !important;
+  border: $border !important;
+  box-shadow: $shadow !important;
+}
+@mixin footer-style {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+ // gap: 20px;
+  text-align: center;
+  color: var(--footertext);
+  font-family: $interRegular;
+  font-size: 0.875rem;
+
+  .link {
+    @include clean-link(var(--link));
+    font-weight: 600;
+  }
+}
+@mixin checkboxStyle($labelColor, $checkboxColor, $fontSize: 14px, $fontFamily: $interMedium) {
+  .checkboxLabel {
+    color: $labelColor;
+    font-size: $fontSize !important;
+    font-family: $fontFamily !important;
+  }
+
+  .checkbox {
+
+    color: $checkboxColor !important;
+  }
+}
+@mixin scrollableCard($bg-color, $padding, $border-radius, $border: none) {
+  @include card-styles($bg-color, $padding, $border-radius, $border);
+
+  max-height: calc(100vh - 255px);
+  overflow-y: auto;
+  scroll-behavior: smooth;
+  overscroll-behavior: contain;
+
+  @include media-query(mobile) {
+    border-radius: 10px;
+  }
+
+  @include media-query(tablet) {
+    max-height: calc(100vh - 235px);
+  }
+
+  @include media-query(extraLargeScreens) {
+    max-height: calc(100vh - 270px);
+  }
+
+  @include custom-scrollbar($thumb-color: $blue2);
+}
+
+@mixin flex-column-gap($gap: 0.5rem) {
+  display: flex;
+  flex-direction: column;
+  gap: $gap;
+}
+
+@mixin flex-row-gap($gap: 0.5rem, $align-items: flex-start, $wrap: wrap) {
+  display: flex;
+  flex-direction: row;
+  gap: $gap;
+  align-items: $align-items;
+  flex-wrap: $wrap;
+}
+
+
+@mixin grid-gap($gap: 0.5rem) {
+  display: grid;
+  gap: $gap;
+}
+
+@mixin scroll-snap($direction) {
+  overflow-#{$direction}: auto;
+  scroll-snap-type: #{$direction} mandatory;
+  scroll-behavior: smooth;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  & > * {
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+  }
+}
+@mixin scroll-normal($direction) {
+  overflow-#{$direction}: auto;
+  scroll-snap-type: none;
+  scroll-behavior: auto;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+
+//update the code with this mixin later dont forget ranim!
+@mixin flex-center($gap: 0) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: $gap;
+}
+
+@mixin mui-form-style(
+  $border-radius: 2.5rem,
+  $input-height: 3.125rem,
+  $text-color: var(--input-form),
+  $border-color: var(--border-form),
+  $placeholder-color: var(--placeholder-form),
+  $icon-color: var(--icon-color),
+  $font: $interMedium,
+  $background: $white
+
+) {
+  
+   :global(.MuiTextField-root) {
+    border-radius: $border-radius !important;
+    height: $input-height !important;
+    color: $text-color !important;
+    border-color: $border-color;
+    font-family: $font !important;
+    background-color: $background !important;
+  }
+
+  :global(.Mui-focused) {
+    :global(.MuiOutlinedInput-notchedOutline) {
+      border-color: $border-color !important;
+      border-width: 1px !important;
+    }
+  }
+  :global(.MuiInputBase-root) {
+    border-radius: $border-radius !important;
+    height: $input-height !important;
+    color: $text-color !important;
+    border-color: $border-color;
+    font-family: $font !important;
+    background-color: $background !important;
+  }
+
+  :global(.MuiOutlinedInput-notchedOutline) {
+    border-color: $border-color !important;
+    border-width: 1px !important;
+    border-radius: $border-radius !important;
+    font-family: $font !important;
+  }
+
+  :global(.MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline) {
+    border-color: $border-color !important;
+    border-width: 1px !important;
+  }
+
+  :global(.MuiInputAdornment-root),
+  :global(.MuiSvgIcon-root) {
+    color: $icon-color !important;
+  }
+
+  :global(.MuiOutlinedInput-input::placeholder) {
+    color: $placeholder-color !important;
+    opacity: 1 !important;
+    font-family: $font !important;
+  }
+  :global(.MuiSelect-select) {
+    padding-right: 15px !important;
+  }
+
+  :global(.MuiOutlinedInput-input) {
+    padding-right: 15px !important;
+  }
+  
+}
+
+@mixin bordered-container($padding: 1rem, $border-color:$lightGray, $radius: 0.6rem) {
+  border: 1px solid $border-color;
+  border-radius: $radius;
+  padding: $padding;
+}
+@mixin custom-scrollbar($thumb-color: $blue, $thumb-radius: 5px, $width: 5px) {
+  &::-webkit-scrollbar {
+    width: $width;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: $thumb-color;
+    border-radius: $thumb-radius;
+  }
+}
+
+////////////////////////////////////////////////////////////////
+@mixin boxShadow($color) {
+  box-shadow: 0px 4px 4px $color;
+}
+
+@mixin transitionAnimtion() {
+  -webkit-transition: all 0.3s ease;
+  -moz-transition: all 0.3s ease;
+  -ms-transition: all 0.3s ease;
+  -o-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+}
+
+@mixin gradientBg() {
+  background: linear-gradient($bankingColor 0%, $blue 100%);
+}
+
+@mixin dropShadow() {
+  box-shadow: 0px 10px 40px $bankingColorOpacity08;
+}
+
+@mixin iconLabel($color) {
+  background-color: $color;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}

@@ -1,0 +1,74 @@
+@use '@/assets/styles/utils/mixins' as *;
+@use '@/assets/styles/utils/variables' as *;
+.card{
+    @include card-styles(var(--stats-cards-color), 0.8rem,10px );
+    border-color: var(--cards-border-color) !important;
+
+    .iconLabel {
+        display: flex;
+        flex-direction: column; 
+        gap: $spacing-xs;
+        .iconWrapper {
+            background-color: var(--color-bg-icon);
+            border-radius: 50%; 
+            padding: 0.5rem;     
+            @include flex-center;
+            @include icon-size(24px);
+          }
+          .icon {
+            color: $blue;
+            object-fit: contain;
+          }
+          .label{
+            color: var(--text-color);
+            font-family: $interMedium;
+          }
+      }
+      .valueChange {
+        margin-top: 10px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center; 
+        width: 100%;
+        
+        .value {
+          font-family: $titleBold;
+          font-size: 2.5rem;
+          color: var(--text-color);
+          line-height: 1;
+        }
+        
+        .changeContainerPositive {
+        font-family: $interMedium;
+          display: flex;
+          align-items: center; 
+          gap: 0.25rem; 
+          color: var(--color-stat-indicator);
+          font-size: 1rem; 
+          margin-left: auto; 
+        }
+        .changeContainerNegative{
+          color: red;
+        }
+      }
+      
+}
+
+.statsGrid {
+  display: grid;
+  grid-auto-flow: column;
+  grid-template-columns: repeat(4, 1fr); 
+  gap: $spacing-l;
+  box-sizing: border-box;
+  @include scroll-snap(x);
+
+
+  @include media-query(mobile) {
+    grid-template-columns: none;        
+    grid-auto-columns: 190px;           
+  }
+  @include media-query(tablet) {
+    grid-template-columns: none;        
+    grid-auto-columns: 190px;           
+  }
+}

@@ -1,0 +1,41 @@
+@use '@/assets/styles/utils/mixins' as *;
+@use '@/assets/styles/utils/variables' as *;
+@import '@/assets/styles/ui/_table.scss';
+
+
+.card {
+    @include card-styles(var(--fo-card-color), 1rem, 20px, 1px solid var(--fo-card-bordercolor));
+}
+
+.savedOpportunitiesTitle {
+    @include textStyle(var(--resumes-title-color), 1.4rem, $titleSemiBold, left);
+
+    @include media-query(mobile, tablet, desktop, laptops, largeScreens) {
+        margin-top: 0px;
+    }
+}
+
+.titleContainer {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.industriesIcons {
+    @include icon-size(25px);
+
+    @include media-query(mobile, tablet) {
+        @include icon-size(22px);
+    }
+
+    filter: var(--industries-icons-color);
+}
+
+.statusPill {
+    @include status-pill;
+}
+
+.unsaveIcon {
+    @include icon-size(20px);
+    color: $vividYellow;
+}

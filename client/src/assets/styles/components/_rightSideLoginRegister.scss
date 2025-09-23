@@ -1,0 +1,21 @@
+@use '@/assets/styles/utils/mixins' as *;
+@use '@/assets/styles/utils/variables' as *;
+.right {
+    background-color: var(--color-surface3);
+    display: flex;
+    align-items: flex-start; 
+    justify-content: center; 
+    position: relative;
+    min-height: 100vh;
+  }
+  
+  .map_image {
+    width: 1000px;
+    height: 100vh;
+    object-fit: cover;
+    display: block;
+    @include media-query(extraLargeScreens) {
+      width: 1400px;
+    }
+  }
+  

@@ -1,0 +1,29 @@
+@use '@/assets/styles/utils/mixins' as *;
+@use '@/assets/styles/utils/variables' as *;
+
+.filtersWrapper{
+  display: grid;
+  grid-template-columns: repeat(3, 1fr) auto; 
+  gap: 20px;
+  width: 100%;
+  align-items: center;
+  padding-bottom: 30px;
+  padding-top: 10px;
+  @include media-query(extraLargeScreens){
+    padding-bottom: 40px;
+  }
+@include media-query(mobile) {
+    gap: 8px;
+    grid-template-columns: repeat(2, 1fr);
+    padding-bottom: 0;
+  }
+
+  @include mui-form-style(
+    $border-color: $grey1,
+    $input-height: 2.5rem,
+    $text-color: $grey1,
+    $placeholder-color: $grey1,
+    $background: transparent
+  );
+  @include checkboxStyle($grey1, $grey1, 0.9rem, $interMedium);
+}

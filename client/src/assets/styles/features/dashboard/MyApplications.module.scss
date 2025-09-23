@@ -1,0 +1,64 @@
+@use '@/assets/styles/utils/mixins' as *;
+@use '@/assets/styles/utils/variables' as *;
+@use './applicationHistory' as *;
+@use './statCard' as *;
+
+
+.filtersWrapper {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr) auto; 
+  gap: 20px;
+  width: 100%;
+  align-items: center;
+
+  @include mui-form-style(
+    $border-color: $grey1,
+    $input-height: 2.5rem,
+    $text-color: $grey1,
+    $placeholder-color: $grey1,
+    $background: transparent
+  );
+
+}
+.dateRangeWrapper{
+  span{
+    @include mui-form-style(
+      $border-color: $grey1,
+      $input-height: 2.5rem,
+      $text-color: $grey1,
+      $placeholder-color: $grey1,
+      $background: transparent
+    );
+     @include textStyle($darkBlue, 0.9rem, $interMedium);
+      padding: 0.7rem 1.75rem;
+      border-radius: 999px;
+      border: 1px solid $grey1;
+      white-space: nowrap;
+      height: 2.5rem; 
+      cursor: pointer;
+  }
+}
+
+.searchInputWrapper,
+.selectWrapper {
+  width: 100%;
+}
+
+.actionButtons {
+  grid-column: 5 / 6; 
+  display: flex;
+  justify-content: flex-start;
+  gap: 10px;
+  padding-left: 30px; 
+
+  .searchButton {
+    @include button-style(transparent, $blue, $blue);
+  }
+
+  .clearSearchButton {
+    @include button-style(transparent, $darkBlue, $darkBlue);
+  }
+  .refreshIcon{
+    color: $darkBlue !important;
+  }
+}

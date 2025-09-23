@@ -1,0 +1,10 @@
+.button {
+    position: absolute;
+    right: 20px;
+    padding: 8px 16px;
+    z-index: 10;        /* assez haut pour passer au-dessus du canvas */
+    background: white;
+    border: 1px solid black;
+    cursor: pointer;
+  }
+  

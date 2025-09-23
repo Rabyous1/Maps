@@ -1,0 +1,262 @@
+
+@use '@/assets/styles/utils/variables' as *;
+@use '@/assets/styles/utils/mixins' as *;
+
+.dialogPaper {
+  border-radius: 10px;
+  padding: 0;
+  max-width: 600px; 
+  width: 90vw; 
+  background-color: $white;
+  overflow: visible; 
+  display: flex;
+  flex-direction: column;
+}
+
+.dialogContent {
+  padding-top: 0 !important;
+}
+.dialogTitle {
+  text-align: center;
+  font-size: 1.25rem;
+  font-family: $titleSemiBold;
+  color: $black;
+  margin-top: 0px;
+  
+}
+
+.headerContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: $spacing-md;
+}
+
+.uploadNew {
+  display: inline-flex;
+  align-items: center;
+  font-size: 1rem;
+  font-family: $interSemiBold;
+  color: $darkSlateBlue;
+  background: none;
+  border: none;
+  cursor: pointer;
+  border-bottom: 1.8px solid $darkSlateBlue;
+  padding-bottom: 4px; 
+  margin-left: auto; 
+  margin-bottom: $spacing-md;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.uploadIcon {
+  margin-right: $spacing-sm;
+  color: $darkSlateBlue;
+}
+
+
+.dialogImage {
+  display: block;
+  margin: $spacing-sm auto $spacing-xxs auto;
+  width: 120px;
+  height: auto;
+}
+
+
+.resumeList {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+}
+
+.resumeItem {
+  display: flex;
+  align-items: center;  
+  justify-content: space-between;
+  background-color: $white;
+  border: 2px solid $lightBlue;
+  border-radius: 50px;
+  padding: $spacing-sm $spacing-md;
+  font-family: $interMedium;
+  font-size: 0.95rem;
+  color: $black;
+  cursor: pointer;
+  transition: border 0.2s ease;
+
+  &:hover {
+    border-color: $blue;
+  }
+
+  span {
+    flex: 1;
+  }
+
+  .actions{
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+  }
+
+  .MuiRadio-root {
+    color: $blue;
+  }
+
+  .Mui-checked {
+    color: $blue !important;
+  }
+}
+
+.selected {
+  border-color: $blue;
+}
+
+.downloadIcon {
+  margin: 0 $spacing-md;
+  color: $darkSlateBlue;
+}
+
+.showMoreBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin: $spacing-md auto 0 auto;
+  font-size: 0.9rem;
+  font-family: $interSemiBold;
+  background: none;
+  border: none;
+  color: $darkSlateBlue;
+  cursor: pointer;
+
+  &:hover {
+    text-decoration: underline;
+  }
+
+  .MuiSvgIcon-root {
+    margin-left: $spacing-xs;
+    color: $darkSlateBlue;
+    transition: transform 0.3s ease;
+  }
+
+  .rotated {
+    transform: rotate(180deg);
+  }
+}
+
+
+
+.chevron {
+  margin-left: $spacing-xs;
+  transition: transform 0.3s ease;
+}
+
+.rotated {
+  transform: rotate(180deg);
+}
+
+.dialogActions {
+  
+  
+  display: flex;
+  justify-content: flex-end;
+  gap: $spacing-sm;
+  margin: $spacing-md; 
+  margin-top: $spacing-md; 
+
+  button {
+    border-radius: 40px;
+    padding: $spacing-sm $spacing-xxl;
+    font-weight: 500;
+    font-family: $interMedium;
+    font-size: 0.95rem;
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+}
+
+.cancelButton {
+  background-color: transparent;
+  border: 1px solid $blue;
+  color: $blue;
+
+  &:hover {
+    background-color: $blueopacity1;
+  }
+}
+
+
+.applyButton {
+  background-color: $blue;
+  color: $white;
+
+  &:hover {
+    background-color: $darkSlateBlue;
+  }
+
+  &:disabled {
+    background-color: $lightBlue;
+    color: $lightGray;
+    cursor: not-allowed;
+  }
+}
+
+.uploadingInfo {
+  margin-top: $spacing-sm;
+  font-size: 0.85rem;
+  color: $darkSlateBlue;
+  font-family: $interRegular;
+  display: flex;
+  align-items: center;
+
+  .uploadingText {
+    display: inline-block;
+    animation: pulse 1.2s infinite;
+  }
+}
+
+@keyframes pulse {
+  0% { opacity: 1; }
+  50% { opacity: 0.4; }
+  100% { opacity: 1; }
+}
+.innerContainer {
+  display: flex;
+  flex-direction: column;
+  padding: $spacing-md;
+  padding-top: $spacing-sm;
+  gap: $spacing-md;
+  overflow: hidden;
+}
+
+.headerSticky {
+  position: sticky;
+  top: 0;
+  background-color: $white;
+  padding-bottom: $spacing-sm;
+  z-index: 2;
+}
+
+.resumeList {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+  overflow-y: auto;
+}
+
+.resumeListLimited {
+  max-height: 200px;
+  overflow-y: auto;
+  padding-right: 4px; 
+}
+
+.downloadIcon {
+  margin-right: 8px;
+  color: #888;
+  cursor: pointer;
+
+  &:hover {
+    color: #444;
+  }
+}

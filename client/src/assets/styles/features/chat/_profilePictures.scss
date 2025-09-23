@@ -1,0 +1,70 @@
+ @use '@/assets/styles/utils/mixins' as *;
+@use '@/assets/styles/utils/variables' as *;
+
+.avatar {
+  --avatar-size: 42px;
+  width: var(--avatar-size);
+  height: var(--avatar-size);
+  font-size: calc(var(--avatar-size) * 0.5);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  object-fit: cover;
+  border-radius: 50%;
+  text-transform: uppercase;
+}
+
+
+.withBorder {
+  border: 3px solid $white;
+  box-shadow: 0 -4px 4px -2px var(--convprofilePicture-boxshadow-color);
+
+}
+.onlineBadge {
+  bottom: 12px !important;
+  right: 6px !important;
+  @include icon-size(10px !important);
+  border-radius: 50% !important;
+  background-color: var(--convprofilePicture-onlineBadge-bgcolor);
+  box-shadow: 0 0 0 1px var(--convprofilePicture-boxshadowOnlineBadge-color);
+}
+
+.badgeNoBorder {
+  .onlineBadge {
+    bottom: 8px !important;
+    right: 3px !important;
+    @include icon-size(12px !important);
+    box-shadow: 0 0 0 1px var(--convprofilePicture-boxshadowOnlineBadge-color);
+  }
+}
+.groupAvatars{
+  padding-right: 8px;
+  padding-top: 11px;
+}
+
+.avatarGray {
+  background-color: $grey1 ;
+}
+
+$avatar-colors: (
+  #a084dc,     
+  #797eff,  
+  #a0144f, 
+  #14532d, 
+  #ffab40,   
+  #045b62,
+  $grey1,    
+  #e38072,   
+  #462a68,  
+  #83351c,   
+  #d7aa65,   
+  #f6d5e5,     
+  #abebc6,  
+  $vividYellow  
+);
+
+@for $i from 0 through length($avatar-colors) - 1 {
+  .avatar#{$i} {
+    background-color: nth($avatar-colors, $i + 1) !important;
+  }
+}

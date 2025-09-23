@@ -1,0 +1,112 @@
+@use '@/assets/styles/utils/mixins' as *;
+@use '@/assets/styles/utils/variables' as *;
+@use "../../components/formDialog" as *;
+@use "./qrCodeDialog" as *;
+
+.container {
+  display: grid;
+  grid-auto-rows: min-content;
+  height: calc(100vh - 150px);
+  gap: $spacing-lg;
+  @include media-query(extraLargeScreens){
+    gap: $spacing-xxl;
+  }
+  @include scroll-normal(y);
+
+}
+
+.cardContent {
+  gap: $spacing-md-lg;
+  @include two-column-grid-full-height(2fr 1fr);
+}
+.contentLeft{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.card {
+  @include card-styles(var(--settings-cards-color), 2rem, $spacing-m);
+  padding: 0 !important;
+    @include media-query(mobile,tablet){
+       padding: $spacing-md-lg !important;
+    }
+      @include media-query(laptops, largeScreens,desktop){
+       padding: 18.5px !important;
+    }
+    @include media-query(extraLargeScreens){
+      padding: $spacing-xxl !important;
+   }
+ 
+  .title {
+    @include textStyle(var(--settings-title-color), 1rem, $titleSemiBold, left);
+    margin: 0 !important;
+  }
+  .cardDescription {
+    @include textStyle(var(--settings-subtitle-color), 0.9rem, $interMedium, left);
+    padding-bottom: $spacing-l;
+    padding-top: $spacing-m;
+   @include media-query(mobile){
+    padding-bottom: $spacing-xs;
+    padding-top: 0;
+   }
+   @include media-query(tablet){
+    padding-bottom: $spacing-md;
+    padding-top: 0;
+   }
+   @include media-query(largeScreens){
+    padding-bottom: $spacing-md;
+    padding-top: 0;
+   }
+  }
+
+  .icon {
+    justify-self: center;
+    align-self: center;
+    @include icon-size(140px);
+
+    @include media-query(mobile) {
+      @include icon-size(80px);
+    }
+    @include media-query(tablet) {
+      @include icon-size(120px);
+    }
+  }
+
+  .qrButton,
+  .passwordButton {
+    @include button-style(var(--settings-buttons-bgcolor),
+      var(--settings-buttons-color),
+      var(--settings-buttons-color));
+
+    &:hover {
+      @include button-style(var(--settings-buttons-hoverbgcolor),
+        var(--settings-buttons-hovercolor),
+        var(--settings-buttons-hoverbgcolor));
+    }
+  }
+
+  .deleteAccountButton {
+    @include button-style(var(--settings-buttons-bgcolor),
+      var(--settings-account-color),
+      var(--settings-account-color));
+
+    &:hover {
+      @include button-style(var(--settings-account-color),
+        var(--settings-account-hovercolor),
+        var(--settings-account-color));
+    }
+  }
+
+  .qrButton,
+  .passwordButton,
+  .deleteAccountButton {
+    width: 200px;
+    @include media-query(mobile) {
+      width: 143px;
+    }
+    @include media-query(extraLargeScreens) {
+      padding-bottom: $spacing-m;
+    }
+  }
+}

@@ -1,0 +1,86 @@
+@use '@/assets/styles/utils/mixins' as *;
+@use '@/assets/styles/utils/variables' as *;
+@use "@/assets/styles/ui/form" as *;
+@import '@/assets/styles/ui/_table.scss';
+
+
+.card.usersListCard{
+@include card-styles(var(--users-card-color), 1.3rem,15px);
+border-color: var(--users-card-color) !important;
+
+  max-height: calc(100vh - 240px);
+  overflow-y: auto !important;
+  scroll-behavior: smooth;
+  overscroll-behavior: contain;
+
+  @include media-query(extraLargeScreens) {
+    max-height: calc(100vh - 200px);
+  }
+    @include media-query(tablet) {
+    max-height: calc(100vh - 230px);
+  }
+
+  @include custom-scrollbar($thumb-color: $blue2);
+}
+.uersTitle{
+  margin-top: 0px;
+  @include textStyle($blue, 1.3rem, $titleSemiBold, left);
+}
+
+
+.actionsColumn
+{
+ .editIcon, .deleteIcon, .recoverIcon {
+    @include icon-size(22px);
+  }
+    .deleteIcon {
+    color: $brightRed !important;
+  }
+
+  .editIcon {
+    color: $blue !important;
+  }
+  .recoverIcon{
+    color: $vividYellow !important;
+  }
+}
+.checkText {
+  color: green !important;
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+.crossText {
+  color: darkblue !important;
+  font-weight: bold;
+  font-size: 1rem;
+}
+.dialogPaper {
+  border-radius: 10px !important;
+  background-color: var(--dialog-image-color) !important;
+}
+  
+  .dialogHeader{
+display: flex;
+justify-content: space-between
+}
+.titleText{
+  @include textStyle($blue, 1.5rem, $titleSemiBold, left);
+}
+.closeIcon{
+    color: var(--delete-cancel-text-color);
+    @include icon-size(10px)
+}
+.actionButtons{
+    display: flex;
+    justify-content: space-between;
+.submitbutton {
+    @include button-style(var(--submit-button-bg),
+        var(--submit-button-text),
+        var(--submit-button-border),
+    );
+}
+  .cancelButton {
+    @include button-style(transparent, $darkBlue, $darkBlue);
+  }
+}

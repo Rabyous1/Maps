@@ -1,0 +1,39 @@
+@use '@/assets/styles/utils/mixins' as *;
+@use '@/assets/styles/utils/variables' as *;
+
+
+.container {
+  display: grid;
+  grid-template-columns: $sidebar-width 1fr;
+  gap: $spacing-xl;
+  min-height: 100vh;
+  transition: grid-template-columns 0.3s ease;
+  background-color: var(--color-surface2);
+  @include media-query(tablet) {
+    grid-template-columns: $sidebar-width-tablet 1fr;
+  }
+  &.collapsed {
+    grid-template-columns: $sidebar-collapsed-width 1fr;
+  }
+
+  @include media-query(mobile) {
+    grid-template-columns: 1fr !important;
+    .container {
+      display: block;
+    }
+    gap: 0;
+    padding: 0;
+  }
+}
+
+.main {
+  padding: $spacing-lg;
+  padding-bottom: 0;
+  display: flex;
+  flex-direction: column;
+  background: var(--color-surface2);;
+  overflow-y: hidden;
+  /*> * + * {
+    margin-bottom:$spacing-lg; 
+  }*/
+}

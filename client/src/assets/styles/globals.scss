@@ -1,0 +1,80 @@
+@import "./utils/mixins";
+@import "./utils/variables";
+@import './utils/theme';
+
+.sun-editor * {
+  font-family: 'Inter', 'Quicksand', sans-serif !important;
+}
+
+
+body {
+  margin: 0;
+  
+  //background-color: $lightBlue;
+  font-family: $interMedium;
+}
+html {
+  font-size: 12px;
+
+  @include media-query(mobile) {
+    font-size: 12px;
+  }
+
+  @include media-query(tablet) {
+    font-size: 14px;
+  }
+
+  @include media-query(laptops) {
+    font-size: 15px;
+  }
+
+  @include media-query(desktop) {
+    font-size: 16px;
+  }
+
+  @include media-query(largeScreens) {
+    font-size: 17px;
+  }
+
+  @include media-query(extraLargeScreens) {
+    font-size: 18px;
+  }
+}
+
+
+.MuiDrawer-root .MuiBackdrop-root,
+.MuiDialog-root .MuiBackdrop-root {
+  background-color: #FFFFFF78;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+.fc-custom-event { display:flex; align-items:center; gap:8px; }
+.fc-dot { width:8px; height:8px; border-radius:50%; background: $vividYellow; flex:0 0 auto; }
+.fc-time {color: $vividYellow;}
+
+.fc .fc-col-header thead tr,
+.fc .fc-col-header-cell,
+.fc .fc-col-header-cell .fc-col-header-cell-cushion {
+  background-color: $grey1 !important;
+  color: #fff !important;
+  border: none !important;
+}
+
+.fc .fc-toolbar,
+.fc .fc-header-toolbar,
+.fc .fc-toolbar-chunk {
+  color: $white !important;
+  
+  border-bottom: none !important;
+}
+
+.fc .fc-toolbar-title{
+  @include textStyle($darkBlue, 1.5rem, $titleBold, left);
+
+}
+.fc .fc-button,
+.fc-button-group .fc-button {
+  @include textStyle($white, 1rem, $titleSemiBold, left);
+
+}
+

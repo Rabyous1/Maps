@@ -1,0 +1,105 @@
+@use '@/assets/styles/utils/mixins' as *;
+@use '@/assets/styles/utils/variables' as *;
+@use "@/assets/styles/ui/form" as *;
+
+.container {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-height: 100vh;
+  background-image: url('../../../images/png/passwordBg.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  overflow: hidden;
+}
+
+.content {
+  padding: 2rem;
+  display: grid;
+  gap: 2rem;
+
+  @include media-query(desktop) {
+    max-width: 420px;
+  }
+
+  @include media-query(laptops) {
+    max-width: 380px;
+  }
+
+  @include media-query(tablet) {
+    max-width: 90%;
+  }
+
+  @include media-query(mobile) {
+    max-width: 90%;
+  }
+}
+
+.title {
+  @include titleStyle(var(--titles), 2.25rem);
+}
+
+.subtitle {
+  @include textStyle(var(--subtitles), 0.9rem);
+  padding-bottom: $spacing-md-lg;
+}
+
+.otpInputs {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  margin: 1.5rem 0;
+}
+
+.otpInput {
+  width: 52px;
+  height: 58px;
+  font-size: 1.6rem;
+  text-align: center;
+  border-radius: 10px;
+  border: 2px solid #b6aaff; // mauve clair
+  color: #6b5cff; // violet texte
+  background-color: #f9f9ff;
+  transition: border 0.3s;
+
+  &::placeholder {
+    color: #bcb6ff;
+    font-size: 1.6rem;
+  }
+
+  &:focus {
+    outline: none;
+    border-color: #6b5cff;
+    box-shadow: 0 0 0 2px rgba(107, 92, 255, 0.2);
+  }
+}
+
+.empty::placeholder {
+  content: "-";
+}
+
+.backButton {
+  background: none;
+  border: none;
+  color: #6b5cff;
+  font-size: 0.9rem;
+  margin-top: 1rem;
+  cursor: pointer;
+  transition: 0.3s;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+
+
+.submitbutton {
+  margin-top: $spacing-md-lg !important;
+  @include button-style(
+    var(--submit-button-bg),
+    var(--submit-button-text),
+    var(--submit-button-border)
+  );
+}

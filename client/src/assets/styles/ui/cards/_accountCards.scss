@@ -1,0 +1,50 @@
+@use '@/assets/styles/utils/mixins' as *;
+@use '@/assets/styles/utils/variables' as *;
+
+
+.card {
+  @include card-styles(var(--profile-cards-color), 1.5rem, 10px);
+  padding-top: 14px;
+
+
+  &.namePicSectionCard {
+    background-image: url('../../../images/png/profilePictureBg.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    align-items: flex-start;
+    padding-top: 10px;
+  }
+}
+
+.title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  @include titleStyle(var(--profile-cards-title), 1rem);
+}
+
+
+.editButton {
+  display: flex;
+  align-items: center;
+  @include button-style(transparent,
+    var(--profile-cards-title),
+    transparent,
+    1rem);
+
+  .icon {
+    @include icon-size(24px);
+    color: $blue;
+  }
+
+  &:hover {
+    .icon {
+      filter: $whiteSvgIcon;
+    }
+
+    @include button-style($darkBlue,
+      $white,
+      $darkBlue );
+  }
+}

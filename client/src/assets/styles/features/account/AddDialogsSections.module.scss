@@ -1,0 +1,49 @@
+@use '@/assets/styles/utils/mixins' as *;
+@use '@/assets/styles/utils/variables' as *;
+@use "../../components/formDialog" as *;
+
+.emptySkillsText{
+  @include textStyle(var(--subtitles), 0.9rem);
+}
+.addSkillButton{
+  @include button-style(transparent, $blue, $blue);
+}
+.addButton{
+  @include button-style(transparent, $blue, transparent, $font-size: 0.9rem);
+  .addIcon{
+  @include icon-size(20px);
+  }
+}
+.removeItemButton{
+  @include button-style(transparent, $error-color, transparent, $font-size: 0.9rem);
+  margin: 15px 0 !important;
+    .removeIcon{
+      @include icon-size(20px);
+    }
+}
+.skillsContainer {
+  @include bordered-container($padding: 0.6rem 1rem);
+  @include custom-scrollbar;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  max-height: 14rem;
+  overflow-y: auto;
+}
+.skills {
+  @include textStyle($dustyBlue, 0.9rem, $interMedium);
+  border: 1px solid $grey1;
+  border-radius: 10rem;
+  padding: 0.2rem 0.6rem;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+.dialogPaper {
+.label{
+  padding-top: 5px !important;
+}
+}
+.actionButtons {
+  background-color: white;
+}

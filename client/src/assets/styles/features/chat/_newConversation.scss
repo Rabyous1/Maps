@@ -1,0 +1,161 @@
+@use '@/assets/styles/utils/mixins' as *;
+@use '@/assets/styles/utils/variables' as *;
+
+.newConvSearchContainer {
+  padding: $spacing-md $spacing-lg 0 $spacing-lg;
+  @include media-query(mobile){
+    padding: 0 $spacing-lg 0 $spacing-lg;
+  }
+
+}
+
+.mainGroupContainer {
+  padding: 0 $spacing-lg $spacing-md $spacing-lg;
+
+  .frequentUsersTitle {
+    @include textStyle(var(--newconv-frequentUsersTitle-color), 0.9rem, $titleSemiBold, left);
+  }
+}
+
+.submitbutton {
+  @include button-style(var(--newconv-groupsubmitbutton-bgcolor), var(--newconv-groupsubmitbutton-textcolor), var(--newconv-grousubmitbutton-bgcolor));
+}
+
+.resultsList {
+  display: flex;
+  flex-direction: column;
+  padding-top: $spacing-m;
+}
+
+.userItem {
+  display: flex;
+  gap: $spacing-md;
+  padding: $spacing-m;
+  justify-content: space-between;
+
+  &:hover {
+    background-color: var(--newconv-frequserItem-hoverbgcolor);
+    border-radius: $spacing-m;
+  }
+}
+
+.userInfo {
+  display: flex;
+  gap: $spacing-md;
+  cursor: pointer;
+}
+
+.userCheckbox {
+  color: var(--newconv-frequserItemcheckbox-color) !important;
+
+  &.Mui-checked {
+    color: var(--newconv-frequserItemcheckbox-color) !important;
+  }
+}
+
+.userFullname {
+  @include textStyle(var(--newconv-frequserItemName-color), 0.9rem, $titleBold, left);
+  @include flex-center;
+}
+.noSearchIconContainer{
+  @include flex-center;
+}
+.resultText {
+  @include textStyle(var(--newconv-result-textColor), 1rem, $titleBold);
+}
+
+.searchingForText {
+  @include textStyle(var(--newconv-result-textColor), 0.9rem, $titleSemiBold, left);
+}
+
+.groupForm {
+  margin: $spacing-l $spacing-l 0 $spacing-l;
+  @include media-query(mobile){
+    margin: 15px $spacing-l 0 $spacing-l;
+  }
+  display: flex;
+  gap: 15px;
+  @include mui-form-style(
+    $border-radius: 2.5rem,
+    $text-color: var(--newconv-newgroupform-color),
+    $font: $interRegular,
+    $background: var(--dialog-image-color),
+  ); 
+}
+
+.actionButtons {
+  @include flex-center(0.5rem);
+
+  .submitbutton {
+    @include button-style(var(--submit-button-bg),
+      var(--submit-button-text),
+      var(--submit-button-border));
+  }
+}
+
+/////
+.selectedUsersContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.2rem;
+  padding: $spacing-m $spacing-lg;
+}
+
+.selectedUser {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  width: 80px;
+}
+
+
+.removeUserBtn {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  background: var(--newconv-removeUserBtn-bgcolor);
+  border: 1px solid ;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  font-size: 14px;
+  cursor: pointer;
+  @include flex-center(0.5rem);
+  padding: 0;
+  line-height: 1;
+}
+
+.selectedUserName {
+  margin-top: 0.5rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 80px;
+  @include textStyle(var(--newconv-groupSelectedName-textColor), 0.7rem, $interRegular);
+
+}
+
+.removeUserBadge {
+  color: var(--newconv-removeUserBadge-color);
+  border: none;
+  border-radius: 50%;
+  width: 18px;
+  height: 18px;
+  font-weight: bold;
+  font-size: 14px;
+  cursor: pointer;
+  @include flex-center(0.5rem);
+  padding: 0;
+  line-height: 1;
+  user-select: none;
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
+}
+
+.removeUserBadge:hover {
+  color: var(--newconv-removeUserBadge-hovercolor);
+}
+.errorText {
+  padding-left:$spacing-lg; 
+  @include textStyle(var(--newconv-newgroup-errorTextcolor), 0.9rem, $titleSemiBold, left);
+}

@@ -1,0 +1,75 @@
+version: '3.8'
+
+services:
+  # Base de données PostgreSQL
+  postgres:
+    image: postgres:15-alpine
+    container_name: pentabell-postgres
+    environment:
+      POSTGRES_DB: maps
+      POSTGRES_USER: maps
+      POSTGRES_PASSWORD: maps
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - pentabell-network
+    restart: unless-stopped
+
+  # Serveur Backend (API)
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    container_name: pentabell-server
+    environment:
+      NODE_ENV: production
+      APP_PORT: 4000
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: maps
+      DB_USER: maps
+      DB_PASSWORD: maps
+      ACCESS_TOKEN_PRIVATE_KEY: 261f7b964552d435d16a7c21ea928d8b25b7fc456125d8a30ece68fba6412f08
+      REFRESH_TOKEN_PRIVATE_KEY: cf4bfbf315106364e09a0e0b401b019cd06774fc09db35edb65209d85ab115a0
+      SESSION_SECRET: 3a7f8b1c4d9e2f5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9
+      ALLOWED_IPS: http://localhost:3000,http://client:3000
+      CORS_DOMAIN: http://localhost:3000
+      SMTP_HOST: smtp.gmail.com
+      SMTP_PORT: 465
+      SMTP_USER: khedmapfe@gmail.com
+      SMTP_PASSWORD: 'zshl gnnj pmix wtjd'
+    ports:
+      - "4000:4000"
+    volumes:
+      - ./server/uploads:/app/uploads
+    depends_on:
+      - postgres
+    networks:
+      - pentabell-network
+    restart: unless-stopped
+
+  # Client Frontend (React)
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    container_name: pentabell-client
+    environment:
+      REACT_APP_API_URL: http://localhost:4000/api/v1
+    ports:
+      - "3000:3000"
+    depends_on:
+      - server
+    networks:
+      - pentabell-network
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+    driver: local
+
+networks:
+  pentabell-network:
+    driver: bridge

@@ -1,0 +1,109 @@
+@use '@/assets/styles/utils/mixins' as *;
+@use '@/assets/styles/utils/variables' as *;
+
+
+.dashboardHeader {
+  display: flex;
+  justify-content: space-between; 
+  align-items: center;           
+  margin-bottom: 1rem;          
+}
+
+.dashboardTitle {
+  margin: 0;
+}
+
+.datePicker {
+  max-width: 300px;  
+  width: 100%;
+   @include mui-form-style(
+    $border-color: var(--dashboard-header-color),
+    $input-height: 2.5rem,
+    $text-color: var(--dashboard-header-color),
+    $placeholder-color: var(--dashboard-header-color),
+    $background: transparent
+  );
+}
+
+.dashboardTitle{
+  @include textStyle(var(--dashboard-header-color), 1.4rem, $titleSemiBold, left);
+
+  @include media-query(mobile, tablet, desktop, laptops, largeScreens) {
+    margin-top: 0px;
+  }
+}
+.cardsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  @include media-query(mobile){
+  grid-template-columns: repeat(1, 1fr);
+  }
+  .fullRow {
+    grid-column: 1 / -1;
+  }
+  max-height: calc(100vh - 210px);
+  overflow-y: auto;
+  // scroll-behavior: smooth;
+  overscroll-behavior: contain;
+  @include custom-scrollbar($thumb-color: $dustyBlue);
+  @include media-query(tablet){
+    max-height: calc(100vh - 235px);
+  }
+  @include media-query(extraLargeScreens){
+    max-height: calc(100vh - 250px);
+  }
+}
+
+.card {
+    @include card-styles(var(--fo-card-color), 1rem,10px , 1px solid var(--fo-card-bordercolor));
+}
+.chartContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;  
+}
+.chartmargin{
+  margin-top: 25px !important;
+}
+.title{
+      @include textStyle($dustyBlue, 1.1rem, $titleSemiBold, left);
+}
+
+.commEngagementChartContainer {
+  width: 100%;
+  height: 250px;
+  max-width: 500px;
+  margin: 0 auto; 
+  position: relative;
+}
+
+
+.chartCenteredText {
+  font-size: 24px;
+  font-weight: bold;
+  fill: var(--dashboard-contentchart-textcolor);
+  text-anchor: middle;
+  dominant-baseline: middle;
+}
+.overallText{
+  @include textStyle(var(--dashboard-header3-color), 1.3rem, $titleSemiBold, left);
+  margin-bottom: 0 !important;
+}
+.resumeStat{
+  @include textStyle(var(--dashboard-header-color), 0.9rem, $titleSemiBold);
+}
+.experienceChart
+{
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 2rem;
+  justify-content: center;
+  @include media-query(mobile){
+    gap: 5px
+  }
+}
+.statusTextExperienceChart{
+  @include textStyle(var(--dashboard-header2-color), 1.2rem, $titleSemiBold);
+}

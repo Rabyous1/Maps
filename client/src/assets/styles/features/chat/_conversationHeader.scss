@@ -1,0 +1,28 @@
+@use '@/assets/styles/utils/mixins' as *;
+@use '@/assets/styles/utils/variables' as *;
+
+.chatHeaderLeft {
+  @include flex-center;
+  gap: 0.75rem;
+}
+
+.chatUserInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.chatStatus,
+.chatMembersNames {
+  @include textStyle(var(--convHeader-chatStatus-color), 0.8rem, $interRegular, left);
+}
+
+.chatUsername {
+  @include textStyle(var(--convHeader-chatUsername-color), 1rem, $interSemiBold, left);
+  word-break: break-word;
+}
+
+.groupBadge {
+  height: 40px !important;
+  width: 40px !important;
+}

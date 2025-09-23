@@ -1,0 +1,35 @@
+@use "@/assets/styles/utils/variables" as *;
+@use '@/assets/styles/utils/mixins' as *;
+@use "../../components/formDialog" as *;
+
+  
+  .warningBox {
+    background-color: var(--delete-dialog-warningBox-bg-color);
+    padding: 1.5rem;
+    border-radius: $border-sm;
+    @include textStyle(var(--delete-dialog-red-text-color), 1rem, $interRegular, left);
+  }
+.closeIcon{
+    color: var(--delete-cancel-text-color);
+}
+  .cancelButton {
+    background: none;
+    border: none;
+    color: var(--delete-cancel-text-color);
+    cursor: pointer;
+    padding: 0.5rem 1rem;
+  }
+  
+  .deleteButton {
+    color: var(--delete-delete-text-color);
+    background-color: var(--delete-delete-bg-color);
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: $border-sm;
+    cursor: pointer;
+  }
+  
+  .deleteButton:hover {
+    background-color: var(--delete-dialog-red-text-color);
+  }
+  

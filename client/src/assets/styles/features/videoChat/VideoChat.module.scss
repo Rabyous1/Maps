@@ -1,0 +1,464 @@
+@use '@/assets/styles/utils/mixins' as *;
+@use '@/assets/styles/utils/variables' as *;
+@use './ratingCandidateDialog' as *;
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-m;
+  min-height: 0;
+}
+
+.wrapper2 {
+  max-height: calc(100vh - 140px);
+  overflow-y: auto;
+  scroll-behavior: smooth;
+  overscroll-behavior: contain;
+  box-sizing: border-box;
+  min-height: 0;
+  @include mui-form-style($input-height: 3rem, $border-color: $grey1, $background: transparent, $placeholder-color: $grey1);
+
+
+  @include media-query(extraLargeScreens) {
+    max-height: calc(100vh - 200px);
+  }
+  @include media-query(extraLargeScreens) {
+    max-height: calc(100vh - 130px);
+  }
+
+  @include custom-scrollbar($thumb-color: $dustyBlue);
+}
+
+.userListTitle {
+  @include textStyle($blue, 1.2rem, $interSemiBold, left);
+  margin: 0 !important;
+  padding-bottom: 10px !important;
+}
+
+.userList {
+  display: flex;
+  flex-direction: row;
+  gap: $spacing-m;
+  align-items: stretch;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  overflow-y: visible;
+  padding: $spacing-m 0;
+  -webkit-overflow-scrolling: touch;
+}
+
+.userList>* {
+  flex: 0 0 225px;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  height: auto;
+  min-height: 0;
+}
+
+.userList>* .cardContent,
+.userList>* .generic-card__body {
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+
+.userCheckbox {
+  color: var(--newconv-frequserItemcheckbox-color) !important;
+
+  &.Mui-checked {
+    color: var(--newconv-frequserItemcheckbox-color) !important;
+  }
+}
+
+.firstRow {
+  display: flex;
+  justify-content: space-between;
+}
+
+.firstRowPart1 {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.userName {
+  @include textStyle($darkBlue, 0.9rem, $interSemiBold, left);
+  margin-bottom: 0 !important;
+  width: 110px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.email {
+  @include textStyle($dustyBlue, 0.8rem, $interRegular, left);
+  margin-top: 0 !important;
+  display: block;
+  width: 110px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+}
+
+.location {
+  @include textStyle($darkBlue, 0.8rem, $interSemiBold, left);
+  margin-bottom: 5px !important;
+}
+
+.targetRole {
+  @include textStyle($darkBlue, 0.8rem, $interRegular, left);
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+
+}
+
+.card {
+  @include card-styles(var(--stats-cards-color), 0.8rem, 10px);
+  border-color: var(--cards-border-color) !important;
+  width: 100%;
+}
+
+.card.selectedCard {
+  @include card-styles($lightBlue, 0.8rem, 10px);
+}
+
+.pagination {
+  @include flex-center;
+}
+
+.paginationBtn {
+  .paginationIcons {
+    @include icon-size(30px);
+    color: $blue
+  }
+
+  &:disabled {
+    .paginationIcons {
+      @include icon-size(30px);
+      color: $grey4
+    }
+  }
+}
+
+.paginationText {
+  @include textStyle($darkBlue, 0.9rem, $titleSemiBold, left);
+}
+
+.videoDeviceSelect {
+  flex: 1;
+  max-width: 40%;
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  align-items: center;
+  gap: 10px;
+  @include mui-form-style($input-height: 2.6rem, $border-color: $grey1, $background: transparent, $placeholder-color: $grey1);
+}
+
+.actions {
+  display: flex;
+  flex: 2;
+  flex-direction: column;
+  padding: 20px 0;
+}
+
+.actionsTitle {
+  @include textStyle($darkBlue, 1rem, $titleSemiBold, left);
+  margin: 0;
+}
+
+.content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.actionButtons {
+  gap: 10px;
+  display: flex;
+}
+
+.voiceCallButton {
+  @include button-style(transparent, $darkBlue, $darkBlue);
+  .callIcon{
+    color: $darkBlue !important
+  }
+    .buttonTextInterview
+{@include media-query(mobile) {
+        display: none;
+      }}
+}
+
+.videoCallButton {
+  @include button-style(transparent, $blue, $blue);
+   .callIcon{
+    color: $blue !important
+  }
+  .buttonTextInterview
+{@include media-query(mobile) {
+        display: none;
+      }}
+}
+
+.callEndButton {
+  background-color: red !important;
+}
+
+.callEndIcon,
+.callStartIcon {
+  color: $white;
+}
+
+.callStartButton {
+  background-color: green !important;
+}
+
+.callActionButtons {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  justify-content: center;
+  margin-top: 25px;
+
+}
+
+.pageWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+.incomingCallerName {
+  @include textStyle($darkBlue, 1.8rem, $interSemiBold);
+}
+
+.incomingDivContainerTitle {
+  @include textStyle($dustyBlue, 2rem, $interRegular);
+  margin-bottom: 0 !important;
+}
+
+.incomingDivContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+//////////////////////////////////////////////////////////////////////////////////
+.callStageWrapper {
+  height: calc(100vh - 140px);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.callArea {
+  position: relative;
+  flex: 1 1 auto;
+  width: 100%;
+  background: transparent;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.remoteVideo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+
+  @include media-query(mobile) {
+    width: 80vw !important;
+  }
+    @include media-query(largeScreens, laptops, desktops, extraLargeScreens) {
+    width: 50vw !important;
+  }
+}
+
+.remoteVideoSmall {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  width: 160px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 8px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.45);
+  border: 2px solid #fff;
+  cursor: pointer;
+  z-index: 20;
+}
+
+.localVideoOverlay {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  width: 160px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 8px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.45);
+  border: 2px solid #fff;
+  cursor: pointer;
+  z-index: 20;
+}
+
+.localVideoExpanded,
+.localVideoExpanded video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+
+.localVideoExpanded {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+
+  @include media-query(largeScreens) {
+    width: 50vw;
+  }
+
+}
+
+@media (max-width: 480px) {
+ .localVideoOverlay,
+  .remoteVideoSmall {
+    width: 110px;
+    height: 80px;
+    bottom: 12px;
+    right: 12px;
+  }
+
+  .callStageWrapper {
+    height: calc(100vh - 180px);
+  }
+}
+
+.callControls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 0;
+  margin-bottom: 8px;
+}
+
+@include media-query(mobile) {
+  .callArea {
+    width: 80vw;
+  }
+
+}
+
+@include media-query(largeScreens) {
+  .callArea {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    // padding: 20px;
+    background: transparent; 
+  }
+
+  .remoteVideo {
+    width: 50vw;
+    background: transparent;
+    object-fit: cover;
+  }
+}
+
+///////////////////////////////////////////////////
+.callTimer {
+  @include textStyle($grey1, 1rem, $interMedium);
+  display: flex;
+  align-items: center;
+  gap: 10px
+}
+
+.clockIcon {
+  @include icon-size(17px)
+}
+
+.micIcon {
+  color: $grey1;
+}
+
+/////////////////////////////////////////////
+/// audio
+.videoPlaceholder {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  inset: 0;
+  overflow: hidden;
+}
+
+.videoPlaceholder::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-color: var(--calling-bgcolor);
+  filter: blur(10px);
+  z-index: 1;
+  background-image: url("/Logo.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-size: auto 80%;
+}
+
+.videoPlaceholderText {
+  @include textStyle($darkBlue, 1rem, $interMedium);
+  z-index: 2;
+  position: relative;
+}
+
+.audioPlaceholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+  background-color: #333;
+  border-radius: 12px;
+  flex-direction: column;
+}
+
+.audioPlaceholderText {
+  @include textStyle($white, 1rem, $interMedium);
+}
+
+.audioCallerName {
+  @include textStyle($grey1, 1rem, $interMedium);
+}
+
+.localAudioOverlay {
+  position: absolute;
+  bottom: 16px;
+  right: 16px;
+  width: 120px;
+  height: 80px;
+  background-color: #444;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.localAudioOverlayExpanded {
+  width: 200px;
+  height: 150px;
+}
+
+.localAudioText {
+  color: white;
+  text-align: center;
+  font-size: 0.9rem;
+}

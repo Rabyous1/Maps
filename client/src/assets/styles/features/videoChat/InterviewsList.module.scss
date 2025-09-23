@@ -1,0 +1,22 @@
+@use '@/assets/styles/utils/mixins' as *;
+@use '@/assets/styles/utils/variables' as *;
+@import '@/assets/styles/ui/_table.scss';
+
+
+.interviewsTitle {
+  @include textStyle($blue, 1.3rem, $titleSemiBold, left);
+}
+.card.interviewsCard{
+  @include card-styles(var(--application-cards-color), 1.3rem, 20px);
+
+ max-height: calc(100vh - 440px);
+  overflow-y: auto !important;
+  scroll-behavior: smooth;
+  overscroll-behavior: contain;
+
+  @include media-query(extraLargeScreens) {
+    max-height: calc(100vh - 475px);
+  }
+
+  @include custom-scrollbar($thumb-color: $blue2);
+}

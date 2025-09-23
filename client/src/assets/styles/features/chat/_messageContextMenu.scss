@@ -1,0 +1,61 @@
+@use '@/assets/styles/utils/mixins' as *;
+@use '@/assets/styles/utils/variables' as *;
+
+.popoverPaper{
+    background-color: var(--msgContextMenu-popoverPaper-bgcolor) !important;
+    min-width: 220px !important;
+}
+.seenByMenu{
+    padding: $spacing-xs $spacing-md !important;
+}
+// first menu
+.seenMenuItem{
+    height: 40px;
+    gap: $spacing-m;
+    &:hover {
+        background-color: var(--msgContextMenu-seenMenuItem-color) !important;
+        border-radius: $spacing-m;
+      }
+}
+.seenMenuIcon{
+    color: var(--msgContextMenu-popoverPaper-textcolor);
+    height: 24px !important;
+    width: 24px !important;
+}
+.seenMenuText{
+    @include textStyle(var(--msgContextMenu-popoverPaper-textcolor), 0.8rem, $interRegular, left);
+}
+// second menu
+.seenbyTitle{
+    @include textStyle(var(--msgContextMenu-popoverPaper-textcolor), 1rem, $interSemiBold, left);
+}
+.userSeenRow{
+    display: flex;
+    gap: $spacing-sm;
+    margin-bottom: $spacing-sm;
+}
+.userSeenInfo {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+  }
+.userSeenFullname{
+    @include textStyle(var(--msgContextMenu-userSeenFullname-textcolor), 0.8rem, $titleSemiBold, left);
+}
+.userSeenTimestamp{
+    @include textStyle(var(--msgContextMenu-userSeenTimestamp-textcolor), 0.8rem, $titleSemiBold, left);
+}
+.badgeNoBorder{
+    align-items: center
+}
+.divider{
+    background-color: var(--msgContextMenu-divider-bgcolor)
+}
+.seenCloseText{
+    @include textStyle(var(--msgContextMenu-seenCloseText-textcolor), 0.9rem, $titleSemiBold, right);
+    cursor: pointer;
+}
+.noSeenText{
+    @include textStyle(var(--msgContextMenu-noSeenText-textcolor), 0.8rem, $titleSemiBold);
+}

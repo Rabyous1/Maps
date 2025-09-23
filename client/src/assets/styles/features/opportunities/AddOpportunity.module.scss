@@ -1,0 +1,100 @@
+@use '@/assets/styles/utils/mixins' as *;
+@use '@/assets/styles/utils/variables' as *;
+
+
+.card.addOpportunityCard {
+  @include card-styles($white, 1.6rem, 15px, 1px solid $blueopacity2);
+
+  @include media-query(mobile) {
+    border-radius: 10px;
+  }
+  max-height: calc(100vh - 255px);
+  overflow-y: auto;
+  scroll-behavior: smooth;
+  overscroll-behavior: contain;
+  @include media-query(tablet){
+    max-height: calc(100vh - 235px);
+  }
+  @include media-query(extraLargeScreens){
+    max-height: calc(100vh - 270px);
+  }
+  @include custom-scrollbar($thumb-color: $blue2);
+}
+
+.addOpportunityTitle {
+  @include textStyle($blue, 1.4rem, $titleSemiBold, left);
+  margin-top: 0px;
+}
+
+.formAddOpp {
+  padding-bottom: 10px;
+  @include mui-form-style($input-height: 3rem, $text-color: $grey1);
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  column-gap: 4rem;
+  row-gap: 1rem;
+
+  @include media-query(mobile) {
+    grid-template-columns: repeat(2, 1fr);
+    column-gap: 1.1rem;
+  }
+
+  @include media-query(tablet) {
+    grid-template-columns: repeat(3, 1fr);
+    column-gap: 1.1rem;
+  }
+
+  @include media-query(desktop, laptops) {
+    column-gap: 1.5rem;
+  }
+
+  .placeholderselect {
+    color: var(--placeholder-form);
+  }
+
+  .label {
+    color: var(--text-color);
+    padding-bottom: 0.5rem;
+    font-size: 1rem;
+    font-family: $interMedium;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  >* {
+    grid-column: auto;
+  }
+
+  .fullWidth {
+    grid-column: 1 / -1 !important;
+  }
+
+  .checkbox {
+    display: flex;
+    align-items: center
+  }
+
+  @include checkboxStyle($error-color, $error-color, 0.9rem, $interMedium);
+}
+
+.formAddOpp .actionButtons {
+  grid-column: 1 / -1;
+  width: 100%;
+  @include flex-center;
+  gap: 20px;
+  height: 50%;
+  margin-top: $spacing-md-lg !important;
+
+
+
+  .cancelButton {
+    @include button-style(transparent, $darkBlue, $darkBlue);
+  }
+
+  .submitbutton {
+    @include button-style(var(--submit-button-bg),
+      var(--submit-button-text),
+      var(--submit-button-border));
+  }
+}

@@ -1,0 +1,59 @@
+@use '@/assets/styles/utils/mixins' as *;
+@use '@/assets/styles/utils/variables' as *;
+
+.themeToggle {
+  position: relative;
+  width: 5.5em;         
+  height: 2.5em;          
+  border-radius: 999px;
+  background-color: var(--bg-color-inactive-theme);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  cursor: pointer;
+  box-shadow: 0 0 0.375em rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  align-items: center;
+  padding: 0;             
+  user-select: none;
+}
+
+.slider {
+  position: absolute;
+  width: 50%;            
+  height: 100%;           
+  border-radius: 999px;  
+  background-color: var(--bg-color-active-theme);
+  top: 0;
+  left: 0;
+  transition: left 0.3s ease;
+  z-index: 1;
+}
+
+.right {
+  left: 50%;             
+}
+
+.left {
+  left: 0;
+}
+
+.icon {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  margin: 0 auto;
+  filter: var(--inactiveSvgIconThemelight);
+  user-select: none;
+  
+  svg {
+    @include icon-size(24px);
+  }
+}
+
+.active {
+  filter: var(--activeSvgIconTheme);
+}
