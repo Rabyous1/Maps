@@ -8,7 +8,8 @@ WORKDIR /app
 COPY package*.json ./
 
 # Installer les dépendances
-RUN npm ci --only=production
+RUN npm config set strict-ssl false && \
+    npm install --legacy-peer-deps --no-audit
 
 # Copier le code source
 COPY . .
