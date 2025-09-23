@@ -7,9 +7,10 @@ WORKDIR /app
 # Copier les fichiers de dépendances
 COPY package*.json ./
 
-# Installer les dépendances avec gestion des erreurs
+# Installer les dépendances avec optimisations
 RUN npm config set strict-ssl false && \
-    npm install --legacy-peer-deps --no-audit
+    npm install --legacy-peer-deps --no-audit && \
+    npm install sharp
 
 # Copier le code source
 COPY . .
