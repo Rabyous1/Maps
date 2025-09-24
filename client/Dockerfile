@@ -1,5 +1,5 @@
 # Dockerfile pour le client Pentabell Maps (Next.js)
-FROM node:18-alpine AS base
+FROM node:22-alpine AS base
 
 # Installer les dépendances seulement quand nécessaire
 FROM base AS deps
@@ -9,8 +9,7 @@ WORKDIR /app
 # Installer les dépendances
 COPY package*.json ./
 RUN npm config set strict-ssl false && \
-    npm install --legacy-peer-deps --no-audit && \
-    npm install sharp
+    npm install --legacy-peer-deps --no-audit
 
 # Rebuild le code source seulement quand nécessaire
 FROM base AS builder

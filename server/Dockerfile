@@ -1,5 +1,5 @@
 # Dockerfile pour le serveur Pentabell Maps
-FROM node:18-alpine
+FROM node:20-alpine
 
 # Définir le répertoire de travail
 WORKDIR /app
