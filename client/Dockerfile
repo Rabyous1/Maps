@@ -9,7 +9,8 @@ WORKDIR /app
 # Installer les dépendances
 COPY package*.json ./
 RUN npm config set strict-ssl false && \
-    npm install --legacy-peer-deps --no-audit
+    npm install --legacy-peer-deps --no-audit && \
+    npm install emoji-mart @emoji-mart/data @emoji-mart/react --legacy-peer-deps
 
 # Rebuild le code source seulement quand nécessaire
 FROM base AS builder
