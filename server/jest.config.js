@@ -33,7 +33,16 @@ module.exports = {
     },
     setupFiles: ['module-alias/register'],
     setupFilesAfterEnv: ['<rootDir>/src/tests/setup.ts'],
-    collectCoverage: false, // Désactivé pour les tests d'intégration
+    collectCoverage: false, // Désactivé par défaut
+    collectCoverageFrom: [
+        'src/**/*.{ts,tsx}',
+        '!src/tests/**',
+        '!src/**/*.test.{ts,tsx}',
+        '!src/**/*.spec.{ts,tsx}',
+        '!src/**/*.d.ts'
+    ],
+    coverageReporters: ['text', 'lcov', 'html', 'json'],
+    coverageDirectory: 'coverage',
     detectOpenHandles: true,
     forceExit: true,
     testTimeout: 15000,
