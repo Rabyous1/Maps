@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  nexus:
+    image: sonatype/nexus3
+    container_name: pentabell-nexus
+    ports:
+      - "8081:8081"
+    volumes:
+      - nexus_data:/nexus-data
+    environment:
+      - NEXUS_SECURITY_RANDOMPASSWORD=false
+    restart: unless-stopped
+    networks:
+      - pentabell-network
+
+volumes:
+  nexus_data:
+    driver: local
+
+networks:
+  pentabell-network:
+    external: true
