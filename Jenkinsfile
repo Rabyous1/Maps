@@ -169,6 +169,20 @@ pipeline {
                     sh 'curl -f http://192.168.33.10:9091/metrics || echo "Prometheus metrics not available yet"'
                     sh 'curl -f http://192.168.33.10:3001 || echo "Grafana not available yet"'
                     sh 'curl -f http://192.168.33.10:4000/health || echo "Server health check failed"'
+                    sh 'curl -f http://192.168.33.10:4040 || echo "Ngrok interface not available yet"'
+                }
+            }
+        }
+        
+        stage('Get Ngrok URLs') {
+            steps {
+                script {
+                    echo 'Retrieving ngrok public URLs...'
+                    sh '''
+                        sleep 5
+                        echo "Ngrok tunnels:"
+                        curl -s http://192.168.33.10:4040/api/tunnels | jq -r '.tunnels[] | "\(.name): \(.public_url)"' || echo "Ngrok API not ready"
+                    '''
                 }
             }
         }
@@ -191,6 +205,7 @@ pipeline {
                     <h3 style="color: white;">Pipeline Status: ${pipelineStatus.toUpperCase()}</h3>
                     </div>
                     <p>Images pushed to Nexus: ${env.NEXUS_URL}</p>
+                    <p>Ngrok interface: http://192.168.33.10:4040</p>
                     <p>Check the <a href="${BUILD_URL}">console output</a>.</p>
                     </div>
                     </body>
