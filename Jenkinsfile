@@ -1,24 +1,3 @@
-pipeline {
-    agent any
-    
-    tools {
-        nodejs "node-22" 
-    }
-    
-    environment {
-        NEXUS_URL = 'http://192.168.33.10:8081'
-        NEXUS_REPOSITORY = 'docker-hosted'
-        NEXUS_CREDENTIAL_ID = 'nexus-credentials'
-    }
-    
-    stages {
-        stage('Git') {
-            steps {
-                git branch: 'main',
-                    url: 'https://github.com/Rabyous1/Maps.git'
-                echo "Getting Project from Git"
-            }
-        }
 
         stage('Install Dependencies') {
             steps {
