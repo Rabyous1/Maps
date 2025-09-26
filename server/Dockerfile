@@ -8,7 +8,12 @@ WORKDIR /app
 COPY package*.json ./
 
 # Installer les dépendances
+<<<<<<< HEAD
 RUN npm install --only=production
+=======
+RUN npm config set strict-ssl false && \
+    npm install --legacy-peer-deps --no-audit
+>>>>>>> 7f49a31349d77d4c05153f0a0ea7088f48f03a5e
 
 # Copier le code source
 COPY . .
