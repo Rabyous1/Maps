@@ -1,5 +1,5 @@
 # Dockerfile pour le client Pentabell Maps
-FROM node:18-alpine as build
+FROM node:22-alpine as build
 
 # Définir le répertoire de travail
 WORKDIR /app
@@ -8,7 +8,7 @@ WORKDIR /app
 COPY package*.json ./
 
 # Installer les dépendances
-RUN npm ci
+RUN npm install --legacy-peer-deps --no-audit
 
 # Copier le code source
 COPY . .
