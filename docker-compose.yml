@@ -79,6 +79,7 @@ services:
     restart: always
     networks:
       - pentabell-network
+      
 
   # Prometheus
   prometheus:
@@ -108,6 +109,7 @@ services:
       - "4040:4040"
     networks:
       - pentabell-network
+    restart: unless-stopped
 
 volumes:
   postgres_data:
