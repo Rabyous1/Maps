@@ -1,8 +1,24 @@
+pipeline {
+    agent any
+    
+    tools {
+        nodejs "node-22" 
+    }
+    
+    stages {
+        stage('Git') {
+            steps {
+                git branch: 'main',
+                    url: 'https://github.com/Rabyous1/Maps.git'
+                echo "Getting Project from Git"
+            }
+        }
 
         stage('Install Dependencies') {
             steps {
                 dir('server') {
                     sh '''
+                        rm -rf node_modules package-lock.json
                         npm config set strict-ssl false
                         npm install --legacy-peer-deps --no-audit
                     '''
@@ -10,6 +26,7 @@
                 }
                 dir('client') {
                     sh '''
+                        rm -rf node_modules package-lock.json
                         npm config set strict-ssl false
                         npm install --legacy-peer-deps --no-audit
                         npm install emoji-mart @emoji-mart/data @emoji-mart/react --legacy-peer-deps
@@ -20,6 +37,9 @@
         }
         
         stage('Build') {
+            environment {
+                NODE_OPTIONS = "--max_old_space_size=4096"
+            }
             steps {
                 dir('server') {
                     sh 'npm run build'
@@ -58,84 +78,76 @@
                 }
             }
         }
-        
+     
+        stage('Generate coverage screenshot') {
+            steps {
+                sh '''
+                    wkhtmltoimage --enable-local-file-access \
+                    server/coverage/lcov-report/index.html \
+                    server/coverage/coverage.png
+                '''
+            }
+        }
+
         stage('SonarQube Analysis') {
             steps {
                 dir('server') {
-                    sh "npx sonar-scanner -Dsonar.token=sqa_fc767b0048667803a7b4749b9891d69cba614d94"
+                    sh "npx sonar-scanner -Dsonar.token=sqa_5be78e656a0f1e7e6f779f48e978dc0c72c9a988"
                     echo "SonarQube analysis completed"
                 }
             }
         }
         
-        stage('Build Docker Images') {
+        stage('Build and Deploy with Docker') {
             steps {
                 script {
                     try {
-                        echo 'Building Docker images...'
-                        sh 'docker-compose build'
-                        echo "Docker images built successfully"
-                    } catch (Exception e) {
-                        echo "Docker build failed: ${e.getMessage()}"
-                        error "Docker build failed"
-                    }
-                }
-            }
-        }
-        
-        stage('Nexus') {
-            steps {
-                script {
-                    try {
-                        echo 'Pushing Docker images to Nexus Repository...'
-                        withCredentials([usernamePassword(credentialsId: env.NEXUS_CREDENTIAL_ID, usernameVariable: 'NEXUS_USER', passwordVariable: 'NEXUS_PASSWORD')]) {
-                            sh """
-                                docker login -u \$NEXUS_USER -p \$NEXUS_PASSWORD ${env.NEXUS_URL}
-                                
-                                # Tag images for Nexus
-                                docker tag maps_server:latest ${env.NEXUS_URL}/${env.NEXUS_REPOSITORY}/pentabell-maps-server:${BUILD_NUMBER}
-                                docker tag maps_client:latest ${env.NEXUS_URL}/${env.NEXUS_REPOSITORY}/pentabell-maps-client:${BUILD_NUMBER}
-                                docker tag maps_server:latest ${env.NEXUS_URL}/${env.NEXUS_REPOSITORY}/pentabell-maps-server:latest
-                                docker tag maps_client:latest ${env.NEXUS_URL}/${env.NEXUS_REPOSITORY}/pentabell-maps-client:latest
-                                
-                                # Push to Nexus
-                                docker push ${env.NEXUS_URL}/${env.NEXUS_REPOSITORY}/pentabell-maps-server:${BUILD_NUMBER}
-                                docker push ${env.NEXUS_URL}/${env.NEXUS_REPOSITORY}/pentabell-maps-client:${BUILD_NUMBER}
-                                docker push ${env.NEXUS_URL}/${env.NEXUS_REPOSITORY}/pentabell-maps-server:latest
-                                docker push ${env.NEXUS_URL}/${env.NEXUS_REPOSITORY}/pentabell-maps-client:latest
-                                
-                                # Cleanup local tagged images
-                                docker rmi ${env.NEXUS_URL}/${env.NEXUS_REPOSITORY}/pentabell-maps-server:${BUILD_NUMBER} || true
-                                docker rmi ${env.NEXUS_URL}/${env.NEXUS_REPOSITORY}/pentabell-maps-client:${BUILD_NUMBER} || true
-                                docker rmi ${env.NEXUS_URL}/${env.NEXUS_REPOSITORY}/pentabell-maps-server:latest || true
-                                docker rmi ${env.NEXUS_URL}/${env.NEXUS_REPOSITORY}/pentabell-maps-client:latest || true
-                            """
-                        }
-                        echo "Images pushed to Nexus successfully"
-                    } catch (Exception e) {
-                        echo "Nexus push failed: ${e.getMessage()}"
-                        error "Nexus push failed"
-                    }
-                }
-            }
-        }
-        
-        stage('Deploy with Docker') {
-            steps {
-                script {
-                    try {
-                        echo 'Deploying with Docker Compose...'
+                        echo 'Building and deploying with Docker Compose...'
                         sh 'docker-compose down || true'
-                        sh 'docker-compose up -d'
+                        sh 'docker-compose up --build -d'
                         echo "Docker deployment completed successfully"
                     } catch (Exception e) {
-                        echo "Docker deployment failed: ${e.getMessage()}"
+                        echo "Docker build failed: ${e.getMessage()}"
                         sh '''
-                            echo "Cleaning up failed containers..."
+                            echo "Cleaning up failed containers and images..."
                             docker-compose down || true
                             docker system prune -f || true
+                            docker image prune -f || true
                         '''
-                        error "Docker deployment failed"
+                        error "Docker build failed, containers cleaned up"
+                    }
+                }
+            }
+        }
+        
+        stage('Push Docker Image') {
+            steps {
+                script {
+                    try {
+                        echo 'Pushing Docker image to repository...'
+                        withCredentials([usernamePassword(credentialsId: 'ea679d47-ad2a-4837-9028-a0cd56afd50b', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASSWORD')]) {
+                            sh 'docker login -u $DOCKER_USER -p $DOCKER_PASSWORD'
+                            
+                            // Tag and push server image
+                            sh 'docker tag maps_server youssefraboudi/pentabell-maps-server:latest'
+                            sh 'docker push youssefraboudi/pentabell-maps-server:latest'
+                            
+                            // Tag and push client image
+                            sh 'docker tag maps_client youssefraboudi/pentabell-maps-client:latest'
+                            sh 'docker push youssefraboudi/pentabell-maps-client:latest'
+                            
+                            // Cleanup local tagged images
+                            sh 'docker rmi youssefraboudi/pentabell-maps-server:latest || true'
+                            sh 'docker rmi youssefraboudi/pentabell-maps-client:latest || true'
+                            echo "Docker image pushed successfully"
+                        }
+                    } catch (Exception e) {
+                        echo "Docker push failed: ${e.getMessage()}"
+                        sh '''
+                            echo "Cleaning up after failed push..."
+                            docker system prune -f || true
+                        '''
+                        error "Docker push failed, cleaned up"
                     }
                 }
             }
@@ -144,7 +156,7 @@
         stage('Monitor Metrics') {
             steps {
                 script {
-                    echo 'Checking application health and metrics'
+                    echo 'Checking application health and metrics...'
                     sh 'curl -f http://192.168.33.10:9091/metrics || echo "Prometheus metrics not available yet"'
                     sh 'curl -f http://192.168.33.10:3001 || echo "Grafana not available yet"'
                     sh 'curl -f http://192.168.33.10:4000/health || echo "Server health check failed"'
@@ -152,7 +164,7 @@
                 }
             }
         }
-        
+
         stage('Get Ngrok URLs') {
             steps {
                 script {
@@ -160,7 +172,7 @@
                     sh '''
                         sleep 5
                         echo "Ngrok tunnels:"
-                        curl -s http://192.168.33.10:4040/api/tunnels | jq -r '.tunnels[] | "\(.name): \(.public_url)"' || echo "Ngrok API not ready"
+                        curl -s http://192.168.33.10:4040/api/tunnels || echo "Ngrok API not ready"
                     '''
                 }
             }
@@ -168,6 +180,18 @@
     }
     
     post {
+        failure {
+            script {
+                echo "Pipeline failed, cleaning up Docker resources..."
+                sh '''
+                    docker-compose down || true
+                    docker system prune -f || true
+                    docker image prune -f || true
+                    docker container prune -f || true
+                '''
+            }
+        }
+        
         always {
             script {
                 def jobName = env.JOB_NAME
@@ -183,9 +207,9 @@
                     <div style="background-color: ${bannerColor}; padding: 10px;">
                     <h3 style="color: white;">Pipeline Status: ${pipelineStatus.toUpperCase()}</h3>
                     </div>
-                    <p>Images pushed to Nexus: ${env.NEXUS_URL}</p>
-                    <p>Ngrok interface: http://192.168.33.10:4040</p>
                     <p>Check the <a href="${BUILD_URL}">console output</a>.</p>
+                    <p>Voici le résultat de la couverture de tests pour le build <b>${buildNumber}</b> :</p>
+                    <img src="cid:coverage.png" alt="Coverage Report" style="max-width:100%; border:1px solid #ccc;"/>
                     </div>
                     </body>
                     </html>
@@ -197,23 +221,14 @@
                     to: 'raboudiyoussef@gmail.com',
                     from: 'jenkins@example.com',
                     replyTo: 'jenkins@example.com',
-                    mimeType: 'text/html'
+                    mimeType: 'text/html',
+                    attachmentsPattern: 'server/coverage/coverage.png'
                 )
             }
         }
         
         success {
             echo 'Pipeline completed successfully!'
-        }
-        
-        failure {
-            script {
-                echo "Pipeline failed, cleaning up Docker resources..."
-                sh '''
-                    docker-compose down || true
-                    docker system prune -f || true
-                '''
-            }
         }
     }
 }
