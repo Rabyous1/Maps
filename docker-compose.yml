@@ -65,10 +65,10 @@ services:
       LINKEDIN_CLIENT_SECRET: WPL_AP1.w9cb6MK8qp1NytAp.My7HBg==
       LINKEDIN_REDIRECT_URI: http://192.168.33.10:4000/api/v1/auth/linkedin/callback
       LINKEDIN_USERINFO_URL: https://api.linkedin.com/v2/userinfo
-      SESSION_RESAVE: false
-      SESSION_SAVE_UNINITIALIZED: false
-      COOKIE_SECURE: false
-      COOKIE_HTTP_ONLY: true
+      SESSION_RESAVE: "false"
+      SESSION_SAVE_UNINITIALIZED: "false"
+      COOKIE_SECURE: "false"
+      COOKIE_HTTP_ONLY: "true"
       COOKIE_SAME_SITE: lax
       MAX_ATTACHMENTS_UPLOAD: 5
       SYSTEM_USER_ID: 00000000-0000-0000-0000-000000000000
