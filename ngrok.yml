@@ -1,13 +1,12 @@
 version: "2"
 authtoken: 33FUNRoQRlUkd5hEFel0Bjah35W_36EQTgQFuzbFEuzP8Pkc4
+
 tunnels:
-  server:
-    addr: 4000
+  pentabell-server:
+    addr: 192.168.33.10:4000
     proto: http
-    bind_tls: true
-    hostname: pentabell-server.ngrok.io
-  client:
-    addr: 3000
+    
+  pentabell-client:
+    addr: 192.168.33.10:3000
     proto: http
-    bind_tls: true
-    hostname: pentabell-client.ngrok.io
+    

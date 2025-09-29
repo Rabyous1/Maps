@@ -40,6 +40,38 @@ services:
       SMTP_PORT: 465
       SMTP_USER: khedmapfe@gmail.com
       SMTP_PASSWORD: 'zshl gnnj pmix wtjd'
+      ACCESS_TOKEN_TIME: 1h
+      REFRESH_TOKEN_TIME: 9h
+      RESET_PASSWORD_TOKEN_PRIVATE_KEY: 9e16eb3a2012666b82533d3d51f4bf4ca7f87e3a822711b2e1f9698f2e15d74d
+      RESET_PASSWORD_TIME: 10m
+      API_KEY: CHANGE_ME
+      RESET_PASSWORD_URL_FRONT: http://192.168.33.10:3000/reset-password
+      CONFIRM_ACCOUNT_URL_FRONT: http://192.168.33.10:3000/confirm-account
+      LOGIN_URL_FRONT: http://192.168.33.10:4000/api/v1/auth/login
+      MICROSOFT_AUTH_ACTIVATION_FRONTEND_URL: http://192.168.33.10:3000/complete-profile
+      FRONTEND_LOGIN_URL: http://192.168.33.10:3000/login
+      COOKIE_MAX_AGE: 43200000
+      GOOGLE_CLIENT_ID: 682080940030-p59p8cve8kahiqigrg5ddm06v8hkikuu.apps.googleusercontent.com
+      GOOGLE_CLIENT_SECRET: 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
+      GOOGLE_REDIRECT_URI: http://192.168.33.10:4000/api/v1/auth/google/callback
+      MICROSOFT_CLIENT_ID: 80562304-3209-4cba-a847-398bd4ed5f21
+      MICROSOFT_CLIENT_SECRET: U3H8Q~qgMXtNHr9BJebt4STz2kzgDN60-ljaTbvc
+      MICROSOFT_TENANT_ID: e128bc05-adf3-475c-9a8b-8c9ae9ccb32a
+      MICROSOFT_AUTHORIZATION_URL: https://login.microsoftonline.com/common/oauth2/v2.0/authorize
+      MICROSOFT_TOKEN_URL: https://login.microsoftonline.com/common/oauth2/v2.0/token
+      MICROSOFT_ENTRY_POINT: https://graph.microsoft.com
+      MICROSOFT_REDIRECT_URI: http://192.168.33.10:4000/api/v1/auth/callback
+      LINKEDIN_CLIENT_ID: 77lcsq87zs482b
+      LINKEDIN_CLIENT_SECRET: WPL_AP1.w9cb6MK8qp1NytAp.My7HBg==
+      LINKEDIN_REDIRECT_URI: http://192.168.33.10:4000/api/v1/auth/linkedin/callback
+      LINKEDIN_USERINFO_URL: https://api.linkedin.com/v2/userinfo
+      SESSION_RESAVE: false
+      SESSION_SAVE_UNINITIALIZED: false
+      COOKIE_SECURE: false
+      COOKIE_HTTP_ONLY: true
+      COOKIE_SAME_SITE: lax
+      MAX_ATTACHMENTS_UPLOAD: 5
+      SYSTEM_USER_ID: 00000000-0000-0000-0000-000000000000
     ports:
       - "4000:4000"
     volumes:
@@ -49,6 +81,12 @@ services:
     networks:
       - pentabell-network
     restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:4000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
 
   # Client Frontend (React)
   client:
@@ -73,7 +111,9 @@ services:
     ports:
       - "3001:3000"
     environment:
+      - GF_SECURITY_ADMIN_USER=admin
       - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_SECURITY_DISABLE_INITIAL_ADMIN_CREATION=false
     volumes:
       - grafana_data:/var/lib/grafana
     restart: always
@@ -97,7 +137,8 @@ services:
   ngrok:
     image: ngrok/ngrok:latest
     container_name: pentabell-ngrok
-    restart: unless-stopped
+    restart: on-failure:3
+    network_mode: host
     command:
       - "start"
       - "--all"
@@ -105,11 +146,12 @@ services:
       - "/etc/ngrok.yml"
     volumes:
       - ./ngrok.yml:/etc/ngrok.yml
-    ports:
-      - "4040:4040"
-    networks:
-      - pentabell-network
-    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:4040"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 20s
 
 volumes:
   postgres_data:
