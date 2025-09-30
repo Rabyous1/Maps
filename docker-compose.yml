@@ -95,7 +95,7 @@ services:
       dockerfile: Dockerfile
     container_name: pentabell-client
     environment:
-      REACT_APP_API_URL: http://192.168.33.10:4000/api/v1
+      NEXT_PUBLIC_API_URL: http://192.168.33.10:4000/api/v1
     ports:
       - "3000:3000"
     depends_on:
@@ -132,6 +132,24 @@ services:
     restart: always
     networks:
       - pentabell-network
+
+  # # Docker Exporter pour Prometheus
+  # docker-exporter:
+  #   image: prom/node-exporter
+  #   container_name: pentabell-docker-exporter
+  #   ports:
+  #     - "9100:9100"
+  #   volumes:
+  #     - /proc:/host/proc:ro
+  #     - /sys:/host/sys:ro
+  #     - /:/rootfs:ro
+  #   command:
+  #     - '--path.procfs=/host/proc'
+  #     - '--path.sysfs=/host/sys'
+  #     - '--collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($$|/)'
+  #   networks:
+  #     - pentabell-network
+  #   restart: unless-stopped
 
   # Ngrok
   ngrok:

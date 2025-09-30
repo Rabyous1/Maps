@@ -84,6 +84,16 @@ class App {
     }
 
     private initialiseControllers(controllers: Controller[]): void {
+        // Health check endpoint pour Prometheus
+        this.express.get('/health', (req, res) => {
+            res.status(200).json({ 
+                status: 'OK', 
+                timestamp: new Date().toISOString(),
+                uptime: process.uptime(),
+                environment: process.env.NODE_ENV
+            });
+        });
+
         controllers.forEach((controller: Controller) => {
             this.express.use('/api/v1', controller.router);
         });
