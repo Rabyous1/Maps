@@ -94,6 +94,12 @@ class App {
             });
         });
 
+        // Metrics endpoint pour Prometheus
+        this.express.get('/metrics', (req, res) => {
+            res.set('Content-Type', 'text/plain; version=0.0.4; charset=utf-8');
+            res.send(`# HELP pentabell_server_up Server status\n# TYPE pentabell_server_up gauge\npentabell_server_up 1\n# HELP pentabell_server_uptime_seconds Server uptime in seconds\n# TYPE pentabell_server_uptime_seconds counter\npentabell_server_uptime_seconds ${process.uptime()}\n`);
+        });
+
         controllers.forEach((controller: Controller) => {
             this.express.use('/api/v1', controller.router);
         });
