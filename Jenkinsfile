@@ -98,23 +98,57 @@ pipeline {
             }
         }
         
-        stage('Build and Deploy with Docker') {
+        stage('Publish to Nexus') {
             steps {
                 script {
                     try {
-                        echo 'Building and deploying with Docker Compose...'
-                        sh 'docker-compose down || true'
-                        sh 'docker-compose up --build -d'
-                        echo "Docker deployment completed successfully"
+                        echo 'Publishing npm packages to Nexus Repository...'
+                        def newVersion = "1.0.${BUILD_NUMBER}"
+                        echo "Setting version to: ${newVersion}"
+                        
+                        withCredentials([usernamePassword(credentialsId: 'nexus-credentials', usernameVariable: 'NEXUS_USER', passwordVariable: 'NEXUS_PASSWORD')]) {
+                            dir('server') {
+                                sh '''
+                                    npm config set registry http://192.168.33.10:8081/repository/npm-hosted/
+                                    npm config set _auth $(echo -n "$NEXUS_USER:$NEXUS_PASSWORD" | base64)
+                                    npm config set always-auth true
+                                    
+                                    # Update version automatically
+                                    npm version ''' + newVersion + ''' --no-git-tag-version
+                                    npm publish --registry http://192.168.33.10:8081/repository/npm-hosted/
+                                '''
+                            }
+                            dir('client') {
+                                sh '''
+                                    npm config set registry http://192.168.33.10:8081/repository/npm-hosted/
+                                    npm config set _auth $(echo -n "$NEXUS_USER:$NEXUS_PASSWORD" | base64)
+                                    npm config set always-auth true
+                                    
+                                    # Update version automatically
+                                    npm version ''' + newVersion + ''' --no-git-tag-version
+                                    npm publish --registry http://192.168.33.10:8081/repository/npm-hosted/
+                                '''
+                            }
+                        }
+                        echo "Packages published to Nexus successfully with version ${newVersion}"
+                    } catch (Exception e) {
+                        echo "Nexus publish failed: ${e.getMessage()}"
+                        echo "Continuing pipeline..."
+                    }
+                }
+            }
+        }
+        
+        stage('Build Docker Images') {
+            steps {
+                script {
+                    try {
+                        echo 'Building Docker images...'
+                        sh 'docker-compose build'
+                        echo "Docker images built successfully"
                     } catch (Exception e) {
                         echo "Docker build failed: ${e.getMessage()}"
-                        sh '''
-                            echo "Cleaning up failed containers and images..."
-                            docker-compose down || true
-                            docker system prune -f || true
-                            docker image prune -f || true
-                        '''
-                        error "Docker build failed, containers cleaned up"
+                        error "Docker build failed"
                     }
                 }
             }
@@ -124,7 +158,7 @@ pipeline {
             steps {
                 script {
                     try {
-                        echo 'Pushing Docker image to repository...'
+                        echo 'Pushing Docker image to Docker Hub...'
                         withCredentials([usernamePassword(credentialsId: 'ea679d47-ad2a-4837-9028-a0cd56afd50b', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASSWORD')]) {
                             sh 'docker login -u $DOCKER_USER -p $DOCKER_PASSWORD'
                             
@@ -153,6 +187,27 @@ pipeline {
             }
         }
         
+        stage('Deploy with Docker') {
+            steps {
+                script {
+                    try {
+                        echo 'Deploying with Docker Compose...'
+                        sh 'docker-compose down || true'
+                        sh 'docker-compose up -d'
+                        echo "Docker deployment completed successfully"
+                    } catch (Exception e) {
+                        echo "Docker deployment failed: ${e.getMessage()}"
+                        sh '''
+                            echo "Cleaning up failed containers..."
+                            docker-compose down || true
+                            docker system prune -f || true
+                        '''
+                        error "Docker deployment failed"
+                    }
+                }
+            }
+        }
+        
         stage('Monitor Metrics') {
             steps {
                 script {
@@ -160,6 +215,7 @@ pipeline {
                     sh 'curl -f http://192.168.33.10:9091/metrics || echo "Prometheus metrics not available yet"'
                     sh 'curl -f http://192.168.33.10:3001 || echo "Grafana not available yet"'
                     sh 'curl -f http://192.168.33.10:4000/health || echo "Server health check failed"'
+                    sh 'curl -f http://192.168.33.10:8081 || echo "Nexus not available yet"'
                     sh 'curl -f http://192.168.33.10:4040 || echo "Ngrok interface not available yet"'
                 }
             }

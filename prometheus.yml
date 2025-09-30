@@ -11,18 +11,32 @@ scrape_configs:
       - targets: ['192.168.33.10:4000']
     metrics_path: '/health'
     scrape_interval: 30s
+    scrape_protocols: ['PrometheusText0.0.4']
+    honor_labels: true
 
   - job_name: 'pentabell-client'
     static_configs:
       - targets: ['192.168.33.10:3000']
-    metrics_path: '/'
+    metrics_path: '/login'
     scrape_interval: 30s
+    scrape_protocols: ['PrometheusText0.0.4']
+    honor_labels: true
 
   - job_name: 'pentabell-grafana'
     static_configs:
       - targets: ['192.168.33.10:3001']
-    metrics_path: '/login'
+    metrics_path: '/api/health'
     scrape_interval: 30s
+    scrape_protocols: ['PrometheusText0.0.4']
+    honor_labels: true
+
+  - job_name: 'pentabell-nexus'
+    static_configs:
+      - targets: ['192.168.33.10:8081']
+    metrics_path: '/service/metrics/prometheus'
+    scrape_interval: 30s
+    scrape_protocols: ['PrometheusText0.0.4']
+    honor_labels: true
 
   - job_name: 'node-exporter'
     static_configs:
